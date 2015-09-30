@@ -76,10 +76,10 @@ public class PermutationTest extends PermutationTestCase {
 				if (size > 1) {
 					if ((dist % size) == 0) {
 						assertEquals(0, r.getInfo().getDisjointCycles().size());
-						assertTrue(r.getInfo().getFixedPoints().isAllOnes());
+						assertTrue(r.getInfo().getFixedPoints().ones().isAll());
 					} else {
 						assertEquals(1, r.getInfo().getDisjointCycles().size());
-						assertTrue(r.getInfo().getFixedPoints().isAllZeros());
+						assertTrue(r.getInfo().getFixedPoints().zeros().isAll());
 					}
 				} else {
 					assertEquals(Permutation.identity(size), r);

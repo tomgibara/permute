@@ -225,7 +225,7 @@ public class PermutationSample {
 		assertFalse(info.isIdentity()); // no, it's not an identity permutation
 		assertEqual(info.getNumberOfCycles(), 2); // into how many disjoint cycles does the permutation decompose?
 		info.getDisjointCycles(); // ...and what are they as a set of separate permutations?
-		assertTrue(info.getFixedPoints().isAllZeros()); // the permutation leaves no element's position unchanged
+		assertTrue(info.getFixedPoints().zeros().isAll()); // the permutation leaves no element's position unchanged
 		assertEqual(info.getNumberOfTranspositions(), 3); // three transpositions are required to effect this permutation... 
 		assertTrue(info.isOdd()); // ...so the permutation is odd
 		

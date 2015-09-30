@@ -37,7 +37,7 @@ public class PermutationSequenceTest extends PermutationTestCase {
 		Info info = p.getInfo();
 		// ... it is an involution...
 		// ...and has no fixed points
-		return TWO.equals(info.getLengthOfOrbit()) && info.getFixedPoints().isAllZeros();
+		return TWO.equals(info.getLengthOfOrbit()) && info.getFixedPoints().zeros().isAll();
 	}
 	
 	public void testFirstAndLastOrderedSequence() {
