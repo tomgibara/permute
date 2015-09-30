@@ -24,8 +24,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.SortedSet;
 
-import com.tomgibara.bits.BitVector;
+import com.tomgibara.bits.BitStore;
+import com.tomgibara.bits.Bits;
 
 public final class Permutation implements Comparable<Permutation>, Serializable {
 	
@@ -291,7 +293,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		private final boolean odd;
 		
 		// computed lazily
-		BitVector fixedPoints;
+		BitStore fixedPoints;
 		Set<Permutation> disjointCycles;
 		BigInteger lengthOfOrbit;
 		
@@ -325,12 +327,12 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			return odd;
 		}
 		
-		public BitVector getFixedPoints() {
+		public BitStore getFixedPoints() {
 			if (fixedPoints == null) {
 				int[] array = correspondence;
-				fixedPoints = new BitVector(array.length);
+				fixedPoints = Bits.newBitStore(array.length);
 				for (int i = 0; i < array.length; i++) {
-					fixedPoints.setBit(i, array[i] == i);
+					if (array[i] == i) fixedPoints.setBit(i, true);
 				}
 			}
 			return fixedPoints;
@@ -575,15 +577,15 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			}
 			default:
 				// check for dupes in cycle
-				BitVector check = new BitVector(correspondence.length);
+				SortedSet<Integer> check = Bits.newBitStore(correspondence.length).ones().asSet();
 				for (int i : cycle) {
 					boolean result;
 					try {
-						result = check.getThenSetBit(i, true);
+						result = check.add(i);
 					} catch (IllegalArgumentException e) {
 						throw new IllegalArgumentException("cycle contains invalid index: " + i);
 					}
-					if (result) throw new IllegalArgumentException("cycle contains duplicate index: " + i);
+					if (!result) throw new IllegalArgumentException("cycle contains duplicate index: " + i);
 				}
 				// now start cycling
 				int target = cycle[0];
