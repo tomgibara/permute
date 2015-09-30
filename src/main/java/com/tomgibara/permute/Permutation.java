@@ -474,25 +474,25 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 		public Generator rotate(int distance) {
 			int size = correspondence.length;
-	        if (size == 0) return this;
-	        distance = distance % size;
-	        if (distance == 0) return this;
-	        if (distance < 0) distance += size;
+			if (size == 0) return this;
+			distance = distance % size;
+			if (distance == 0) return this;
+			if (distance < 0) distance += size;
 
-	        for (int start = 0, count = 0; count != size; start++) {
-	        	int prev = correspondence[start];
-	            int i = start;
-	            do {
-	                i += distance;
-	                if (i >= size) i -= size;
-	                int next = correspondence[i];
-	                correspondence[i] = prev;
-	                prev = next;
-	                count ++;
-	            } while(i != start);
-	        }
+			for (int start = 0, count = 0; count != size; start++) {
+				int prev = correspondence[start];
+				int i = start;
+				do {
+					i += distance;
+					if (i >= size) i -= size;
+					int next = correspondence[i];
+					correspondence[i] = prev;
+					prev = next;
+					count ++;
+				} while(i != start);
+			}
 			desync();
-	        return this;
+			return this;
 		}
 
 		public Generator invert() {
