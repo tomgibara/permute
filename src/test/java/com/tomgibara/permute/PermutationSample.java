@@ -26,6 +26,7 @@ import java.util.Set;
 
 import com.tomgibara.permute.permutable.PermutableChars;
 import com.tomgibara.permute.permutable.PermutableInts;
+import com.tomgibara.permute.permutable.PermutableString;
 
 public class PermutationSample {
 

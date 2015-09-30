@@ -24,6 +24,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import com.tomgibara.permute.permutable.PermutableString;
+
 public class PermutationTest extends PermutationTestCase {
 
 	public void testSwapGeneration() {

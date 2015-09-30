@@ -14,7 +14,9 @@
  * limitations under the License.
  *
  */
-package com.tomgibara.permute;
+package com.tomgibara.permute.permutable;
+
+import com.tomgibara.permute.Permutable;
 
 public class PermutableString implements Permutable {
 
