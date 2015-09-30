@@ -2,6 +2,8 @@ package com.tomgibara.permute;
 
 import java.util.List;
 
+import com.tomgibara.bits.BitStore;
+import com.tomgibara.permute.permutable.PermutableBitStore;
 import com.tomgibara.permute.permutable.PermutableBooleans;
 import com.tomgibara.permute.permutable.PermutableBytes;
 import com.tomgibara.permute.permutable.PermutableChars;
@@ -31,6 +33,7 @@ public class Permute {
 
 	public static     PermutableString   string(String value)        { return new PermutableString(value);    }
 	public static     PermutableString   string(StringBuilder value) { return new PermutableString(value);    }
+	public static     PermutableBitStore bitStore(BitStore value)    { return new PermutableBitStore(value);  }
 
 	private Permute() { }
 

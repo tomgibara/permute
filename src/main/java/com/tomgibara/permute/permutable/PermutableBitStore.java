@@ -16,33 +16,32 @@
  */
 package com.tomgibara.permute.permutable;
 
-import java.util.BitSet;
-
+import com.tomgibara.bits.BitStore;
 import com.tomgibara.permute.Permutable;
 
-public class PermutableBitSet implements Permutable {
+public class PermutableBitStore implements Permutable {
 
-	private final BitSet bitSet;
+	private final BitStore store;
+	private final BitStore.Permutes permutes;
 
-	public PermutableBitSet(BitSet bitSet) {
-		if (bitSet == null) throw new IllegalArgumentException("null bitSet");
-		this.bitSet = bitSet;
+	public PermutableBitStore(BitStore store) {
+		if (store == null) throw new IllegalArgumentException("null store");
+		this.store = store.mutable();
+		this.permutes = store.permute();
 	}
 
-	public BitSet getBitSet() {
-		return bitSet;
+	public BitStore getBitStore() {
+		return store;
 	}
-
+	
 	@Override
 	public int getPermutableSize() {
-		return bitSet.size();
+		return store.size();
 	}
 
 	@Override
-	public PermutableBitSet transpose(int i, int j) {
-		boolean b = bitSet.get(i);
-		bitSet.set(i, bitSet.get(j));
-		bitSet.set(j, b);
+	public PermutableBitStore transpose(int i, int j) {
+		permutes.transpose(i, j);
 		return this;
 	}
 
