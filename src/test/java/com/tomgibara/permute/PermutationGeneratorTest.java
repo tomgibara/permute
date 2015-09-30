@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Tom Gibara
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  */
 package com.tomgibara.permute;
 
@@ -26,13 +26,13 @@ public class PermutationGeneratorTest extends PermutationTestCase {
 			Permutation i = p.generator().invert().permutation();
 			assertEquals(p, i);
 		}
-		
+
 		{
 			Permutation p = new Permutation(1,2,3,4,0);
 			Permutation i = p.generator().invert().permutation();
 			assertTrue(p.generator().apply(i).permutation().getInfo().isIdentity());
 		}
-		
+
 		Random random = new Random(0L);
 		for (int n = 0; n < 10000; n++) {
 			int size = random.nextInt(20);
@@ -42,7 +42,7 @@ public class PermutationGeneratorTest extends PermutationTestCase {
 			assertTrue(q.generator().apply(p).permutation().getInfo().isIdentity());
 		}
 	}
-	
+
 	public void testApply() {
 		Permutation p = Permutation.identity(5);
 		Permutation p1 = Permutation.identity(5).generator().transpose(0, 1).permutation();
@@ -57,14 +57,14 @@ public class PermutationGeneratorTest extends PermutationTestCase {
 	public void testRotate() {
 		assertTrue(Permutation.rotate(10, 2).generator().rotate(-2).permutation().getInfo().isIdentity());
 	}
-	
+
 	public void testPower() {
 		for (int i = 0; i < 100; i++) {
 			Permutation p = Permutation.rotate(10, 1);
 			assertEquals(Permutation.rotate(10, i), p.generator().power(i).permutation());
 		}
 	}
-	
+
 	public void testCycle() {
 		Permutation id = Permutation.identity(5);
 		assertEquals(id, id.generator().cycle(4).permutation());
@@ -104,5 +104,5 @@ public class PermutationGeneratorTest extends PermutationTestCase {
 			// expected
 		}
 	}
-	
+
 }

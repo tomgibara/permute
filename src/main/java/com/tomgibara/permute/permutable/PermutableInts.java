@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Tom Gibara
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  */
 package com.tomgibara.permute.permutable;
 
@@ -23,21 +23,21 @@ import com.tomgibara.permute.Permutable;
 public class PermutableInts implements Permutable {
 
 	private final int[] values;
-	
+
 	public PermutableInts(int... values) {
 		if (values == null) throw new IllegalArgumentException("null values");
 		this.values = values;
 	}
-	
+
 	public int[] getValues() {
 		return values;
 	}
-	
+
 	@Override
 	public int getPermutableSize() {
 		return values.length;
 	}
-	
+
 	@Override
 	public PermutableInts transpose(int i, int j) {
 		int v = values[i];
@@ -45,12 +45,12 @@ public class PermutableInts implements Permutable {
 		values[j] = v;
 		return this;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) return true;
@@ -58,10 +58,10 @@ public class PermutableInts implements Permutable {
 		PermutableInts that = (PermutableInts) obj;
 		return Arrays.equals(this.values, that.values);
 	}
-	
+
 	@Override
 	public String toString() {
 		return Arrays.toString(values);
 	}
-	
+
 }

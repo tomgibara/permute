@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Tom Gibara
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  */
 package com.tomgibara.permute;
 
@@ -27,7 +27,7 @@ public class PermutationInfoTest extends PermutationTestCase {
 		assertTrue( Permutation.identity(5).generator().transpose(0, 1).permutation().getInfo().isOdd() );
 		assertFalse( Permutation.identity(5).generator().transpose(0, 1).transpose(1, 2).permutation().getInfo().isOdd() );
 	}
-	
+
 	public void testIdentity() {
 		List<Integer> a = list(1,2,3,4,5);
 		List<Integer> b = copy(a);
@@ -45,7 +45,7 @@ public class PermutationInfoTest extends PermutationTestCase {
 		assertEquals(0, new Permutation(0).getInfo().getNumberOfCycles());
 		assertEquals(0, new Permutation().getInfo().getNumberOfCycles());
 	}
-	
+
 	public void testDisjointCycles() {
 		{
 			Permutation p = Permutation.identity(5);
@@ -78,7 +78,7 @@ public class PermutationInfoTest extends PermutationTestCase {
 			assertEquals(permutation, generator.permutation());
 		}
 	}
-	
+
 	public void testLengthOfOrbit() {
 		Random random = new Random(0);
 		for (int n = 0; n < 1000; n++) {
@@ -94,5 +94,5 @@ public class PermutationInfoTest extends PermutationTestCase {
 			assertEquals(identity, p);
 		}
 	}
-	
+
 }

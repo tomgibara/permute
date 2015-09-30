@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Tom Gibara
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  */
 package com.tomgibara.permute;
 
@@ -39,7 +39,7 @@ public class PermutationSequenceTest extends PermutationTestCase {
 		// ...and has no fixed points
 		return TWO.equals(info.getLengthOfOrbit()) && info.getFixedPoints().zeros().isAll();
 	}
-	
+
 	public void testFirstAndLastOrderedSequence() {
 		Random r = new Random();
 		for (int i = 0; i < 100; i++) {
@@ -52,7 +52,7 @@ public class PermutationSequenceTest extends PermutationTestCase {
 			assertEquals(Permutation.reverse(size), generator.permutation());
 		}
 	}
-	
+
 	public void testFirstAndLastFFISequence() {
 		Random r = new Random();
 		for (int i = 0; i < 100; i++) {
@@ -65,7 +65,7 @@ public class PermutationSequenceTest extends PermutationTestCase {
 			assertTrue(isFFI(generator.permutation()));
 		}
 	}
-	
+
 	public void testNextAndPreviousByOrder() {
 		int count = 1;
 		for (int size = 0; size < 5; size++) {
@@ -73,7 +73,7 @@ public class PermutationSequenceTest extends PermutationTestCase {
 			Permutation.Generator pg = Permutation.identity(size).generator();
 			PermutationSequence ps = pg.getOrderedSequence();
 			Permutation p;
-			
+
 			Set<Permutation> set1 = new HashSet<Permutation>();
 			List<Permutation> list1 = new ArrayList<Permutation>();
 			p = pg.permutation();
@@ -83,10 +83,10 @@ public class PermutationSequenceTest extends PermutationTestCase {
 				p = ps.next().getGenerator().permutation();
 				set1.add(p);
 				list1.add(p);
-			} 
+			}
 			assertEquals(count, set1.size());
 			assertEquals(count, list1.size());
-			
+
 			Set<Permutation> set2 = new HashSet<Permutation>();
 			List<Permutation> list2 = new ArrayList<Permutation>();
 			p = pg.permutation();
@@ -99,7 +99,7 @@ public class PermutationSequenceTest extends PermutationTestCase {
 			}
 			assertEquals(count, set2.size());
 			assertEquals(count, list2.size());
-			
+
 			assertEquals(set1, set2);
 			Collections.reverse(list2);
 			assertEquals(list1, list2);
@@ -113,7 +113,7 @@ public class PermutationSequenceTest extends PermutationTestCase {
 			Permutation.Generator pg = Permutation.identity(size).generator();
 			PermutationSequence ps = pg.getFixFreeInvolutionSequence().first();
 			Permutation p;
-			
+
 			Set<Permutation> set = new HashSet<Permutation>();
 			List<Permutation> list = new ArrayList<Permutation>();
 			p = pg.permutation();
@@ -124,20 +124,20 @@ public class PermutationSequenceTest extends PermutationTestCase {
 				assertTrue(isFFI(p));
 				set.add(p);
 				list.add(p);
-			} 
+			}
 			if (size > 0) expectedSize *= size - 1;
 			assertEquals(expectedSize, list.size());
 			assertEquals(expectedSize, set.size());
 		}
 	}
-	
+
 	public void testSequenceInterleaving() {
 		Generator g = Permutation.identity(6).generator();
 		List<Permutation> ffis = new ArrayList<Permutation>();
 		for (PermutationSequence s = g.getFixFreeInvolutionSequence().first(); s.hasNext();) {
 			ffis.add(s.next().getGenerator().permutation());
 		}
-		
+
 		Random r = new Random(0L);
 		int size = ffis.size();
 		int tests = 20;

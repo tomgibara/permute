@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 Tom Gibara
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  */
 package com.tomgibara.permute;
 
@@ -31,7 +31,7 @@ public class PermutationTest extends PermutationTestCase {
 		Permutation.identity(5).generator().transpose(0, 1).permutation().permute(permutable(a));
 		assertEquals(list(2,1,3,4,5), a);
 	}
-	
+
 	public void testPermute() {
 		verifyPermute(list(), list());
 		verifyPermute(list(5,4,3,1,2), list(1,2,3,4,5), 4,3,2,0,1);
@@ -43,9 +43,9 @@ public class PermutationTest extends PermutationTestCase {
 		verifyPermute("emit", "time", Permutation.reverse(4));
 		verifyPermute("item", "time", Permutation.rotate(4,-2).generator().reverse().permutation());
 		verifyPermute("mite", "time", Permutation.rotate(4,1).generator().reverse().permutation());
-		
+
 	}
-	
+
 	private void verifyPermute(List<Integer> expected, List<Integer> input, int... corr) {
 		assertEquals(expected, new Permutation(corr).permute(permutable(input)).getList());
 	}
@@ -66,7 +66,7 @@ public class PermutationTest extends PermutationTestCase {
 			}
 		}
 	}
-	
+
 	public void testRotateConstructor() {
 		assertEquals("DABC", Permutation.rotate(4, 1).permute(new PermutableString("ABCD")).toString());
 		assertEquals("BCDA", Permutation.rotate(4, -1).permute(new PermutableString("ABCD")).toString());
@@ -112,9 +112,9 @@ public class PermutationTest extends PermutationTestCase {
 		new Permutation().permute(permutable(list()));
 
 		assertEquals(list(5,4,3,2,1), new Permutation(4,3,2,1,0).permute(permutable(list(1,2,3,4,5))).getList());
-		
+
 	}
-	
+
 	private void verifyBadConstructor(int... correspondence) {
 		try {
 			new Permutation(correspondence);
@@ -123,13 +123,13 @@ public class PermutationTest extends PermutationTestCase {
 			/* expected */
 		}
 	}
-	
+
 	public void testComparable() {
-		
+
 		assertTrue(Permutation.identity(6).compareTo(Permutation.identity(5)) > 0);
 		assertTrue(new Permutation().compareTo(Permutation.identity(1)) < 0);
 		assertTrue(new Permutation().compareTo(Permutation.identity(0)) == 0);
-		
+
 		Permutation.Generator pg = Permutation.identity(6).generator();
 		PermutationSequence ps = pg.getOrderedSequence();
 		Permutation prev = pg.permutation();
@@ -140,11 +140,11 @@ public class PermutationTest extends PermutationTestCase {
 			assertTrue(next.compareTo(prev) > 0);
 			assertTrue(prev.compareTo(next) < 0);
 		}
-		
+
 	}
-	
+
 	public void testSerialization() throws Exception {
-		
+
 		Random random = new Random(0L);
 		for (int i = 0; i < 1000; i++) {
 			Permutation p = Permutation.identity(random.nextInt(100)).generator().shuffle(random).permutation();
@@ -158,8 +158,8 @@ public class PermutationTest extends PermutationTestCase {
 			assertEquals(p, q);
 			assertEquals(pi, q.getInfo());
 		}
-		
-		
+
+
 	}
-	
+
 }
