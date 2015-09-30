@@ -28,6 +28,7 @@ import java.util.SortedSet;
 
 import com.tomgibara.bits.BitStore;
 import com.tomgibara.bits.Bits;
+import com.tomgibara.fundament.Transposable;
 
 public final class Permutation implements Comparable<Permutation>, Serializable {
 
@@ -142,9 +143,8 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		return new Generator(correspondence.clone());
 	}
 
-	public <P extends Permutable> P permute(P permutable) {
-		if (permutable == null) throw new IllegalArgumentException("null permutable");
-		if (permutable.getPermutableSize() != correspondence.length) throw new IllegalArgumentException("size mismatched");
+	public <T extends Transposable> T permute(T transposable) {
+		if (transposable == null) throw new IllegalArgumentException("null transposable");
 
 		int[] cycles = getCycles();
 		for (int i = 0, initial = -1, previous = -1; i < cycles.length; i++) {
@@ -157,12 +157,12 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 					initial = -1;
 				}
 				//TODO somewhat dicey assumption here
-				permutable = (P) permutable.transpose(previous, next);
+				transposable = (T) transposable.transpose(previous, next);
 			}
 			previous = next;
 		}
 
-		return permutable;
+		return transposable;
 	}
 
 	// comparable methods
