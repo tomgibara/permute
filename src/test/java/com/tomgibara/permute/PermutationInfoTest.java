@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import com.tomgibara.permute.Permutation.Info;
+
 public class PermutationInfoTest extends PermutationTestCase {
 
 	public void testOdd() {
@@ -35,6 +37,42 @@ public class PermutationInfoTest extends PermutationTestCase {
 		assertTrue(p.getInfo().isIdentity());
 		permutable(b).apply(p);
 		assertEquals(b, a);
+	}
+	
+	public void testTransposition() {
+		assertFalse(Permutation.identity(0).getInfo().isTransposition());
+		assertFalse(Permutation.identity(1).getInfo().isTransposition());
+		assertTrue(Permutation.rotate(2, 1).getInfo().isTransposition());
+		assertTrue(Permutation.transpose(5, 0, 1).getInfo().isTransposition());
+		assertFalse(Permutation.rotate(5, 1).getInfo().isTransposition());
+	}
+
+	public void testReversal() {
+		for (int i = 0; i < 10; i++) {
+			Info info = Permutation.reverse(i).getInfo();
+			// test twice to check any cached values are consistent
+			assertTrue(info.isReversal());
+			assertTrue(info.isReversal());
+		}
+		Random r = new Random(0L);
+		for (int i = 0; i < 100; i++) {
+			int size = r.nextInt(30);
+			Permutation p = Permutation.identity(size).generator().shuffle(r).permutation();
+			assertTrue( p.equals(Permutation.reverse(size)) || !p.getInfo().isReversal() );
+		}
+	}
+	
+	public void testRotation() {
+		assertTrue(Permutation.identity(0).getInfo().isRotation());
+		assertEquals(0, Permutation.identity(0).getInfo().rotationDistance().get().intValue());
+		Random r = new Random(0L);
+		for (int i = 0; i < 1000; i++) {
+			int size = 1 + r.nextInt(50);
+			int distance = r.nextInt(size);
+			Permutation p = Permutation.rotate(size, distance);
+			assertTrue(p.getInfo().isRotation());
+			assertEquals(distance, p.getInfo().rotationDistance().get().intValue());
+		}
 	}
 
 	public void testCyclic() {

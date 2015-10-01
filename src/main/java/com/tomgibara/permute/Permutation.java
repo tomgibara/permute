@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.SortedSet;
@@ -283,16 +284,25 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 	public final class Info {
 
+		private final static int BIT_GET_REVERSAL = 0;
+		private final static int BIT_SET_REVERSAL = 1;
+		private final static int BIT_GET_ROTATION = 2;
+		private final static int BIT_SET_ROTATION = 3;
+		
+		private final static int MSK_GET_REVERSAL = 1 << BIT_GET_REVERSAL;
+		private final static int MSK_SET_REVERSAL = 1 << BIT_SET_REVERSAL;
+		private final static int MSK_GET_ROTATION = 1 << BIT_GET_ROTATION;
+		private final static int MSK_SET_ROTATION = 1 << BIT_SET_ROTATION;
+		
 		// computed eagerly
 		private final int numberOfCycles;
 		private final int numberOfTranspositions;
-		private final boolean identity;
-		private final boolean odd;
 
 		// computed lazily
-		BitStore fixedPoints;
-		Set<Permutation> disjointCycles;
-		BigInteger lengthOfOrbit;
+		private short flags = 0;
+		private BitStore fixedPoints;
+		private Set<Permutation> disjointCycles;
+		private BigInteger lengthOfOrbit;
 
 		public Info() {
 			// ensure number of cycles has been computed
@@ -304,24 +314,75 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			}
 			this.numberOfCycles = numberOfCycles;
 			numberOfTranspositions = cycles.length - numberOfCycles;
-			identity = numberOfTranspositions == 0;
-			odd = (numberOfTranspositions % 2) == 1;
 		}
 
 		public Permutation getPermutation() {
 			return Permutation.this;
 		}
 
-		public boolean isIdentity() {
-			return identity;
+		public int getNumberOfCycles() {
+			return numberOfCycles;
 		}
 
 		public int getNumberOfTranspositions() {
 			return numberOfTranspositions;
 		}
 
+		public boolean isIdentity() {
+			return numberOfTranspositions == 0;
+		}
+
 		public boolean isOdd() {
-			return odd;
+			return (numberOfTranspositions & 1) == 1;
+		}
+
+		public boolean isTransposition() {
+			return numberOfTranspositions == 1;
+		}
+
+		public boolean isReversal() {
+			int m = MSK_SET_REVERSAL | MSK_GET_REVERSAL;
+			int bits = flags & m;
+			if (bits != 0) return bits == m;
+			boolean f = isReversalImpl();
+			flags |= f ? m : MSK_SET_REVERSAL;
+			return f;
+		}
+		
+		private boolean isReversalImpl() {
+			int len = correspondence.length - 1;
+			for (int i = 0; i <= len; i++) {
+				if (correspondence[i] != len - i) return false;
+			}
+			return true;
+		}
+
+		public boolean isRotation() {
+			int m = MSK_SET_ROTATION | MSK_GET_ROTATION;
+			int bits = flags & m;
+			if (bits != 0) return bits == m;
+			boolean f = isRotationImpl();
+			flags |= f ? m : MSK_SET_ROTATION;
+			return f;
+		}
+
+		private boolean isRotationImpl() {
+			int length = correspondence.length;
+			if (length < 3) return true;
+			if (isIdentity()) return true;
+			int e = correspondence[0];
+			for (int i = 0; i < length; i++) {
+				if (correspondence[i] != e) return false;
+				e++;
+				if (e == length) e -= length;
+			}
+			return true;
+		}
+
+		public Optional<Integer> rotationDistance() {
+			if (isIdentity()) return Optional.of(0);
+			if (isRotation()) return Optional.of(correspondence.length - correspondence[0]);
+			return Optional.empty();
 		}
 
 		public BitStore getFixedPoints() {
@@ -333,10 +394,6 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 				}
 			}
 			return fixedPoints;
-		}
-
-		public int getNumberOfCycles() {
-			return numberOfCycles;
 		}
 
 		public Set<Permutation> getDisjointCycles() {
