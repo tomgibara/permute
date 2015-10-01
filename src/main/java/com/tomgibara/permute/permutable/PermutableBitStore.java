@@ -31,7 +31,7 @@ public class PermutableBitStore implements Permutable {
 		this.permutes = store.permute();
 	}
 
-	public BitStore getBitStore() {
+	public BitStore permuted() {
 		return store;
 	}
 	

@@ -30,7 +30,7 @@ public class PermutableDoubles implements Permutable {
 		this.values = values;
 	}
 
-	public double[] getValues() {
+	public double[] permuted() {
 		return values;
 	}
 

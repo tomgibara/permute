@@ -30,7 +30,7 @@ public class PermutableBytes implements Permutable {
 		this.values = values;
 	}
 
-	public byte[] getValues() {
+	public byte[] permuted() {
 		return values;
 	}
 

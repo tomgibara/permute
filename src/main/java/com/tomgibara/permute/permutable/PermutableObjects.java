@@ -30,7 +30,7 @@ public class PermutableObjects implements Permutable {
 		this.values = values;
 	}
 
-	public Object[] getValues() {
+	public Object[] permuted() {
 		return values;
 	}
 

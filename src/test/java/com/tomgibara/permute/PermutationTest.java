@@ -52,7 +52,7 @@ public class PermutationTest extends PermutationTestCase {
 	}
 
 	private void verifyPermute(List<Integer> expected, List<Integer> input, int... corr) {
-		assertEquals(expected, permutable(input).apply(new Permutation(corr)).getList());
+		assertEquals(expected, permutable(input).apply(new Permutation(corr)).permuted());
 	}
 
 	private void verifyPermute(String expected, String input, Permutation p) {
@@ -116,7 +116,7 @@ public class PermutationTest extends PermutationTestCase {
 
 		new Permutation().permute(permutable(list()));
 
-		assertEquals(list(5,4,3,2,1), permutable(list(1,2,3,4,5)).apply(new Permutation(4,3,2,1,0)).getList());
+		assertEquals(list(5,4,3,2,1), permutable(list(1,2,3,4,5)).apply(new Permutation(4,3,2,1,0)).permuted());
 
 	}
 

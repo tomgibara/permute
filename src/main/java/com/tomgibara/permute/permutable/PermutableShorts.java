@@ -30,7 +30,7 @@ public class PermutableShorts implements Permutable {
 		this.values = values;
 	}
 
-	public short[] getValues() {
+	public short[] permuted() {
 		return values;
 	}
 

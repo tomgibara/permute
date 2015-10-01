@@ -35,6 +35,10 @@ public class PermutableInterval<P extends Permutable> implements Permutable {
 		this.offset = offset;
 		this.length = length;
 	}
+	
+	public P permuted() {
+		return permutable;
+	}
 
 	@Override
 	public int getPermutableSize() {

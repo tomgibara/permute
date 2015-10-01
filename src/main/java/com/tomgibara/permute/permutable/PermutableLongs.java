@@ -30,7 +30,7 @@ public class PermutableLongs implements Permutable {
 		this.values = values;
 	}
 
-	public long[] getValues() {
+	public long[] permuted() {
 		return values;
 	}
 

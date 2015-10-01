@@ -30,7 +30,7 @@ public class PermutableBooleans implements Permutable {
 		this.values = values;
 	}
 	
-	public boolean[] getValues() {
+	public boolean[] permuted() {
 		return values;
 	}
 

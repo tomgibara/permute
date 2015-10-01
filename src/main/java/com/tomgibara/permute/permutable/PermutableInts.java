@@ -30,7 +30,7 @@ public class PermutableInts implements Permutable {
 		this.values = values;
 	}
 
-	public int[] getValues() {
+	public int[] permuted() {
 		return values;
 	}
 

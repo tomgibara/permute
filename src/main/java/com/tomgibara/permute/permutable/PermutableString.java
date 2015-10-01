@@ -32,6 +32,10 @@ public class PermutableString implements Permutable {
 		if (sb == null) throw new IllegalArgumentException("null sb");
 		this.sb = sb;
 	}
+	
+	public StringBuilder permuted() {
+		return sb;
+	}
 
 	public StringBuilder getStringBuilder() {
 		return sb;

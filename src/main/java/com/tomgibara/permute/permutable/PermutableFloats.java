@@ -30,7 +30,7 @@ public class PermutableFloats implements Permutable {
 		this.values = values;
 	}
 
-	public float[] getValues() {
+	public float[] permuted() {
 		return values;
 	}
 

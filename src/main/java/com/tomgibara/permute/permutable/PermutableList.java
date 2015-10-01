@@ -30,7 +30,7 @@ public class PermutableList<E> implements Permutable {
 		this.list = list;
 	}
 
-	public List<E> getList() {
+	public List<E> permuted() {
 		return list;
 	}
 

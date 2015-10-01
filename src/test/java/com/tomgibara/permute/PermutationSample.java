@@ -68,7 +68,7 @@ public class PermutationSample {
 		 * such as strings, arrays and lists.
 		 */
 
-		Permute.ints(0,1,2,3,4).apply(identity).getValues();
+		Permute.ints(0,1,2,3,4).apply(identity).permuted();
 		
 		/**
 		 * It's briefer still when the method is statically imported, which is

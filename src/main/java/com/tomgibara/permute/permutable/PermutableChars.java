@@ -30,7 +30,7 @@ public class PermutableChars implements Permutable {
 		this.values = values;
 	}
 
-	public char[] getValues() {
+	public char[] permuted() {
 		return values;
 	}
 
