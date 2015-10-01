@@ -50,4 +50,23 @@ public class PermutableBitStore implements Permutable {
 		return (PermutableBitStore) Permutable.super.apply(permutation);
 	}
 
+	// object methods
+	
+	@Override
+	public int hashCode() {
+		return store.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) return true;
+		if (!(obj instanceof PermutableBitStore)) return false;
+		PermutableBitStore that = (PermutableBitStore) obj;
+		return this.store.equals(that.store);
+	}
+
+	@Override
+	public String toString() {
+		return store.toString();
+	}
 }

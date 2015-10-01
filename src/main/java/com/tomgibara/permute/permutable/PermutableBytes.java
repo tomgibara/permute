@@ -51,6 +51,8 @@ public class PermutableBytes implements Permutable {
 		return (PermutableBytes) Permutable.super.apply(permutation);
 	}
 
+	// object methods
+	
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

@@ -51,6 +51,8 @@ public class PermutableDoubles implements Permutable {
 		return (PermutableDoubles) Permutable.super.apply(permutation);
 	}
 
+	// object methods
+	
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

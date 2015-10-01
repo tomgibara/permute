@@ -54,6 +54,21 @@ public class PermutableString implements Permutable {
 		return (PermutableString) Permutable.super.apply(permutation);
 	}
 
+	// object methods
+
+	@Override
+	public int hashCode() {
+		return sb.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) return true;
+		if (!(obj instanceof PermutableString)) return false;
+		PermutableString that = (PermutableString) obj;
+		return this.sb.equals(that.sb);
+	}
+	
 	@Override
 	public String toString() {
 		return sb.toString();

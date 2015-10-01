@@ -51,6 +51,8 @@ public class PermutableChars implements Permutable {
 		return (PermutableChars) Permutable.super.apply(permutation);
 	}
 
+	// object methods
+	
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

@@ -51,4 +51,23 @@ public class PermutableList<E> implements Permutable {
 		return (PermutableList<E>) Permutable.super.apply(permutation);
 	}
 
+	// object methods
+	
+	@Override
+	public int hashCode() {
+		return list.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) return true;
+		if (!(obj instanceof PermutableList)) return false;
+		PermutableList<?> that = (PermutableList<?>) obj;
+		return this.list.equals(that.list);
+	}
+
+	@Override
+	public String toString() {
+		return list.toString();
+	}
 }

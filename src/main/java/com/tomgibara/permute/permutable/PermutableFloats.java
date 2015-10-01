@@ -51,6 +51,8 @@ public class PermutableFloats implements Permutable {
 		return (PermutableFloats) Permutable.super.apply(permutation);
 	}
 
+	// object methods
+	
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

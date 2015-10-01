@@ -51,6 +51,8 @@ public class PermutableShorts implements Permutable {
 		return (PermutableShorts) Permutable.super.apply(permutation);
 	}
 
+	// object methods
+	
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

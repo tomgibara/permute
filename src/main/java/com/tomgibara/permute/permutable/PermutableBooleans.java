@@ -51,6 +51,8 @@ public class PermutableBooleans implements Permutable {
 		return (PermutableBooleans) Permutable.super.apply(permutation);
 	}
 
+	// object methods
+	
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

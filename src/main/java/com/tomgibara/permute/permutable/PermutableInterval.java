@@ -51,4 +51,26 @@ public class PermutableInterval<P extends Permutable> implements Permutable {
 		return (PermutableInterval<P>) Permutable.super.apply(permutation);
 	}
 
+	// object methods
+	
+	@Override
+	public int hashCode() {
+		return permutable.hashCode() + offset + 31 * length;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) return true;
+		if (!(obj instanceof PermutableInterval)) return false;
+		PermutableInterval<?> that = (PermutableInterval<?>) obj;
+		if (this.offset != that.offset) return false;
+		if (this.length != that.length) return false;
+		if (!this.permutable.equals(that.permutable)) return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return permutable.toString() + " offset " + offset + " length " + length;
+	}
 }
