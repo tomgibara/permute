@@ -16,9 +16,12 @@
  */
 package com.tomgibara.permute.permutable;
 
+import java.util.Optional;
+
 import com.tomgibara.bits.BitStore;
 import com.tomgibara.permute.Permutable;
 import com.tomgibara.permute.Permutation;
+import com.tomgibara.permute.Permutation.Info;
 
 public class PermutableBitStore implements Permutable<BitStore> {
 
@@ -39,7 +42,20 @@ public class PermutableBitStore implements Permutable<BitStore> {
 	@Override
 	public PermutableBitStore apply(Permutation permutation) {
 		PermutableUtil.check(permutation, store.size());
-		permutation.permute(permutes);
+		Info info = permutation.getInfo();
+		if (info.isIdentity()) {
+			/* do nothing */
+		} else if (info.isReversal()) {
+			permutes.reverse();
+		} else {
+			Optional<Integer> distance = info.rotationDistance();
+			if (distance.isPresent()) {
+				permutes.rotate(distance.get());
+			} else {
+				// fallback - just do it with transpositions
+				permutation.permute(permutes);
+			}
+		}
 		return this;
 	}
 
