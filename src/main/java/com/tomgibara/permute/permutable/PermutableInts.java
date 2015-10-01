@@ -36,11 +36,6 @@ public class PermutableInts implements Permutable<int[]> {
 	}
 
 	@Override
-	public int getPermutableSize() {
-		return values.length;
-	}
-
-	@Override
 	public PermutableInts apply(Permutation permutation) {
 		PermutableUtil.check(permutation, values.length);
 		permutation.permute((i,j) -> {

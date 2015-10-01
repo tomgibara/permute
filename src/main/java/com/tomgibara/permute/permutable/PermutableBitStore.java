@@ -37,11 +37,6 @@ public class PermutableBitStore implements Permutable<BitStore> {
 	}
 	
 	@Override
-	public int getPermutableSize() {
-		return store.size();
-	}
-
-	@Override
 	public PermutableBitStore apply(Permutation permutation) {
 		PermutableUtil.check(permutation, store.size());
 		permutation.permute(permutes);

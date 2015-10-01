@@ -43,11 +43,6 @@ public class PermutableString implements Permutable<StringBuilder> {
 	}
 
 	@Override
-	public int getPermutableSize() {
-		return sb.length();
-	}
-
-	@Override
 	public PermutableString apply(Permutation permutation) {
 		PermutableUtil.check(permutation, sb.length());
 		permutation.permute((i,j) -> {

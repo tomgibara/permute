@@ -36,11 +36,6 @@ public class PermutableList<E> implements Permutable<List<E>> {
 	}
 
 	@Override
-	public int getPermutableSize() {
-		return list.size();
-	}
-
-	@Override
 	public PermutableList<E> apply(Permutation permutation) {
 		PermutableUtil.check(permutation, list.size());
 		permutation.permute((i,j) -> {

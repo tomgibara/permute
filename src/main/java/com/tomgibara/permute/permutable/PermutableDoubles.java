@@ -36,11 +36,6 @@ public class PermutableDoubles implements Permutable<double[]> {
 	}
 
 	@Override
-	public int getPermutableSize() {
-		return values.length;
-	}
-
-	@Override
 	public PermutableDoubles apply(Permutation permutation) {
 		PermutableUtil.check(permutation, values.length);
 		permutation.permute((i,j) -> {

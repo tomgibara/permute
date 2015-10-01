@@ -16,20 +16,9 @@
  */
 package com.tomgibara.permute;
 
-import com.tomgibara.fundament.Transposable;
-
 public interface Permutable<T> {
 
-//	default Permutable<T> apply(Permutation permutation) {
-//		if (permutation == null) throw new IllegalArgumentException("null permutation");
-//		if (permutation.getSize() != getPermutableSize()) throw new IllegalArgumentException("mismatched size");
-//		permutation.permute(this);
-//		return this;
-//	}
-	
 	Permutable<T> apply(Permutation permutation);
 	
-	int getPermutableSize();
-
 	T permuted();
 }

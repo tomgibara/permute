@@ -36,11 +36,6 @@ public class PermutableChars implements Permutable<char[]> {
 	}
 
 	@Override
-	public int getPermutableSize() {
-		return values.length;
-	}
-
-	@Override
 	public PermutableChars apply(Permutation permutation) {
 		PermutableUtil.check(permutation, values.length);
 		permutation.permute((i,j) -> {

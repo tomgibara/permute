@@ -441,6 +441,10 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 		// accessors
 
+		public int getSize() {
+			return correspondence.length;
+		}
+
 		public PermutationSequence getOrderedSequence() {
 			return orderedSequence == null ? orderedSequence = new OrderedSequence() : orderedSequence;
 		}
@@ -621,11 +625,6 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		}
 
 		// permutable interface
-
-		@Override
-		public int getPermutableSize() {
-			return correspondence.length;
-		}
 
 		@Override
 		public Generator permuted() {

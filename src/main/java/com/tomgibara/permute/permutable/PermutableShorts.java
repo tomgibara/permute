@@ -36,11 +36,6 @@ public class PermutableShorts implements Permutable<short[]> {
 	}
 
 	@Override
-	public int getPermutableSize() {
-		return values.length;
-	}
-
-	@Override
 	public PermutableShorts apply(Permutation permutation) {
 		PermutableUtil.check(permutation, values.length);
 		permutation.permute((i,j) -> {

@@ -36,11 +36,6 @@ public class PermutableBooleans implements Permutable<boolean[]> {
 	}
 
 	@Override
-	public int getPermutableSize() {
-		return values.length;
-	}
-
-	@Override
 	public PermutableBooleans apply(Permutation permutation) {
 		PermutableUtil.check(permutation, values.length);
 		permutation.permute((i,j) -> {
