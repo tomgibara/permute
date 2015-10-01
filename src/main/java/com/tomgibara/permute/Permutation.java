@@ -469,7 +469,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			return this;
 		}
 
-		public Generator swap(int i, int j) {
+		public Generator transpose(int i, int j) {
 			if (i < 0) throw new IllegalArgumentException("negative i");
 			if (j < 0) throw new IllegalArgumentException("negative j");
 			if (i > correspondence.length) throw new IllegalArgumentException("i greater than or equal to size");
@@ -520,7 +520,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		public Generator reverse() {
 			int h = correspondence.length / 2;
 			for (int i = 0, j = correspondence.length - 1; i < h; i++, j--) {
-				exchange(i, j);
+				swap(i, j);
 			}
 			desync();
 			return this;
@@ -529,7 +529,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		public Generator shuffle(Random random) {
 			if (random == null) throw new IllegalArgumentException("null random");
 			for (int i = correspondence.length - 1; i > 0 ; i--) {
-				exchange(i, random.nextInt(i + 1));
+				swap(i, random.nextInt(i + 1));
 			}
 			desync();
 			return this;
@@ -538,7 +538,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		public Generator apply(Permutation permutation) {
 			if (permutation == null) throw new IllegalArgumentException("null permutation");
 			if (permutation.getSize() != correspondence.length) throw new IllegalArgumentException("size mismatched");
-			permutation.permute((i,j) -> exchange(i, j));
+			permutation.permute((i,j) -> swap(i, j));
 			desync();
 			return this;
 		}
@@ -586,7 +586,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 				// check for dupes...
 				if (i == j) throw new IllegalArgumentException("cycle contains duplicate index: " + i);
 				// ... otherwise treat as a transposition
-				return swap(i, j);
+				return transpose(i, j);
 			}
 			default:
 				// check for dupes in cycle
@@ -657,7 +657,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			this.syncer = syncer;
 		}
 
-		private void exchange(int i, int j) {
+		private void swap(int i, int j) {
 			if (i == j) return;
 			int t = correspondence[i];
 			correspondence[i] = correspondence[j];
@@ -685,11 +685,11 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 				}
 			}
 
-			exchange(j, k);
+			swap(j, k);
 
 			int h = (j + 1 + len) / 2;
 			for (int i = j + 1, m = len - 1; i < h; i++, m--) {
-				exchange(i, m);
+				swap(i, m);
 			}
 		}
 

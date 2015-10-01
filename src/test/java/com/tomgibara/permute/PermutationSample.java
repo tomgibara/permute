@@ -147,7 +147,7 @@ public class PermutationSample {
 		 * thing:
 		 */
 
-		Permutation p7 = p4.generator().swap(0,2).permutation();
+		Permutation p7 = p4.generator().transpose(0,2).permutation();
 		assertEqual(p7, p6);
 
 		/**
