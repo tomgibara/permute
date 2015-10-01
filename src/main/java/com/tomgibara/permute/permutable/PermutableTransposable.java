@@ -1,0 +1,48 @@
+package com.tomgibara.permute.permutable;
+
+import com.tomgibara.fundament.Transposable;
+import com.tomgibara.permute.Permutable;
+import com.tomgibara.permute.Permutation;
+
+public class PermutableTransposable implements Permutable<Transposable> {
+
+	private final Transposable transposable;
+	
+	public PermutableTransposable(Transposable transposable) {
+		if (transposable == null) throw new IllegalArgumentException("null transposable");
+		this.transposable = transposable;
+	}
+	
+	@Override
+	public Permutable<Transposable> apply(Permutation permutation) {
+		if (permutation == null) throw new IllegalArgumentException("null permutation");
+		permutation.permute(transposable);
+		return this;
+	}
+
+	@Override
+	public Transposable permuted() {
+		return transposable;
+	}
+	
+	// object methods
+	
+	@Override
+	public int hashCode() {
+		return transposable.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) return true;
+		if (!(obj instanceof PermutableTransposable)) return false;
+		PermutableTransposable that = (PermutableTransposable) obj;
+		return this.transposable.equals(that.transposable);
+	}
+	
+	@Override
+	public String toString() {
+		return transposable.toString();
+	}
+
+}
