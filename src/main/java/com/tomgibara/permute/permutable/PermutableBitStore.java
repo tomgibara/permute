@@ -20,7 +20,7 @@ import com.tomgibara.bits.BitStore;
 import com.tomgibara.permute.Permutable;
 import com.tomgibara.permute.Permutation;
 
-public class PermutableBitStore implements Permutable {
+public class PermutableBitStore implements Permutable<BitStore> {
 
 	private final BitStore store;
 	private final BitStore.Permutes permutes;
@@ -31,6 +31,7 @@ public class PermutableBitStore implements Permutable {
 		this.permutes = store.permute();
 	}
 
+	@Override
 	public BitStore permuted() {
 		return store;
 	}

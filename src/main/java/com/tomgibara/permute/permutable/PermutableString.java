@@ -19,7 +19,7 @@ package com.tomgibara.permute.permutable;
 import com.tomgibara.permute.Permutable;
 import com.tomgibara.permute.Permutation;
 
-public class PermutableString implements Permutable {
+public class PermutableString implements Permutable<StringBuilder> {
 
 	private final StringBuilder sb;
 
@@ -33,6 +33,7 @@ public class PermutableString implements Permutable {
 		this.sb = sb;
 	}
 	
+	@Override
 	public StringBuilder permuted() {
 		return sb;
 	}

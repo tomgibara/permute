@@ -19,13 +19,13 @@ package com.tomgibara.permute.permutable;
 import com.tomgibara.permute.Permutable;
 import com.tomgibara.permute.Permutation;
 
-public class PermutableInterval<P extends Permutable> implements Permutable {
+public class PermutableInterval<T> implements Permutable<Permutable<T>> {
 
-	private final P permutable;
+	private final Permutable<T> permutable;
 	private final int offset;
 	private final int length;
 
-	public PermutableInterval(P permutable, int offset, int length) {
+	public PermutableInterval(Permutable<T> permutable, int offset, int length) {
 		if (permutable == null) throw new IllegalArgumentException("null permutable");
 		if (length < 0) throw new IllegalArgumentException("negative length");
 		if (offset < 0) throw new IllegalArgumentException("negative offset");
@@ -36,7 +36,8 @@ public class PermutableInterval<P extends Permutable> implements Permutable {
 		this.length = length;
 	}
 	
-	public P permuted() {
+	@Override
+	public Permutable<T> permuted() {
 		return permutable;
 	}
 
@@ -51,8 +52,8 @@ public class PermutableInterval<P extends Permutable> implements Permutable {
 	}
 
 	@Override
-	public PermutableInterval<P> apply(Permutation permutation) {
-		return (PermutableInterval<P>) Permutable.super.apply(permutation);
+	public PermutableInterval<T> apply(Permutation permutation) {
+		return (PermutableInterval<T>) Permutable.super.apply(permutation);
 	}
 
 	// object methods

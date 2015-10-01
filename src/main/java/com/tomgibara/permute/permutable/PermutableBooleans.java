@@ -18,10 +18,12 @@ package com.tomgibara.permute.permutable;
 
 import java.util.Arrays;
 
+import javax.jws.Oneway;
+
 import com.tomgibara.permute.Permutable;
 import com.tomgibara.permute.Permutation;
 
-public class PermutableBooleans implements Permutable {
+public class PermutableBooleans implements Permutable<boolean[]> {
 
 	private final boolean[] values;
 
@@ -30,6 +32,7 @@ public class PermutableBooleans implements Permutable {
 		this.values = values;
 	}
 	
+	@Override
 	public boolean[] permuted() {
 		return values;
 	}

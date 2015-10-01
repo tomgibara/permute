@@ -21,7 +21,7 @@ import java.util.Arrays;
 import com.tomgibara.permute.Permutable;
 import com.tomgibara.permute.Permutation;
 
-public class PermutableInts implements Permutable {
+public class PermutableInts implements Permutable<int[]> {
 
 	private final int[] values;
 
@@ -30,6 +30,7 @@ public class PermutableInts implements Permutable {
 		this.values = values;
 	}
 
+	@Override
 	public int[] permuted() {
 		return values;
 	}

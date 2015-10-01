@@ -18,22 +18,22 @@ import com.tomgibara.permute.permutable.PermutableString;
 
 public class Permute {
 
-	public static     PermutableBytes    bytes(byte... values)       { return new PermutableBytes(values);    }
-	public static     PermutableShorts   shorts(short... values)     { return new PermutableShorts(values);   }
-	public static     PermutableInts     ints(int... values)         { return new PermutableInts(values);     }
-	public static     PermutableLongs    longs(long... values)       { return new PermutableLongs(values);    }
+	public static     Permutable <byte[]>        bytes(byte... values)       { return new PermutableBytes(values);    }
+	public static     Permutable <short[]>       shorts(short... values)     { return new PermutableShorts(values);   }
+	public static     Permutable <int[]>         ints(int... values)         { return new PermutableInts(values);     }
+	public static     Permutable <long[]>        longs(long... values)       { return new PermutableLongs(values);    }
 
-	public static     PermutableBooleans booleans(boolean... values) { return new PermutableBooleans(values); }
-	public static     PermutableChars    chars(char... values)       { return new PermutableChars(values);    }
-	public static     PermutableFloats   floats(float... values)     { return new PermutableFloats(values);   }
-	public static     PermutableDoubles  doubles(double... values)   { return new PermutableDoubles(values);  }
+	public static     Permutable <boolean[]>     booleans(boolean... values) { return new PermutableBooleans(values); }
+	public static     Permutable <char[]>        chars(char... values)       { return new PermutableChars(values);    }
+	public static     Permutable <float[]>       floats(float... values)     { return new PermutableFloats(values);   }
+	public static     Permutable <double[]>      doubles(double... values)   { return new PermutableDoubles(values);  }
 
-	public static     PermutableObjects  objects(Object... values)   { return new PermutableObjects(values);  }
-	public static <E> PermutableList<E>  list(List<E>  values)       { return new PermutableList<>(values);   }
+	public static     Permutable <Object[]>      objects(Object... values)   { return new PermutableObjects(values);  }
+	public static <E> Permutable <List<E>>       list(List<E>  values)       { return new PermutableList<>(values);   }
 
-	public static     PermutableString   string(String value)        { return new PermutableString(value);    }
-	public static     PermutableString   string(StringBuilder value) { return new PermutableString(value);    }
-	public static     PermutableBitStore bitStore(BitStore value)    { return new PermutableBitStore(value);  }
+	public static     Permutable <StringBuilder> string(String value)        { return new PermutableString(value);    }
+	public static     Permutable <StringBuilder> string(StringBuilder value) { return new PermutableString(value);    }
+	public static     Permutable <BitStore>      bitStore(BitStore value)    { return new PermutableBitStore(value);  }
 
 	private Permute() { }
 

@@ -21,7 +21,7 @@ import java.util.Arrays;
 import com.tomgibara.permute.Permutable;
 import com.tomgibara.permute.Permutation;
 
-public class PermutableLongs implements Permutable {
+public class PermutableLongs implements Permutable<long[]> {
 
 	private final long[] values;
 
@@ -30,6 +30,7 @@ public class PermutableLongs implements Permutable {
 		this.values = values;
 	}
 
+	@Override
 	public long[] permuted() {
 		return values;
 	}

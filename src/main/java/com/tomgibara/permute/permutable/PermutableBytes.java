@@ -21,7 +21,7 @@ import java.util.Arrays;
 import com.tomgibara.permute.Permutable;
 import com.tomgibara.permute.Permutation;
 
-public class PermutableBytes implements Permutable {
+public class PermutableBytes implements Permutable<byte[]> {
 
 	private final byte[] values;
 
@@ -30,6 +30,7 @@ public class PermutableBytes implements Permutable {
 		this.values = values;
 	}
 
+	@Override
 	public byte[] permuted() {
 		return values;
 	}

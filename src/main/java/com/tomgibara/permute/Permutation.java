@@ -429,7 +429,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 	}
 
-	public static final class Generator implements Permutable {
+	public static final class Generator implements Permutable<Generator> {
 
 		final int[] correspondence;
 		private OrderedSequence orderedSequence = null;
@@ -628,6 +628,11 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 				exchange(i, j);
 				desync();
 			}
+		}
+		
+		@Override
+		public Generator permuted() {
+			return this;
 		}
 
 		// object methods

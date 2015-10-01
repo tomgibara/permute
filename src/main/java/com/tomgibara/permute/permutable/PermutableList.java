@@ -21,7 +21,7 @@ import java.util.List;
 import com.tomgibara.permute.Permutable;
 import com.tomgibara.permute.Permutation;
 
-public class PermutableList<E> implements Permutable {
+public class PermutableList<E> implements Permutable<List<E>> {
 
 	private final List<E> list;
 
@@ -30,6 +30,7 @@ public class PermutableList<E> implements Permutable {
 		this.list = list;
 	}
 
+	@Override
 	public List<E> permuted() {
 		return list;
 	}
