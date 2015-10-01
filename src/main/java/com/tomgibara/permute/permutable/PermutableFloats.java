@@ -41,15 +41,14 @@ public class PermutableFloats implements Permutable<float[]> {
 	}
 
 	@Override
-	public void transpose(int i, int j) {
-		float v = values[i];
-		values[i] = values[j];
-		values[j] = v;
-	}
-
-	@Override
 	public PermutableFloats apply(Permutation permutation) {
-		return (PermutableFloats) Permutable.super.apply(permutation);
+		PermutableUtil.check(permutation, values.length);
+		permutation.permute((i,j) -> {
+			float v = values[i];
+			values[i] = values[j];
+			values[j] = v;
+		});
+		return this;
 	}
 
 	// object methods

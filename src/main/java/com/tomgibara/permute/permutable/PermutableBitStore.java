@@ -42,13 +42,10 @@ public class PermutableBitStore implements Permutable<BitStore> {
 	}
 
 	@Override
-	public void transpose(int i, int j) {
-		permutes.transpose(i, j);
-	}
-
-	@Override
 	public PermutableBitStore apply(Permutation permutation) {
-		return (PermutableBitStore) Permutable.super.apply(permutation);
+		PermutableUtil.check(permutation, store.size());
+		permutation.permute(permutes);
+		return this;
 	}
 
 	// object methods

@@ -41,15 +41,14 @@ public class PermutableShorts implements Permutable<short[]> {
 	}
 
 	@Override
-	public void transpose(int i, int j) {
-		short v = values[i];
-		values[i] = values[j];
-		values[j] = v;
-	}
-
-	@Override
 	public PermutableShorts apply(Permutation permutation) {
-		return (PermutableShorts) Permutable.super.apply(permutation);
+		PermutableUtil.check(permutation, values.length);
+		permutation.permute((i,j) -> {
+			short v = values[i];
+			values[i] = values[j];
+			values[j] = v;
+		});
+		return this;
 	}
 
 	// object methods

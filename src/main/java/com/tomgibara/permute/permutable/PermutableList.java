@@ -41,15 +41,14 @@ public class PermutableList<E> implements Permutable<List<E>> {
 	}
 
 	@Override
-	public void transpose(int i, int j) {
-		E e = list.get(i);
-		list.set(i, list.get(j));
-		list.set(j, e);
-	}
-
-	@Override
 	public PermutableList<E> apply(Permutation permutation) {
-		return (PermutableList<E>) Permutable.super.apply(permutation);
+		PermutableUtil.check(permutation, list.size());
+		permutation.permute((i,j) -> {
+			E e = list.get(i);
+			list.set(i, list.get(j));
+			list.set(j, e);
+		});
+		return this;
 	}
 
 	// object methods

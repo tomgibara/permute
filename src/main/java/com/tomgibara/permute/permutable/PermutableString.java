@@ -48,15 +48,14 @@ public class PermutableString implements Permutable<StringBuilder> {
 	}
 
 	@Override
-	public void transpose(int i, int j) {
-		char c = sb.charAt(i);
-		sb.setCharAt(i, sb.charAt(j));
-		sb.setCharAt(j, c);
-	}
-
-	@Override
 	public PermutableString apply(Permutation permutation) {
-		return (PermutableString) Permutable.super.apply(permutation);
+		PermutableUtil.check(permutation, sb.length());
+		permutation.permute((i,j) -> {
+			char c = sb.charAt(i);
+			sb.setCharAt(i, sb.charAt(j));
+			sb.setCharAt(j, c);
+		});
+		return this;
 	}
 
 	// object methods

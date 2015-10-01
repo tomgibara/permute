@@ -18,8 +18,6 @@ package com.tomgibara.permute.permutable;
 
 import java.util.Arrays;
 
-import javax.jws.Oneway;
-
 import com.tomgibara.permute.Permutable;
 import com.tomgibara.permute.Permutation;
 
@@ -43,15 +41,14 @@ public class PermutableBooleans implements Permutable<boolean[]> {
 	}
 
 	@Override
-	public void transpose(int i, int j) {
-		boolean v = values[i];
-		values[i] = values[j];
-		values[j] = v;
-	}
-
-	@Override
 	public PermutableBooleans apply(Permutation permutation) {
-		return (PermutableBooleans) Permutable.super.apply(permutation);
+		PermutableUtil.check(permutation, values.length);
+		permutation.permute((i,j) -> {
+			boolean v = values[i];
+			values[i] = values[j];
+			values[j] = v;
+		});
+		return this;
 	}
 
 	// object methods

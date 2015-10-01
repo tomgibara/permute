@@ -41,15 +41,14 @@ public class PermutableDoubles implements Permutable<double[]> {
 	}
 
 	@Override
-	public void transpose(int i, int j) {
-		double v = values[i];
-		values[i] = values[j];
-		values[j] = v;
-	}
-
-	@Override
 	public PermutableDoubles apply(Permutation permutation) {
-		return (PermutableDoubles) Permutable.super.apply(permutation);
+		PermutableUtil.check(permutation, values.length);
+		permutation.permute((i,j) -> {
+			double v = values[i];
+			values[i] = values[j];
+			values[j] = v;
+		});
+		return this;
 	}
 
 	// object methods

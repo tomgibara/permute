@@ -41,15 +41,14 @@ public class PermutableBytes implements Permutable<byte[]> {
 	}
 
 	@Override
-	public void transpose(int i, int j) {
-		byte v = values[i];
-		values[i] = values[j];
-		values[j] = v;
-	}
-
-	@Override
 	public PermutableBytes apply(Permutation permutation) {
-		return (PermutableBytes) Permutable.super.apply(permutation);
+		PermutableUtil.check(permutation, values.length);
+		permutation.permute((i,j) -> {
+			byte v = values[i];
+			values[i] = values[j];
+			values[j] = v;
+		});
+		return this;
 	}
 
 	// object methods

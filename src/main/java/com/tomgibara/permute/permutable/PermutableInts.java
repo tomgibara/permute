@@ -41,15 +41,14 @@ public class PermutableInts implements Permutable<int[]> {
 	}
 
 	@Override
-	public void transpose(int i, int j) {
-		int v = values[i];
-		values[i] = values[j];
-		values[j] = v;
-	}
-
-	@Override
 	public PermutableInts apply(Permutation permutation) {
-		return (PermutableInts) Permutable.super.apply(permutation);
+		PermutableUtil.check(permutation, values.length);
+		permutation.permute((i,j) -> {
+			int v = values[i];
+			values[i] = values[j];
+			values[j] = v;
+		});
+		return this;
 	}
 
 	// object methods

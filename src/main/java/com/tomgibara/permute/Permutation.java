@@ -470,7 +470,17 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		}
 
 		public Generator swap(int i, int j) {
-			transpose(i, j);
+			if (i < 0) throw new IllegalArgumentException("negative i");
+			if (j < 0) throw new IllegalArgumentException("negative j");
+			if (i > correspondence.length) throw new IllegalArgumentException("i greater than or equal to size");
+			if (j > correspondence.length) throw new IllegalArgumentException("j greater than or equal to size");
+
+			if (i != j) {
+				int t = correspondence[i];
+				correspondence[i] = correspondence[j];
+				correspondence[j] = t;
+				desync();
+			}
 			return this;
 		}
 
@@ -512,22 +522,23 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			for (int i = 0, j = correspondence.length - 1; i < h; i++, j--) {
 				exchange(i, j);
 			}
-			if (syncer != null) syncer.desync();
+			desync();
 			return this;
 		}
 
 		public Generator shuffle(Random random) {
 			if (random == null) throw new IllegalArgumentException("null random");
 			for (int i = correspondence.length - 1; i > 0 ; i--) {
-				transpose(i, random.nextInt(i + 1));
+				exchange(i, random.nextInt(i + 1));
 			}
 			desync();
 			return this;
 		}
 
-		// equivalent to: permutation.permute(generator);
 		public Generator apply(Permutation permutation) {
-			permutation.permute(this);
+			if (permutation == null) throw new IllegalArgumentException("null permutation");
+			if (permutation.getSize() != correspondence.length) throw new IllegalArgumentException("size mismatched");
+			permutation.permute((i,j) -> exchange(i, j));
 			desync();
 			return this;
 		}
@@ -545,7 +556,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 				Permutation p = permutation();
 				identity();
 				while (power > 0) {
-					if ((power & 1) == 1) p.permute(this);
+					if ((power & 1) == 1) this.apply(p);
 					p = p.generator().apply(p).permutation();
 					power >>= 1;
 				}
@@ -561,13 +572,13 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			switch (length) {
 			case 0:
 				// nothing to do
-				break;
+				return this;
 			case 1: {
 				// just check argument
 				int i = cycle[0];
 				if (i < 0) throw new IllegalArgumentException("negative index: " + i);
 				if (i >= correspondence.length) throw new IllegalArgumentException("index too large: " + i);
-				break;
+				return this;
 			}
 			case 2: {
 				int i = cycle[0];
@@ -575,8 +586,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 				// check for dupes...
 				if (i == j) throw new IllegalArgumentException("cycle contains duplicate index: " + i);
 				// ... otherwise treat as a transposition
-				transpose(i, j);
-				break;
+				return swap(i, j);
 			}
 			default:
 				// check for dupes in cycle
@@ -599,8 +609,8 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 					target = source;
 				}
 				correspondence[target] = t;
+				return this;
 			}
-			return this;
 		}
 
 		// factory methods
@@ -617,19 +627,6 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			return correspondence.length;
 		}
 
-		@Override
-		public void transpose(int i, int j) {
-			if (i < 0) throw new IllegalArgumentException("negative i");
-			if (j < 0) throw new IllegalArgumentException("negative j");
-			if (i > correspondence.length) throw new IllegalArgumentException("i greater than or equal to size");
-			if (j > correspondence.length) throw new IllegalArgumentException("j greater than or equal to size");
-
-			if (j != i) {
-				exchange(i, j);
-				desync();
-			}
-		}
-		
 		@Override
 		public Generator permuted() {
 			return this;
@@ -661,6 +658,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		}
 
 		private void exchange(int i, int j) {
+			if (i == j) return;
 			int t = correspondence[i];
 			correspondence[i] = correspondence[j];
 			correspondence[j] = t;

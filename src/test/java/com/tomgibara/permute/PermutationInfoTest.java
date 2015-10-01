@@ -33,7 +33,7 @@ public class PermutationInfoTest extends PermutationTestCase {
 		List<Integer> b = copy(a);
 		Permutation p = Permutation.identity(5);
 		assertTrue(p.getInfo().isIdentity());
-		p.permute(permutable(b));
+		permutable(b).apply(p);
 		assertEquals(b, a);
 	}
 
@@ -73,7 +73,7 @@ public class PermutationInfoTest extends PermutationTestCase {
 			assertEquals(info.getNumberOfCycles(), cycles.size());
 			Permutation.Generator generator = Permutation.identity(size).generator();
 			for (Permutation p : cycles) {
-				p.permute(generator);
+				generator.apply(p);
 			}
 			assertEquals(permutation, generator.permutation());
 		}

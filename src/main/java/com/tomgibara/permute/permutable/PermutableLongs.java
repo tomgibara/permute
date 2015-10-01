@@ -41,15 +41,14 @@ public class PermutableLongs implements Permutable<long[]> {
 	}
 
 	@Override
-	public void transpose(int i, int j) {
-		long v = values[i];
-		values[i] = values[j];
-		values[j] = v;
-	}
-
-	@Override
 	public PermutableLongs apply(Permutation permutation) {
-		return (PermutableLongs) Permutable.super.apply(permutation);
+		PermutableUtil.check(permutation, values.length);
+		permutation.permute((i,j) -> {
+			long v = values[i];
+			values[i] = values[j];
+			values[j] = v;
+		});
+		return this;
 	}
 
 	// object methods

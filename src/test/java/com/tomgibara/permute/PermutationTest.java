@@ -33,7 +33,7 @@ public class PermutationTest extends PermutationTestCase {
 
 	public void testSwapGeneration() {
 		List<Integer> a = list(1,2,3,4,5);
-		Permutation.identity(5).generator().swap(0, 1).permutation().permute(permutable(a));
+		permutable(a).apply(Permutation.identity(5).generator().swap(0, 1).permutation());
 		assertEquals(list(2,1,3,4,5), a);
 	}
 
@@ -114,7 +114,7 @@ public class PermutationTest extends PermutationTestCase {
 		verifyBadConstructor(1, -1, 0);
 		verifyBadConstructor(null);
 
-		new Permutation().permute(permutable(list()));
+		permutable(list()).apply(new Permutation());
 
 		assertEquals(list(5,4,3,2,1), permutable(list(1,2,3,4,5)).apply(new Permutation(4,3,2,1,0)).permuted());
 

@@ -41,15 +41,14 @@ public class PermutableChars implements Permutable<char[]> {
 	}
 
 	@Override
-	public void transpose(int i, int j) {
-		char v = values[i];
-		values[i] = values[j];
-		values[j] = v;
-	}
-
-	@Override
 	public PermutableChars apply(Permutation permutation) {
-		return (PermutableChars) Permutable.super.apply(permutation);
+		PermutableUtil.check(permutation, values.length);
+		permutation.permute((i,j) -> {
+			char v = values[i];
+			values[i] = values[j];
+			values[j] = v;
+		});
+		return this;
 	}
 
 	// object methods
