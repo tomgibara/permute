@@ -40,11 +40,10 @@ public class PermutableList<E> implements Permutable {
 	}
 
 	@Override
-	public PermutableList<E> transpose(int i, int j) {
+	public void transpose(int i, int j) {
 		E e = list.get(i);
 		list.set(i, list.get(j));
 		list.set(j, e);
-		return this;
 	}
 
 	@Override

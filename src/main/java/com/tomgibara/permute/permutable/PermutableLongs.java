@@ -40,11 +40,10 @@ public class PermutableLongs implements Permutable {
 	}
 
 	@Override
-	public PermutableLongs transpose(int i, int j) {
+	public void transpose(int i, int j) {
 		long v = values[i];
 		values[i] = values[j];
 		values[j] = v;
-		return this;
 	}
 
 	@Override

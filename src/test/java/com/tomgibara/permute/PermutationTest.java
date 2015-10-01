@@ -16,6 +16,11 @@
  */
 package com.tomgibara.permute;
 
+import static com.tomgibara.permute.Permutation.identity;
+import static com.tomgibara.permute.Permutation.reverse;
+import static com.tomgibara.permute.Permutation.rotate;
+import static com.tomgibara.permute.Permute.string;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -24,13 +29,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import com.tomgibara.permute.permutable.PermutableString;
-
 public class PermutationTest extends PermutationTestCase {
 
 	public void testSwapGeneration() {
 		List<Integer> a = list(1,2,3,4,5);
-		Permutation.identity(5).generator().transpose(0, 1).permutation().permute(permutable(a));
+		Permutation.identity(5).generator().swap(0, 1).permutation().permute(permutable(a));
 		assertEquals(list(2,1,3,4,5), a);
 	}
 
@@ -39,27 +42,27 @@ public class PermutationTest extends PermutationTestCase {
 		verifyPermute(list(5,4,3,1,2), list(1,2,3,4,5), 4,3,2,0,1);
 		verifyPermute(list(3,4,5,2,1), list(1,2,3,4,5), 2,3,4,1,0);
 
-		assertEquals("dog", Permutation.reverse(3).permute(new PermutableString("god")).toString());
+		assertEquals("dog", string("god").apply(reverse(3)).toString());
 		verifyPermute("dog", "god", Permutation.reverse(3));
-		verifyPermute("time", "time", Permutation.identity(4));
-		verifyPermute("emit", "time", Permutation.reverse(4));
-		verifyPermute("item", "time", Permutation.rotate(4,-2).generator().reverse().permutation());
-		verifyPermute("mite", "time", Permutation.rotate(4,1).generator().reverse().permutation());
+		verifyPermute("time", "time", identity(4));
+		verifyPermute("emit", "time", reverse(4));
+		verifyPermute("item", "time", rotate(4,-2).generator().reverse().permutation());
+		verifyPermute("mite", "time", rotate(4,1).generator().reverse().permutation());
 
 	}
 
 	private void verifyPermute(List<Integer> expected, List<Integer> input, int... corr) {
-		assertEquals(expected, new Permutation(corr).permute(permutable(input)).getList());
+		assertEquals(expected, permutable(input).apply(new Permutation(corr)).getList());
 	}
 
 	private void verifyPermute(String expected, String input, Permutation p) {
-		assertEquals(expected, p.permute(new PermutableString(input)).toString());
+		assertEquals(expected, string(input).apply(p).toString());
 	}
 
 	public void testReverseConstructor() {
 		for (int size = 0; size < 100; size++) {
-			Permutation r = Permutation.reverse(size);
-			Permutation i = Permutation.identity(size);
+			Permutation r = reverse(size);
+			Permutation i = identity(size);
 			if (size > 1) assertFalse(r.equals(i));
 			assertEquals(i, r.generator().apply(r).permutation());
 			if (size > 0) {
@@ -70,8 +73,8 @@ public class PermutationTest extends PermutationTestCase {
 	}
 
 	public void testRotateConstructor() {
-		assertEquals("DABC", Permutation.rotate(4, 1).permute(new PermutableString("ABCD")).toString());
-		assertEquals("BCDA", Permutation.rotate(4, -1).permute(new PermutableString("ABCD")).toString());
+		assertEquals("DABC", string("ABCD").apply(rotate(4, 1)).toString());
+		assertEquals("BCDA", string("ABCD").apply(rotate(4, -1)).toString());
 		for (int size = 0; size < 100; size++) {
 			for (int dist = - 2 * size; dist < 2 * size; dist++) {
 				Permutation r = Permutation.rotate(size, dist);
@@ -113,7 +116,7 @@ public class PermutationTest extends PermutationTestCase {
 
 		new Permutation().permute(permutable(list()));
 
-		assertEquals(list(5,4,3,2,1), new Permutation(4,3,2,1,0).permute(permutable(list(1,2,3,4,5))).getList());
+		assertEquals(list(5,4,3,2,1), permutable(list(1,2,3,4,5)).apply(new Permutation(4,3,2,1,0)).getList());
 
 	}
 

@@ -41,9 +41,8 @@ public class PermutableBitStore implements Permutable {
 	}
 
 	@Override
-	public PermutableBitStore transpose(int i, int j) {
+	public void transpose(int i, int j) {
 		permutes.transpose(i, j);
-		return this;
 	}
 
 	@Override

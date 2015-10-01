@@ -42,9 +42,8 @@ public class PermutableInterval<P extends Permutable> implements Permutable {
 	}
 
 	@Override
-	public Permutable transpose(int i, int j) {
+	public void transpose(int i, int j) {
 		permutable.transpose(i + offset, j + offset);
-		return this;
 	}
 
 	@Override

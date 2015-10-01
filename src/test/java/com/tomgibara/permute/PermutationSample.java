@@ -144,12 +144,12 @@ public class PermutationSample {
 
 		/**
 		 * Generators expose have many methods that allow Permutations to be
-		 * constructed in convenient ways. For example, there's a transpose
+		 * constructed in convenient ways. For example, there's a swap
 		 * method that provides a faster and simpler way of doing the same
 		 * thing:
 		 */
 
-		Permutation p7 = p4.generator().transpose(0,2).permutation();
+		Permutation p7 = p4.generator().swap(0,2).permutation();
 		assertEqual(p7, p6);
 
 		/**

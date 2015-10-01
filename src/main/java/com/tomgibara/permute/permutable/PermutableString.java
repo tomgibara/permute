@@ -43,11 +43,10 @@ public class PermutableString implements Permutable {
 	}
 
 	@Override
-	public Permutable transpose(int i, int j) {
+	public void transpose(int i, int j) {
 		char c = sb.charAt(i);
 		sb.setCharAt(i, sb.charAt(j));
 		sb.setCharAt(j, c);
-		return this;
 	}
 
 	@Override

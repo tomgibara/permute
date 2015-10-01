@@ -24,8 +24,8 @@ public class PermutationInfoTest extends PermutationTestCase {
 
 	public void testOdd() {
 		assertFalse( Permutation.identity(5).getInfo().isOdd() );
-		assertTrue( Permutation.identity(5).generator().transpose(0, 1).permutation().getInfo().isOdd() );
-		assertFalse( Permutation.identity(5).generator().transpose(0, 1).transpose(1, 2).permutation().getInfo().isOdd() );
+		assertTrue( Permutation.identity(5).generator().swap(0, 1).permutation().getInfo().isOdd() );
+		assertFalse( Permutation.identity(5).generator().swap(0, 1).swap(1, 2).permutation().getInfo().isOdd() );
 	}
 
 	public void testIdentity() {

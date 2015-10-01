@@ -45,8 +45,8 @@ public class PermutationGeneratorTest extends PermutationTestCase {
 
 	public void testApply() {
 		Permutation p = Permutation.identity(5);
-		Permutation p1 = Permutation.identity(5).generator().transpose(0, 1).permutation();
-		Permutation p2 = Permutation.identity(5).generator().transpose(1, 2).permutation();
+		Permutation p1 = Permutation.identity(5).generator().swap(0, 1).permutation();
+		Permutation p2 = Permutation.identity(5).generator().swap(1, 2).permutation();
 		assertEquals(new Permutation(1,2,0,3,4), p.generator().apply(p1).apply(p2).permutation());
 	}
 

@@ -40,11 +40,10 @@ public class PermutableInts implements Permutable {
 	}
 
 	@Override
-	public PermutableInts transpose(int i, int j) {
+	public void transpose(int i, int j) {
 		int v = values[i];
 		values[i] = values[j];
 		values[j] = v;
-		return this;
 	}
 
 	@Override

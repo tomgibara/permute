@@ -40,11 +40,10 @@ public class PermutableBooleans implements Permutable {
 	}
 
 	@Override
-	public PermutableBooleans transpose(int i, int j) {
+	public void transpose(int i, int j) {
 		boolean v = values[i];
 		values[i] = values[j];
 		values[j] = v;
-		return this;
 	}
 
 	@Override

@@ -40,11 +40,10 @@ public class PermutableBytes implements Permutable {
 	}
 
 	@Override
-	public PermutableBytes transpose(int i, int j) {
+	public void transpose(int i, int j) {
 		byte v = values[i];
 		values[i] = values[j];
 		values[j] = v;
-		return this;
 	}
 
 	@Override

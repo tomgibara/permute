@@ -40,11 +40,10 @@ public class PermutableChars implements Permutable {
 	}
 
 	@Override
-	public PermutableChars transpose(int i, int j) {
+	public void transpose(int i, int j) {
 		char v = values[i];
 		values[i] = values[j];
 		values[j] = v;
-		return this;
 	}
 
 	@Override

@@ -40,11 +40,10 @@ public class PermutableShorts implements Permutable {
 	}
 
 	@Override
-	public PermutableShorts transpose(int i, int j) {
+	public void transpose(int i, int j) {
 		short v = values[i];
 		values[i] = values[j];
 		values[j] = v;
-		return this;
 	}
 
 	@Override

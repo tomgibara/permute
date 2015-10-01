@@ -40,11 +40,10 @@ public class PermutableFloats implements Permutable {
 	}
 
 	@Override
-	public PermutableFloats transpose(int i, int j) {
+	public void transpose(int i, int j) {
 		float v = values[i];
 		values[i] = values[j];
 		values[j] = v;
-		return this;
 	}
 
 	@Override

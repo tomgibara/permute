@@ -23,11 +23,12 @@ public interface Permutable extends Transposable {
 	default Permutable apply(Permutation permutation) {
 		if (permutation == null) throw new IllegalArgumentException("null permutation");
 		if (permutation.getSize() != getPermutableSize()) throw new IllegalArgumentException("mismatched size");
-		return permutation.permute(this);
+		permutation.permute(this);
+		return this;
 	}
 	
 	@Override
-	Permutable transpose(int i, int j);
+	void transpose(int i, int j);
 
 	int getPermutableSize();
 

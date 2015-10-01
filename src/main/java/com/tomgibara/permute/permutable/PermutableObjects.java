@@ -40,11 +40,10 @@ public class PermutableObjects implements Permutable {
 	}
 
 	@Override
-	public PermutableObjects transpose(int i, int j) {
+	public void transpose(int i, int j) {
 		Object v = values[i];
 		values[i] = values[j];
 		values[j] = v;
-		return this;
 	}
 
 	@Override

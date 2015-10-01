@@ -40,11 +40,10 @@ public class PermutableDoubles implements Permutable {
 	}
 
 	@Override
-	public PermutableDoubles transpose(int i, int j) {
+	public void transpose(int i, int j) {
 		double v = values[i];
 		values[i] = values[j];
 		values[j] = v;
-		return this;
 	}
 
 	@Override
