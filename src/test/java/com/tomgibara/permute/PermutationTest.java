@@ -164,7 +164,21 @@ public class PermutationTest extends PermutationTestCase {
 			assertEquals(pi, q.getInfo());
 		}
 
-
 	}
 
+	public void testInverse() {
+		Random r = new Random(0L);
+		for (int i = 0; i < 1000; i++) {
+			int size = r.nextInt(50);
+			Permutation identity = identity(size);
+			Permutation p = identity.generator().shuffle(r).permutation();
+			Permutation inverse1 = p.inverse();
+			Permutation inverse2 = p.generator().invert().permutation();
+			// ensure inverses match
+			assertEquals(inverse1, inverse2);
+			// ensure inverses are inverses
+			assertEquals(identity, p.generator().apply(inverse1).permutation());
+			assertEquals(identity, p.generator().apply(inverse2).permutation());
+		}
+	}
 }

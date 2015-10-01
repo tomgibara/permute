@@ -38,6 +38,14 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	static final long serialVersionUID = -9053863703146584610L;
 
 	private static final int[] NO_CYCLES = {};
+	
+	private static int[] inverted(int[] correspondence) {
+		int[] array = new int[correspondence.length];
+		for (int i = 0; i < array.length; i++) {
+			array[correspondence[i]] = i;
+		}
+		return array;
+	}
 
 	public static Permutation identity(int size) {
 		if (size < 0) throw new IllegalArgumentException("negative size");
@@ -139,6 +147,11 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	}
 
 	// public methods
+
+	public Permutation inverse() {
+		//TODO should derive cycles
+		return new Permutation(inverted(correspondence), null);
+	}
 
 	public Generator generator() {
 		return new Generator(correspondence.clone());
@@ -569,11 +582,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		}
 
 		public Generator invert() {
-			int[] array = new int[correspondence.length];
-			for (int i = 0; i < array.length; i++) {
-				array[correspondence[i]] = i;
-			}
-			System.arraycopy(array, 0, correspondence, 0, array.length);
+			System.arraycopy(inverted(correspondence), 0, correspondence, 0, correspondence.length);
 			desync();
 			return this;
 		}
