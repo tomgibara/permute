@@ -17,6 +17,7 @@
 package com.tomgibara.permute.permutable;
 
 import com.tomgibara.permute.Permutable;
+import com.tomgibara.permute.Permutation;
 
 public class PermutableInterval<P extends Permutable> implements Permutable {
 
@@ -44,6 +45,11 @@ public class PermutableInterval<P extends Permutable> implements Permutable {
 	public Permutable transpose(int i, int j) {
 		permutable.transpose(i + offset, j + offset);
 		return this;
+	}
+
+	@Override
+	public PermutableInterval<P> apply(Permutation permutation) {
+		return (PermutableInterval<P>) Permutable.super.apply(permutation);
 	}
 
 }

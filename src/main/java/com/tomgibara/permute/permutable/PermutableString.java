@@ -17,6 +17,7 @@
 package com.tomgibara.permute.permutable;
 
 import com.tomgibara.permute.Permutable;
+import com.tomgibara.permute.Permutation;
 
 public class PermutableString implements Permutable {
 
@@ -31,7 +32,6 @@ public class PermutableString implements Permutable {
 		if (sb == null) throw new IllegalArgumentException("null sb");
 		this.sb = sb;
 	}
-
 
 	public StringBuilder getStringBuilder() {
 		return sb;
@@ -48,6 +48,11 @@ public class PermutableString implements Permutable {
 		sb.setCharAt(i, sb.charAt(j));
 		sb.setCharAt(j, c);
 		return this;
+	}
+
+	@Override
+	public PermutableString apply(Permutation permutation) {
+		return (PermutableString) Permutable.super.apply(permutation);
 	}
 
 	@Override

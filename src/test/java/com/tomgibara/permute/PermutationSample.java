@@ -16,6 +16,12 @@
  */
 package com.tomgibara.permute;
 
+import static com.tomgibara.permute.Permutation.identity;
+import static com.tomgibara.permute.Permutation.rotate;
+import static com.tomgibara.permute.Permute.chars;
+import static com.tomgibara.permute.Permute.ints;
+import static com.tomgibara.permute.Permute.string;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -47,7 +53,7 @@ public class PermutationSample {
 		 * Permutations.
 		 */
 
-		String r0 = identity.permute(new PermutableString("smite")).toString();
+		String r0 = new PermutableString("smite").apply(identity).toString();
 		assertEqual(r0, "smite"); // the identity permutation changes nothing
 
 		/**
@@ -57,12 +63,27 @@ public class PermutationSample {
 		 */
 
 		/**
+		 * It's slightly more convenient to use the static methods on the
+		 * Permute class to create Permutable wrappers for common types
+		 * such as strings, arrays and lists.
+		 */
+
+		Permute.ints(0,1,2,3,4).apply(identity).getValues();
+		
+		/**
+		 * It's briefer still when the method is statically imported, which is
+		 * how we shall wrap strings for permutation from here on in.
+		 */
+		
+		string("smite").apply(identity).toString();
+
+		/**
 		 * We can create Permutations directly with an array that indicates how
 		 * the sequence [0..N-1] is permuted.
 		 */
 
 		Permutation p1 = new Permutation(1,2,3,4,0);
-		String r1 = p1.permute(new PermutableString("smite")).toString();
+		String r1 = string("smite").apply(p1).toString();
 		assertEqual(r1, "mites");
 
 		/**
@@ -73,7 +94,7 @@ public class PermutationSample {
 		 */
 
 		Permutation p2 = Permutation.rotate(5, -1);
-		String r2 = p1.permute(new PermutableString("smite")).toString();
+		String r2 = string("smite").apply(p1).toString();
 		assertEqual(r2, "mites"); // rotated every element one place left
 		assertTrue(p1.equals(p2)); // this is the same permutation as p1
 
@@ -85,7 +106,7 @@ public class PermutationSample {
 		 */
 
 		Permutation p3 = Permutation.transpose(5, 0, 4);
-		String r3 = p3.permute(new PermutableString("smite")).toString();
+		String r3 = string("smite").apply(p3).toString();
 		assertEqual(r3, "emits"); // swapped first and last letters
 
 		/**
@@ -94,7 +115,7 @@ public class PermutationSample {
 		 */
 
 		Permutation p4 = Permutation.reverse(5);
-		String r4 = p4.permute(p4.permute(new PermutableString("smite"))).toString();
+		String r4 = string("smite").apply(p4).apply(p4).toString();
 		assertEqual(r4, "smite"); // reversing twice restores the original string
 
 		// PERMUTATION GENERATORS
@@ -118,7 +139,7 @@ public class PermutationSample {
 		 */
 
 		Permutation p6 = p4.generator().apply(Permutation.transpose(5, 0, 2)).permutation();
-		String r6 = p6.permute(new PermutableString("smite")).toString();
+		String r6 = string("smite").apply(p6).toString();
 		assertEqual(r6, "items"); // reverses the string and then swaps the first and third characters
 
 		/**
@@ -138,7 +159,7 @@ public class PermutationSample {
 		 */
 
 		Permutation p8 = p7.generator().invert().permutation();
-		String r8 = p8.permute(new PermutableString("items")).toString();
+		String r8 = string("items").apply(p8).toString();
 		assertEqual(r8, "smite"); // swaps the first and third characters and then reverses the string
 
 		/**
@@ -157,7 +178,7 @@ public class PermutationSample {
 		assertEqual(p9c, p9); // 1 always returns the same permutation
 		// the calculation remains efficient even for extremely large powers:
 		Permutation p9d = p9.generator().power(100001).permutation();
-		String r9 = p9d.permute(new PermutableString("smite")).toString();
+		String r9 = string("smite").apply(p9d).toString();
 		assertEqual(r9, "times");
 
 		/**
@@ -234,7 +255,7 @@ public class PermutationSample {
 		assertEqual(info.getLengthOfOrbit().intValue(), 6);
 		// to demonstrate this...
 		Permutation p10 = p9.generator().power(6).permutation();
-		String r10 = p10.permute(new PermutableString("smite")).toString();
+		String r10 = string("smite").apply(p10).toString();
 		assertEqual(r10, "smite"); // the string we started with
 		// ...or more simply...
 		assertEqual(p10, identity);
@@ -257,11 +278,18 @@ public class PermutationSample {
 		assertTrue( Permutation.identity(0).equals(px1) );
 
 		/**
-		 * There are Permutables for lists and all primitive array types.
+		 * There are Permutables for lists and all primitive array types...
 		 */
 
-		Permutation.identity(4).permute(new PermutableInts(1,2,3,4));
-		Permutation.rotate(4, -1).permute(new PermutableChars('s', 'c', 'a', 't'));
+		Permute.ints(new int[] {1,2,3,4}).apply(Permutation.identity(4));
+		Permute.chars(new char[] {'s', 'c', 'a', 't'}).apply(Permutation.rotate(4, -1));
+
+		/**
+		 * ... which static imports and varargs render very compact:
+		 */
+
+		ints(1,2,3,4).apply(identity(4));
+		chars('s', 'c', 'a', 't').apply(rotate(4, -1));
 
 		/**
 		 * Permutations are immutable, final, Serializable and validate their

@@ -19,6 +19,7 @@ package com.tomgibara.permute.permutable;
 import java.util.List;
 
 import com.tomgibara.permute.Permutable;
+import com.tomgibara.permute.Permutation;
 
 public class PermutableList<E> implements Permutable {
 
@@ -44,6 +45,11 @@ public class PermutableList<E> implements Permutable {
 		list.set(i, list.get(j));
 		list.set(j, e);
 		return this;
+	}
+
+	@Override
+	public PermutableList<E> apply(Permutation permutation) {
+		return (PermutableList<E>) Permutable.super.apply(permutation);
 	}
 
 }

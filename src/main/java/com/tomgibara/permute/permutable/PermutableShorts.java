@@ -19,6 +19,7 @@ package com.tomgibara.permute.permutable;
 import java.util.Arrays;
 
 import com.tomgibara.permute.Permutable;
+import com.tomgibara.permute.Permutation;
 
 public class PermutableShorts implements Permutable {
 
@@ -44,6 +45,11 @@ public class PermutableShorts implements Permutable {
 		values[i] = values[j];
 		values[j] = v;
 		return this;
+	}
+
+	@Override
+	public PermutableShorts apply(Permutation permutation) {
+		return (PermutableShorts) Permutable.super.apply(permutation);
 	}
 
 	@Override

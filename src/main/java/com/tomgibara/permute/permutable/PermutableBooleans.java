@@ -19,6 +19,7 @@ package com.tomgibara.permute.permutable;
 import java.util.Arrays;
 
 import com.tomgibara.permute.Permutable;
+import com.tomgibara.permute.Permutation;
 
 public class PermutableBooleans implements Permutable {
 
@@ -28,7 +29,7 @@ public class PermutableBooleans implements Permutable {
 		if (values == null) throw new IllegalArgumentException("null values");
 		this.values = values;
 	}
-
+	
 	public boolean[] getValues() {
 		return values;
 	}
@@ -44,6 +45,11 @@ public class PermutableBooleans implements Permutable {
 		values[i] = values[j];
 		values[j] = v;
 		return this;
+	}
+
+	@Override
+	public PermutableBooleans apply(Permutation permutation) {
+		return (PermutableBooleans) Permutable.super.apply(permutation);
 	}
 
 	@Override

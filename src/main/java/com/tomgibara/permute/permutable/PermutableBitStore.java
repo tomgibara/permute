@@ -18,6 +18,7 @@ package com.tomgibara.permute.permutable;
 
 import com.tomgibara.bits.BitStore;
 import com.tomgibara.permute.Permutable;
+import com.tomgibara.permute.Permutation;
 
 public class PermutableBitStore implements Permutable {
 
@@ -43,6 +44,11 @@ public class PermutableBitStore implements Permutable {
 	public PermutableBitStore transpose(int i, int j) {
 		permutes.transpose(i, j);
 		return this;
+	}
+
+	@Override
+	public PermutableBitStore apply(Permutation permutation) {
+		return (PermutableBitStore) Permutable.super.apply(permutation);
 	}
 
 }
