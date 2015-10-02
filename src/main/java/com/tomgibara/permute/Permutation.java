@@ -21,7 +21,9 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -30,6 +32,7 @@ import java.util.SortedSet;
 import com.tomgibara.bits.BitStore;
 import com.tomgibara.bits.Bits;
 import com.tomgibara.fundament.Transposable;
+import com.tomgibara.storage.Store;
 
 public final class Permutation implements Comparable<Permutation>, Serializable {
 
@@ -170,6 +173,28 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		return new Permutation(correspondence, cycles);
 	}
 
+	public static <E> Permutation toSort(List<E> list, Comparator<? super E> c) {
+		if (list == null) throw new IllegalArgumentException("null list");
+		return c == null ?
+			sort(list.size(), (i,j) -> ((Comparable) list.get(i)).compareTo(list.get(j))) :
+			sort(list.size(), (i,j) -> c.compare(list.get(i), list.get(j)));
+	}
+	
+	public static <E> Permutation toSort(E[] elements, Comparator<? super E> c) {
+		if (elements == null) throw new IllegalArgumentException("null elements");
+		return c == null ?
+				sort(elements.length, (i,j) -> ((Comparable) elements[i]).compareTo(elements[j])) :
+				sort(elements.length, (i,j) -> c.compare(elements[i], elements[j]));
+	}
+	
+	private static Permutation sort(int size, Comparator<Integer> c) {
+		int[] correspondence = new int[size];
+		computeIdentity(correspondence);
+		Store<Integer> store = Store.newStore(correspondence);
+		store.asList().sort(c);
+		return new Permutation(correspondence, null);
+	}
+	
 	// fields
 
 	private final int[] correspondence;

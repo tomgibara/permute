@@ -27,7 +27,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -147,6 +149,31 @@ public class PermutationTest extends PermutationTestCase {
 			Permutation p = Permutation.identity(r.nextInt(100)).generator().shuffle(r).permutation();
 			assertEquals(p.inverse(), Permutation.reorder(p.getCorrespondence()));
 		}
+	}
+	
+	public void testSortConstructor() {
+		testSortConstructor(list(4,2,0,3,1), null);
+
+		Random r = new Random();
+		for (int i = 0; i < 1000; i++) {
+			int size = r.nextInt(100);
+			List<Integer> list = new ArrayList<>();
+			for (int j = 0; j < size; j++) {
+				list.add(r.nextInt(10 + size));
+			}
+			testSortConstructor(list, null);
+			testSortConstructor(list, Comparator.naturalOrder());
+			testSortConstructor(list, Comparator.reverseOrder());
+		}
+	}
+
+	private void testSortConstructor(List<Integer> list, Comparator<Integer> c) {
+		list = copy(list);
+		List<Integer> copy = copy(list);
+		Permutation p = Permutation.toSort(list, c);
+		assertEquals(copy, list); // list not changed
+		copy.sort(c);
+		assertEquals(copy, permutable(list).apply(p).permuted());
 	}
 
 	public void testComparable() {
