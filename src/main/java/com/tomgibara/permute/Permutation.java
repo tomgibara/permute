@@ -76,7 +76,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		}
 		return array;
 	}
-
+	
 	private static int[] computeCycles(int[] correspondence) {
 		int[] array = correspondence.clone();
 		int[] cycles = new int[array.length + 1];
@@ -109,15 +109,19 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		return cycles.length > index ? Arrays.copyOf(cycles, index) : cycles;
 	}
 
-	public static Permutation identity(int size) {
+	private static void checkSize(int size) {
 		if (size < 0) throw new IllegalArgumentException("negative size");
+	}
+
+	public static Permutation identity(int size) {
+		checkSize(size);
 		int[] correspondence = new int[size];
 		computeIdentity(correspondence);
 		return new Permutation(correspondence, NO_CYCLES);
 	}
 
 	public static Permutation reverse(int size) {
-		if (size < 0) throw new IllegalArgumentException("negative size");
+		checkSize(size);
 		int[] correspondence = new int[size];
 		for (int i = 0; i < size; i++) {
 			correspondence[i] = size - i - 1;
@@ -132,7 +136,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	}
 
 	public static Permutation rotate(int size, int distance) {
-		if (size < 0) throw new IllegalArgumentException("negative size");
+		checkSize(size);
 		if (size < 2) return identity(size);
 		distance = -distance % size;
 		if (distance == 0) return identity(size);
@@ -154,17 +158,59 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	}
 
 	public static Permutation transpose(int size, int i, int j) {
-		if (size < 0) throw new IllegalArgumentException("negative size");
+		checkSize(size);
 		if (i < 0 || j < 0 || i >= size || j >= size) throw new IllegalArgumentException("invalid indices");
 		if (i == j) return identity(size);
 		int[] correspondence = new int[size];
-		for (int k = 0; k < size; k++) {
-			correspondence[k] = k;
-		}
+		computeIdentity(correspondence);
 		correspondence[i] = j;
 		correspondence[j] = i;
 		int[] cycles = {i, -1 - j };
 		return new Permutation(correspondence, cycles);
+	}
+
+	public static Permutation cycle(int size, int... cycle) {
+		checkSize(size);
+		if (cycle == null) throw new IllegalArgumentException("null cycle");
+		int length = cycle.length;
+		if (length > size) throw new IllegalArgumentException("cycle larger than permutation");
+		switch (length) {
+		case 0:
+			// nothing to do
+			return identity(size);
+		case 1: {
+			// just check argument
+			int i = cycle[0];
+			if (i < 0) throw new IllegalArgumentException("negative index: " + i);
+			if (i >= size) throw new IllegalArgumentException("index too large: " + i);
+			return identity(size);
+		}
+		case 2: {
+			int i = cycle[0];
+			int j = cycle[1];
+			// check for dupes...
+			if (i == j) throw new IllegalArgumentException("cycle contains duplicate index: " + i);
+			// ... otherwise treat as a transposition
+			return transpose(size, i, j);
+		}
+		default:
+			// check for dupes in cycle
+			verifyUnique(size, cycle);
+			// now start cycling
+			int[] correspondence = new int[size];
+			computeIdentity(correspondence);
+			int target = cycle[0];
+			int t = correspondence[target];
+			for (int i = 1; i < length; i++) {
+				int source = cycle[i];
+				correspondence[target] = correspondence[source];
+				target = source;
+			}
+			correspondence[target] = t;
+			int[] cycles = cycle.clone();
+			cycles[length - 1] = -1 - target;
+			return new Permutation(correspondence, cycles);
+		}
 	}
 
 	public static Permutation correspond(int... correspondence) {
@@ -684,45 +730,6 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			return this;
 		}
 
-		public Generator cycle(int... cycle) {
-			if (cycle == null) throw new IllegalArgumentException("null cycle");
-			int length = cycle.length;
-			if (length > correspondence.length) throw new IllegalArgumentException("cycle larger than permutation");
-			switch (length) {
-			case 0:
-				// nothing to do
-				return this;
-			case 1: {
-				// just check argument
-				int i = cycle[0];
-				if (i < 0) throw new IllegalArgumentException("negative index: " + i);
-				if (i >= correspondence.length) throw new IllegalArgumentException("index too large: " + i);
-				return this;
-			}
-			case 2: {
-				int i = cycle[0];
-				int j = cycle[1];
-				// check for dupes...
-				if (i == j) throw new IllegalArgumentException("cycle contains duplicate index: " + i);
-				// ... otherwise treat as a transposition
-				return transpose(i, j);
-			}
-			default:
-				// check for dupes in cycle
-				verifyUnique(correspondence.length, cycle);
-				// now start cycling
-				int target = cycle[0];
-				int t = correspondence[target];
-				for (int i = 1; i < length; i++) {
-					int source = cycle[i];
-					correspondence[target] = correspondence[source];
-					target = source;
-				}
-				correspondence[target] = t;
-				return this;
-			}
-		}
-
 		// factory methods
 
 		public Permutation permutation() {
@@ -764,8 +771,8 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		public Generator transpose(int i, int j) {
 			if (i < 0) throw new IllegalArgumentException("negative i");
 			if (j < 0) throw new IllegalArgumentException("negative j");
-			if (i > correspondence.length) throw new IllegalArgumentException("i greater than or equal to size");
-			if (j > correspondence.length) throw new IllegalArgumentException("j greater than or equal to size");
+			if (i >= correspondence.length) throw new IllegalArgumentException("i greater than or equal to size");
+			if (j >= correspondence.length) throw new IllegalArgumentException("j greater than or equal to size");
 
 			if (i != j) {
 				int t = correspondence[i];
@@ -798,6 +805,46 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			}
 			desync();
 			return this;
+		}
+
+		@Override
+		public Generator cycle(int... cycle) {
+			if (cycle == null) throw new IllegalArgumentException("null cycle");
+			int length = cycle.length;
+			if (length > correspondence.length) throw new IllegalArgumentException("cycle larger than permutation");
+			switch (length) {
+			case 0:
+				// nothing to do
+				return this;
+			case 1: {
+				// just check argument
+				int i = cycle[0];
+				if (i < 0) throw new IllegalArgumentException("negative index: " + i);
+				if (i >= correspondence.length) throw new IllegalArgumentException("index too large: " + i);
+				return this;
+			}
+			case 2: {
+				int i = cycle[0];
+				int j = cycle[1];
+				// check for dupes...
+				if (i == j) throw new IllegalArgumentException("cycle contains duplicate index: " + i);
+				// ... otherwise treat as a transposition
+				return transpose(i, j);
+			}
+			default:
+				// check for dupes in cycle
+				verifyUnique(correspondence.length, cycle);
+				// now start cycling
+				int target = cycle[0];
+				int t = correspondence[target];
+				for (int i = 1; i < length; i++) {
+					int source = cycle[i];
+					correspondence[target] = correspondence[source];
+					target = source;
+				}
+				correspondence[target] = t;
+				return this;
+			}
 		}
 
 		// object methods

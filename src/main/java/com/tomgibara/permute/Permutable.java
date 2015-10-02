@@ -36,6 +36,10 @@ public interface Permutable<T> {
 		return apply(Permutation.reverse(size()));
 	}
 	
+	default Permutable<T> cycle(int... cycle) {
+		return apply(Permutation.cycle(size(), cycle));
+	}
+	
 	default Permutable<T> correspond(int... correspondence) {
 		return apply(Permutation.correspond(correspondence));
 	}

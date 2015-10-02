@@ -187,6 +187,35 @@ public class PermutationTest extends PermutationTestCase {
 		}
 	}
 
+	public void testCycleConstructor() {
+		int size = 20;
+		int over = size / 10;
+		Random r = new Random(0L);
+		for (int i = 0; i < 200; i++) {
+			int length = r.nextInt(7);
+			int[] cycle = new int[length];
+			for (int j = 0; j < cycle.length; j++) {
+				cycle[j] = r.nextInt(size + 2 * over) - over;
+			}
+
+			Permutation p;
+			try {
+				p = identity(size).generator().cycle(cycle).permutation();
+			} catch (IllegalArgumentException e) {
+				p = null;
+			}
+
+			Permutation q;
+			try {
+				q = Permutation.cycle(size, cycle);
+			} catch (IllegalArgumentException e) {
+				q = null;
+			}
+
+			assertEquals(p, q);
+		}
+	}
+	
 	public void testComparable() {
 
 		assertTrue(Permutation.identity(6).compareTo(Permutation.identity(5)) > 0);
