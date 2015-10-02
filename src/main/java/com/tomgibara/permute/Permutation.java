@@ -48,6 +48,19 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			if (c < 0 || c >= correspondence.length) throw new IllegalArgumentException("invalid correspondence");
 		}
 	}
+	
+	private static void verifyUnique(int size, int[] indices) {
+		SortedSet<Integer> check = Bits.newBitStore(size).ones().asSet();
+		for (int i : indices) {
+			boolean result;
+			try {
+				result = check.add(i);
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException("cycle contains invalid index: " + i);
+			}
+			if (!result) throw new IllegalArgumentException("cycle contains duplicate index: " + i);
+		}
+	}
 
 	private static int[] computeIdentity(int[] correspondence) {
 		for (int i = 0; i < correspondence.length; i++) {
@@ -696,16 +709,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			}
 			default:
 				// check for dupes in cycle
-				SortedSet<Integer> check = Bits.newBitStore(correspondence.length).ones().asSet();
-				for (int i : cycle) {
-					boolean result;
-					try {
-						result = check.add(i);
-					} catch (IllegalArgumentException e) {
-						throw new IllegalArgumentException("cycle contains invalid index: " + i);
-					}
-					if (!result) throw new IllegalArgumentException("cycle contains duplicate index: " + i);
-				}
+				verifyUnique(correspondence.length, cycle);
 				// now start cycling
 				int target = cycle[0];
 				int t = correspondence[target];
