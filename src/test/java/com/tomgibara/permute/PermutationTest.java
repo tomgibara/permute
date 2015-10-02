@@ -168,12 +168,15 @@ public class PermutationTest extends PermutationTestCase {
 	}
 
 	private void testSortConstructor(List<Integer> list, Comparator<Integer> c) {
+		Integer[] array = (Integer[]) list.toArray(new Integer[list.size()]);
 		list = copy(list);
 		List<Integer> copy = copy(list);
-		Permutation p = Permutation.toSort(list, c);
+		Permutation p = Permutation.Sorting.list(list, c);
 		assertEquals(copy, list); // list not changed
 		copy.sort(c);
 		assertEquals(copy, permutable(list).apply(p).permuted());
+		Permutation q = Permutation.Sorting.objects(array, c);
+		assertEquals(p, q);
 	}
 
 	public void testComparable() {

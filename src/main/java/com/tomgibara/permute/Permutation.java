@@ -173,28 +173,6 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		return new Permutation(correspondence, cycles);
 	}
 
-	public static <E> Permutation toSort(List<E> list, Comparator<? super E> c) {
-		if (list == null) throw new IllegalArgumentException("null list");
-		return c == null ?
-			sort(list.size(), (i,j) -> ((Comparable) list.get(i)).compareTo(list.get(j))) :
-			sort(list.size(), (i,j) -> c.compare(list.get(i), list.get(j)));
-	}
-	
-	public static <E> Permutation toSort(E[] elements, Comparator<? super E> c) {
-		if (elements == null) throw new IllegalArgumentException("null elements");
-		return c == null ?
-				sort(elements.length, (i,j) -> ((Comparable) elements[i]).compareTo(elements[j])) :
-				sort(elements.length, (i,j) -> c.compare(elements[i], elements[j]));
-	}
-	
-	private static Permutation sort(int size, Comparator<Integer> c) {
-		int[] correspondence = new int[size];
-		computeIdentity(correspondence);
-		Store<Integer> store = Store.newStore(correspondence);
-		store.asList().sort(c);
-		return new Permutation(correspondence, null);
-	}
-	
 	// fields
 
 	private final int[] correspondence;
@@ -526,6 +504,32 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	}
 
 	// inner classes
+
+	public static class Sorting {
+
+		public static <E> Permutation list(List<E> list, Comparator<? super E> c) {
+			if (list == null) throw new IllegalArgumentException("null list");
+			return c == null ?
+				sort(list.size(), (i,j) -> ((Comparable) list.get(i)).compareTo(list.get(j))) :
+				sort(list.size(), (i,j) -> c.compare(list.get(i), list.get(j)));
+		}
+		
+		public static <E> Permutation objects(E[] elements, Comparator<? super E> c) {
+			if (elements == null) throw new IllegalArgumentException("null elements");
+			return c == null ?
+					sort(elements.length, (i,j) -> ((Comparable) elements[i]).compareTo(elements[j])) :
+					sort(elements.length, (i,j) -> c.compare(elements[i], elements[j]));
+		}
+		
+		private static Permutation sort(int size, Comparator<Integer> c) {
+			int[] correspondence = new int[size];
+			computeIdentity(correspondence);
+			Store<Integer> store = Store.newStore(correspondence);
+			store.asList().sort(c);
+			return new Permutation(correspondence, null);
+		}
+		
+	}
 
 	private static abstract class Syncer {
 
