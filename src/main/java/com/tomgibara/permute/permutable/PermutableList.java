@@ -16,6 +16,7 @@
  */
 package com.tomgibara.permute.permutable;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.tomgibara.permute.Permutable;
@@ -50,6 +51,18 @@ public class PermutableList<E> implements Permutable<List<E>> {
 		});
 		return this;
 	}
+	
+	@Override
+	public PermutableList<E> reverse() {
+		Collections.reverse(list);
+		return this;
+	}
+	
+	@Override
+	public PermutableList<E> rotate(int distance) {
+		Collections.rotate(list, distance);
+		return this;
+	}	
 
 	// object methods
 	

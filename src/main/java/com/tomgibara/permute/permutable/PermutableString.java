@@ -58,6 +58,12 @@ public class PermutableString implements Permutable<StringBuilder> {
 		return this;
 	}
 
+	@Override
+	public PermutableString reverse() {
+		sb.reverse();
+		return this;
+	}
+	
 	// object methods
 
 	@Override
