@@ -64,6 +64,24 @@ public class PermutableBitStore implements Permutable<BitStore> {
 		return this;
 	}
 
+	@Override
+	public PermutableBitStore transpose(int i, int j) {
+		permutes.transpose(i, j);
+		return this;
+	}
+	
+	@Override
+	public PermutableBitStore reverse() {
+		permutes.reverse();
+		return this;
+	}
+	
+	@Override
+	public PermutableBitStore rotate(int distance) {
+		permutes.rotate(distance);
+		return this;
+	}
+	
 	// object methods
 	
 	@Override
