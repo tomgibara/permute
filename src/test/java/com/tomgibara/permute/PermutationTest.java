@@ -17,6 +17,7 @@
 package com.tomgibara.permute;
 
 import static com.tomgibara.permute.Permutation.identity;
+import static com.tomgibara.permute.Permutation.correspond;
 import static com.tomgibara.permute.Permutation.reverse;
 import static com.tomgibara.permute.Permutation.rotate;
 import static com.tomgibara.permute.Permute.string;
@@ -52,7 +53,7 @@ public class PermutationTest extends PermutationTestCase {
 	}
 
 	private void verifyPermute(List<Integer> expected, List<Integer> input, int... corr) {
-		assertEquals(expected, permutable(input).apply(new Permutation(corr)).permuted());
+		assertEquals(expected, permutable(input).apply(correspond(corr)).permuted());
 	}
 
 	private void verifyPermute(String expected, String input, Permutation p) {
@@ -107,22 +108,23 @@ public class PermutationTest extends PermutationTestCase {
 		}
 	}
 
-	public void testCorrespondenceConstructor() {
-		verifyBadConstructor(0,1,2,3,3);
-		verifyBadConstructor(1);
-		verifyBadConstructor(-1, 0, -1);
-		verifyBadConstructor(1, -1, 0);
-		verifyBadConstructor(null);
+	public void testCorrespondConstructor() {
+		verifyBadCorrespond(0,1,2,3,3);
+		verifyBadCorrespond(1);
+		verifyBadCorrespond(-1, 0, -1);
+		verifyBadCorrespond(1, -1, 0);
+		verifyBadCorrespond(null);
 
-		permutable(list()).apply(new Permutation());
+		permutable(list()).apply(correspond());
 
-		assertEquals(list(5,4,3,2,1), permutable(list(1,2,3,4,5)).apply(new Permutation(4,3,2,1,0)).permuted());
+		assertEquals(list(2,3,1), permutable(list(1,2,3)).apply(correspond(1,2,0)).permuted());
+		assertEquals(list(5,4,3,2,1), permutable(list(1,2,3,4,5)).apply(correspond(4,3,2,1,0)).permuted());
 
 	}
 
-	private void verifyBadConstructor(int... correspondence) {
+	private void verifyBadCorrespond(int... correspondence) {
 		try {
-			new Permutation(correspondence);
+			correspond(correspondence);
 			fail("allowed invalid construction array " + Arrays.toString(correspondence));
 		} catch (IllegalArgumentException e) {
 			/* expected */
@@ -132,8 +134,8 @@ public class PermutationTest extends PermutationTestCase {
 	public void testComparable() {
 
 		assertTrue(Permutation.identity(6).compareTo(Permutation.identity(5)) > 0);
-		assertTrue(new Permutation().compareTo(Permutation.identity(1)) < 0);
-		assertTrue(new Permutation().compareTo(Permutation.identity(0)) == 0);
+		assertTrue(correspond().compareTo(Permutation.identity(1)) < 0);
+		assertTrue(correspond().compareTo(Permutation.identity(0)) == 0);
 
 		Permutation.Generator pg = Permutation.identity(6).generator();
 		PermutationSequence ps = pg.getOrderedSequence();

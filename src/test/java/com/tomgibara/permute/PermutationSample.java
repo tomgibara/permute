@@ -80,7 +80,7 @@ public class PermutationSample {
 		 * the sequence [0..N-1] is permuted.
 		 */
 
-		Permutation p1 = new Permutation(1,2,3,4,0);
+		Permutation p1 = Permutation.correspond(1,2,3,4,0);
 		String r1 = string("smite").apply(p1).toString();
 		assertEqual(r1, "mites");
 
@@ -167,7 +167,7 @@ public class PermutationSample {
 		 * results in the identity permutation.
 		 */
 
-		Permutation p9 = new Permutation(4, 2, 1, 0, 3);
+		Permutation p9 = Permutation.correspond(4, 2, 1, 0, 3);
 		Permutation p9a = p9.generator().power(-1).permutation();
 		Permutation p9b = p9.generator().power(0).permutation();
 		Permutation p9c = p9.generator().power(1).permutation();
@@ -272,7 +272,7 @@ public class PermutationSample {
 		 * Permutation.
 		 */
 
-		Permutation px1 = new Permutation();
+		Permutation px1 = Permutation.correspond();
 		assertTrue( Permutation.identity(0).equals(px1) );
 
 		/**

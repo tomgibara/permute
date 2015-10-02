@@ -47,6 +47,44 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		return array;
 	}
 
+	private static int[] computeCycles(int[] correspondence, boolean verify) {
+		if (verify) {
+			for (int i = 0; i < correspondence.length; i++) {
+				int c = correspondence[i];
+				if (c < 0 || c >= correspondence.length) throw new IllegalArgumentException("invalid correspondence");
+			}
+		}
+		int[] array = correspondence.clone();
+		int[] cycles = new int[array.length + 1];
+		int index = 0;
+		outer: while (true) {
+			for (int i = 0; i < array.length; i++) {
+				int a = array[i];
+				if (a == -1) {
+					continue;
+				}
+				if (a == i) {
+					array[i] = -1;
+					continue;
+				}
+				for (int j = i;;) {
+					int b = array[j];
+					if (verify && b == -1) throw new IllegalArgumentException("invalid correspondence");
+					array[j] = -1;
+					if (b == i) {
+						cycles[index++] = -1 - b;
+						break;
+					}
+					cycles[index++] = b;
+					j = b;
+				}
+				continue outer;
+			}
+			break;
+		}
+		return cycles.length > index ? Arrays.copyOf(cycles, index) : cycles;
+	}
+
 	public static Permutation identity(int size) {
 		if (size < 0) throw new IllegalArgumentException("negative size");
 		int[] correspondence = new int[size];
@@ -107,6 +145,12 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		return new Permutation(correspondence, cycles);
 	}
 
+	public static Permutation correspond(int... correspondence) {
+		if (correspondence == null) throw new IllegalArgumentException("null correspondence");
+		int[] cycles = computeCycles(correspondence, true);
+		return new Permutation(correspondence.clone(), cycles);
+	}
+
 	// fields
 
 	private final int[] correspondence;
@@ -124,12 +168,6 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 	Permutation(Generator generator) {
 		this.correspondence = generator.correspondence.clone();
-	}
-
-	public Permutation(int... correspondence) {
-		if (correspondence == null) throw new IllegalArgumentException("null correspondence");
-		this.correspondence = correspondence;
-		cycles = computeCycles(true);
 	}
 
 	// accessors
@@ -230,51 +268,9 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 	private int[] getCycles() {
 		if (cycles == null) {
-			cycles = computeCycles(false);
+			cycles = computeCycles(correspondence, false);
 		}
 		return cycles;
-	}
-
-	private int[] computeCycles(boolean verify) {
-		if (verify) {
-			for (int i = 0; i < correspondence.length; i++) {
-				int c = correspondence[i];
-				if (c < 0 || c >= correspondence.length) throw new IllegalArgumentException("invalid correspondence");
-			}
-		}
-		int[] array = correspondence.clone();
-		int[] cycles = new int[array.length + 1];
-		int index = 0;
-		outer: while (true) {
-			for (int i = 0; i < array.length; i++) {
-				int a = array[i];
-				if (a == -1) {
-					continue;
-				}
-				if (a == i) {
-					array[i] = -1;
-					continue;
-				}
-				int[] correspondence = new int[array.length];
-				for (int k = 0; k < array.length; k++) {
-					correspondence[k] = k;
-				}
-				for (int j = i;;) {
-					int b = array[j];
-					if (verify && b == -1) throw new IllegalArgumentException("invalid correspondence");
-					array[j] = -1;
-					if (b == i) {
-						cycles[index++] = -1 - b;
-						break;
-					}
-					cycles[index++] = b;
-					j = b;
-				}
-				continue outer;
-			}
-			break;
-		}
-		return cycles.length > index ? Arrays.copyOf(cycles, index) : cycles;
 	}
 
 	// innner classes
@@ -290,7 +286,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		}
 
 		private Object readResolve() throws ObjectStreamException {
-			return new Permutation(correspondence);
+			return Permutation.correspond(correspondence);
 		}
 
 	}
@@ -432,7 +428,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 						if (a < 0) {
 							a = -1 - a;
 							array[a] = correspondence[a];
-							set.add(new Permutation(array));
+							set.add(new Permutation(array, null));
 							array = null;
 						} else {
 							array[a] = correspondence[a];

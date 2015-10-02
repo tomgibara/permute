@@ -16,6 +16,8 @@
  */
 package com.tomgibara.permute;
 
+import static com.tomgibara.permute.Permutation.correspond;
+
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -76,12 +78,12 @@ public class PermutationInfoTest extends PermutationTestCase {
 	}
 
 	public void testCyclic() {
-		assertEquals(1, new Permutation(1,2,3,4,0).getInfo().getNumberOfCycles());
-		assertEquals(0, new Permutation(0,1,2,3,4).getInfo().getNumberOfCycles());
-		assertEquals(1, new Permutation(1,0,2,3,4).getInfo().getNumberOfCycles());
-		assertEquals(2, new Permutation(1,0,2,4,3).getInfo().getNumberOfCycles());
-		assertEquals(0, new Permutation(0).getInfo().getNumberOfCycles());
-		assertEquals(0, new Permutation().getInfo().getNumberOfCycles());
+		assertEquals(1, correspond(1,2,3,4,0).getInfo().getNumberOfCycles());
+		assertEquals(0, correspond(0,1,2,3,4).getInfo().getNumberOfCycles());
+		assertEquals(1, correspond(1,0,2,3,4).getInfo().getNumberOfCycles());
+		assertEquals(2, correspond(1,0,2,4,3).getInfo().getNumberOfCycles());
+		assertEquals(0, correspond(0).getInfo().getNumberOfCycles());
+		assertEquals(0, correspond().getInfo().getNumberOfCycles());
 	}
 
 	public void testDisjointCycles() {
@@ -90,16 +92,16 @@ public class PermutationInfoTest extends PermutationTestCase {
 			assertTrue(p.getInfo().getDisjointCycles().isEmpty());
 		}
 		{
-			Permutation p = new Permutation(1,2,3,4,0);
+			Permutation p = correspond(1,2,3,4,0);
 			assertEquals(set(p), p.getInfo().getDisjointCycles());
 		}
 		{
-			Permutation p = new Permutation(1,0,2,4,3);
-			assertEquals(set(new Permutation(1,0,2,3,4), new Permutation(0,1,2,4,3)), p.getInfo().getDisjointCycles());
+			Permutation p = correspond(1,0,2,4,3);
+			assertEquals(set(correspond(1,0,2,3,4), correspond(0,1,2,4,3)), p.getInfo().getDisjointCycles());
 		}
 		{
-			Permutation p = new Permutation(1,2,0,4,3);
-			assertEquals(set(new Permutation(1,2,0,3,4), new Permutation(0,1,2,4,3)), p.getInfo().getDisjointCycles());
+			Permutation p = correspond(1,2,0,4,3);
+			assertEquals(set(correspond(1,2,0,3,4), correspond(0,1,2,4,3)), p.getInfo().getDisjointCycles());
 		}
 
 		Random random = new Random(0);
