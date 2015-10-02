@@ -544,7 +544,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			return this;
 		}
 
-		public Generator identity() {
+		public Generator setIdentity() {
 			computeIdentity(correspondence);
 			desync();
 			return this;
@@ -566,7 +566,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		}
 
 		public Generator power(int power) {
-			if (power == 0) return identity();
+			if (power == 0) return setIdentity();
 
 			if (power < 0) {
 				invert();
@@ -576,7 +576,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			if (power > 1) {
 				//TODO could be made more efficient
 				Permutation p = permutation();
-				identity();
+				setIdentity();
 				while (power > 0) {
 					if ((power & 1) == 1) this.apply(p);
 					p = p.generator().apply(p).permutation();

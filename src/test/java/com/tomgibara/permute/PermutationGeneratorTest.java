@@ -53,7 +53,7 @@ public class PermutationGeneratorTest extends PermutationTestCase {
 	}
 
 	public void testIdentity() {
-		assertTrue(Permutation.reverse(10).generator().identity().permutation().getInfo().isIdentity());
+		assertTrue(Permutation.reverse(10).generator().setIdentity().permutation().getInfo().isIdentity());
 	}
 
 	public void testRotate() {
