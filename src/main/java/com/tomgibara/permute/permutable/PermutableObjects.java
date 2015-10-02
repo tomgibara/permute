@@ -36,6 +36,11 @@ public class PermutableObjects implements Permutable<Object[]> {
 	}
 
 	@Override
+	public int size() {
+		return values.length;
+	}
+
+	@Override
 	public PermutableObjects apply(Permutation permutation) {
 		PermutableUtil.check(permutation, values.length);
 		permutation.permute((i,j) -> {

@@ -6,6 +6,8 @@ import static com.tomgibara.permute.Permutation.rotate;
 import static com.tomgibara.permute.Permutation.transpose;
 import static com.tomgibara.permute.Permute.bitStore;
 
+import java.util.List;
+
 import com.tomgibara.bits.BitStore;
 
 public class PermutableTest extends PermutationTestCase {
@@ -14,6 +16,11 @@ public class PermutableTest extends PermutationTestCase {
 		return new DumbPermutableBitStore(store);
 	}
 	
+	public void testEquivalence() {
+		List<Integer> a = permutable(list(0,1,2,3,4,5)).apply(Permutation.rotate(6, 1)).permuted();
+		List<Integer> b = permutable(list(0,1,2,3,4,5)).rotate(1).permuted();
+		assertEquals(a, b);
+	}
 	public void testBitStore() {
 		testBitStore(newBitStore("100"), reverse(3));
 		testBitStore(newBitStore("100"), transpose(3, 1, 2));
@@ -44,5 +51,9 @@ public class PermutableTest extends PermutationTestCase {
 			return store;
 		}
 		
+		@Override
+		public int size() {
+			return store.size();
+		}
 	}
 }

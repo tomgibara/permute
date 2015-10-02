@@ -20,23 +20,26 @@ import com.tomgibara.permute.permutable.PermutableTransposable;
 
 public class Permute {
 
-	public static     Permutable <byte[]>        bytes(byte... values)            { return new PermutableBytes(values);       }
-	public static     Permutable <short[]>       shorts(short... values)          { return new PermutableShorts(values);      }
-	public static     Permutable <int[]>         ints(int... values)              { return new PermutableInts(values);        }
-	public static     Permutable <long[]>        longs(long... values)            { return new PermutableLongs(values);       }
+	public static     Permutable <byte[]>        bytes(byte... values)       { return new PermutableBytes(values);    }
+	public static     Permutable <short[]>       shorts(short... values)     { return new PermutableShorts(values);   }
+	public static     Permutable <int[]>         ints(int... values)         { return new PermutableInts(values);     }
+	public static     Permutable <long[]>        longs(long... values)       { return new PermutableLongs(values);    }
 
-	public static     Permutable <boolean[]>     booleans(boolean... values)      { return new PermutableBooleans(values);    }
-	public static     Permutable <char[]>        chars(char... values)            { return new PermutableChars(values);       }
-	public static     Permutable <float[]>       floats(float... values)          { return new PermutableFloats(values);      }
-	public static     Permutable <double[]>      doubles(double... values)        { return new PermutableDoubles(values);     }
+	public static     Permutable <boolean[]>     booleans(boolean... values) { return new PermutableBooleans(values); }
+	public static     Permutable <char[]>        chars(char... values)       { return new PermutableChars(values);    }
+	public static     Permutable <float[]>       floats(float... values)     { return new PermutableFloats(values);   }
+	public static     Permutable <double[]>      doubles(double... values)   { return new PermutableDoubles(values);  }
 
-	public static     Permutable <Object[]>      objects(Object... values)        { return new PermutableObjects(values);     }
-	public static <E> Permutable <List<E>>       list(List<E>  values)            { return new PermutableList<>(values);      }
+	public static     Permutable <Object[]>      objects(Object... values)   { return new PermutableObjects(values);  }
+	public static <E> Permutable <List<E>>       list(List<E>  values)       { return new PermutableList<>(values);   }
 
-	public static     Permutable <StringBuilder> string(String value)             { return new PermutableString(value);       }
-	public static     Permutable <StringBuilder> string(StringBuilder value)      { return new PermutableString(value);       }
-	public static     Permutable <BitStore>      bitStore(BitStore value)         { return new PermutableBitStore(value);     }
-	public static     Permutable <Transposable>  transposable(Transposable value) { return new PermutableTransposable(value); }
+	public static     Permutable <StringBuilder> string(String value)        { return new PermutableString(value);    }
+	public static     Permutable <StringBuilder> string(StringBuilder value) { return new PermutableString(value);    }
+	public static     Permutable <BitStore>      bitStore(BitStore value)    { return new PermutableBitStore(value);  }
+
+	public static Permutable<Transposable> transposable(int size, Transposable value) {
+		return new PermutableTransposable(size, value);
+	}
 
 	private Permute() { }
 

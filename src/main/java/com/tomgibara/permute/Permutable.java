@@ -19,6 +19,29 @@ package com.tomgibara.permute;
 public interface Permutable<T> {
 
 	Permutable<T> apply(Permutation permutation);
-	
+
 	T permuted();
+
+	int size();
+
+	default Permutable<T> transpose(int i, int j) {
+		return apply(Permutation.transpose(size(), i, j));
+	}
+
+	default Permutable<T> rotate(int distance) {
+		return apply(Permutation.rotate(size(), distance));
+	}
+
+	default Permutable<T> reverse() {
+		return apply(Permutation.reverse(size()));
+	}
+	
+	default Permutable<T> correspond(int... correspondence) {
+		return apply(Permutation.correspond(correspondence));
+	}
+	
+	default Permutable<T> reorder(int... ordering) {
+		return apply(Permutation.reorder(ordering));
+	}
+
 }

@@ -6,11 +6,19 @@ import com.tomgibara.permute.Permutation;
 
 public class PermutableTransposable implements Permutable<Transposable> {
 
+	private final int size;
 	private final Transposable transposable;
 	
-	public PermutableTransposable(Transposable transposable) {
+	public PermutableTransposable(int size, Transposable transposable) {
+		if (size < 0) throw new IllegalArgumentException("negative size");
 		if (transposable == null) throw new IllegalArgumentException("null transposable");
+		this.size = size;
 		this.transposable = transposable;
+	}
+	
+	@Override
+	public int size() {
+		return size;
 	}
 	
 	@Override

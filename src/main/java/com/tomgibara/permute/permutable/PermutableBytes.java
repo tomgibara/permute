@@ -36,6 +36,11 @@ public class PermutableBytes implements Permutable<byte[]> {
 	}
 
 	@Override
+	public int size() {
+		return values.length;
+	}
+
+	@Override
 	public PermutableBytes apply(Permutation permutation) {
 		PermutableUtil.check(permutation, values.length);
 		permutation.permute((i,j) -> {

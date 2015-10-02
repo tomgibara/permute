@@ -521,10 +521,6 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 		// accessors
 
-		public int getSize() {
-			return correspondence.length;
-		}
-
 		public PermutationSequence getOrderedSequence() {
 			return orderedSequence == null ? orderedSequence = new OrderedSequence() : orderedSequence;
 		}
@@ -553,55 +549,8 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			return this;
 		}
 
-		public Generator transpose(int i, int j) {
-			if (i < 0) throw new IllegalArgumentException("negative i");
-			if (j < 0) throw new IllegalArgumentException("negative j");
-			if (i > correspondence.length) throw new IllegalArgumentException("i greater than or equal to size");
-			if (j > correspondence.length) throw new IllegalArgumentException("j greater than or equal to size");
-
-			if (i != j) {
-				int t = correspondence[i];
-				correspondence[i] = correspondence[j];
-				correspondence[j] = t;
-				desync();
-			}
-			return this;
-		}
-
-		public Generator rotate(int distance) {
-			int size = correspondence.length;
-			if (size == 0) return this;
-			distance = distance % size;
-			if (distance == 0) return this;
-			if (distance < 0) distance += size;
-
-			for (int start = 0, count = 0; count != size; start++) {
-				int prev = correspondence[start];
-				int i = start;
-				do {
-					i += distance;
-					if (i >= size) i -= size;
-					int next = correspondence[i];
-					correspondence[i] = prev;
-					prev = next;
-					count ++;
-				} while(i != start);
-			}
-			desync();
-			return this;
-		}
-
 		public Generator invert() {
 			System.arraycopy(computeInverse(correspondence), 0, correspondence, 0, correspondence.length);
-			desync();
-			return this;
-		}
-
-		public Generator reverse() {
-			int h = correspondence.length / 2;
-			for (int i = 0, j = correspondence.length - 1; i < h; i++, j--) {
-				swap(i, j);
-			}
 			desync();
 			return this;
 		}
@@ -611,14 +560,6 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			for (int i = correspondence.length - 1; i > 0 ; i--) {
 				swap(i, random.nextInt(i + 1));
 			}
-			desync();
-			return this;
-		}
-
-		public Generator apply(Permutation permutation) {
-			if (permutation == null) throw new IllegalArgumentException("null permutation");
-			if (permutation.getSize() != correspondence.length) throw new IllegalArgumentException("size mismatched");
-			permutation.permute((i,j) -> swap(i, j));
 			desync();
 			return this;
 		}
@@ -703,7 +644,70 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		// permutable interface
 
 		@Override
+		public Generator apply(Permutation permutation) {
+			if (permutation == null) throw new IllegalArgumentException("null permutation");
+			if (permutation.getSize() != correspondence.length) throw new IllegalArgumentException("size mismatched");
+			permutation.permute((i,j) -> swap(i, j));
+			desync();
+			return this;
+		}
+
+		@Override
 		public Generator permuted() {
+			return this;
+		}
+
+		public int size() {
+			return correspondence.length;
+		}
+
+		@Override
+		public Generator reverse() {
+			int h = correspondence.length / 2;
+			for (int i = 0, j = correspondence.length - 1; i < h; i++, j--) {
+				swap(i, j);
+			}
+			desync();
+			return this;
+		}
+
+		@Override
+		public Generator transpose(int i, int j) {
+			if (i < 0) throw new IllegalArgumentException("negative i");
+			if (j < 0) throw new IllegalArgumentException("negative j");
+			if (i > correspondence.length) throw new IllegalArgumentException("i greater than or equal to size");
+			if (j > correspondence.length) throw new IllegalArgumentException("j greater than or equal to size");
+
+			if (i != j) {
+				int t = correspondence[i];
+				correspondence[i] = correspondence[j];
+				correspondence[j] = t;
+				desync();
+			}
+			return this;
+		}
+
+		@Override
+		public Generator rotate(int distance) {
+			int size = correspondence.length;
+			if (size == 0) return this;
+			distance = distance % size;
+			if (distance == 0) return this;
+			if (distance < 0) distance += size;
+
+			for (int start = 0, count = 0; count != size; start++) {
+				int prev = correspondence[start];
+				int i = start;
+				do {
+					i += distance;
+					if (i >= size) i -= size;
+					int next = correspondence[i];
+					correspondence[i] = prev;
+					prev = next;
+					count ++;
+				} while(i != start);
+			}
+			desync();
 			return this;
 		}
 

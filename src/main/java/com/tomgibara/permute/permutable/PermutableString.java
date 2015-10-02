@@ -38,6 +38,11 @@ public class PermutableString implements Permutable<StringBuilder> {
 		return sb;
 	}
 
+	@Override
+	public int size() {
+		return sb.length();
+	}
+
 	public StringBuilder getStringBuilder() {
 		return sb;
 	}
