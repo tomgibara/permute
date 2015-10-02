@@ -46,6 +46,13 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		}
 	}
 
+	private static int[] computeIdentity(int[] correspondence) {
+		for (int i = 0; i < correspondence.length; i++) {
+			correspondence[i] = i;
+		}
+		return correspondence;
+	}
+
 	private static int[] computeInverse(int[] correspondence) {
 		int[] array = new int[correspondence.length];
 		for (int i = 0; i < array.length; i++) {
@@ -89,9 +96,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	public static Permutation identity(int size) {
 		if (size < 0) throw new IllegalArgumentException("negative size");
 		int[] correspondence = new int[size];
-		for (int i = 0; i < size; i++) {
-			correspondence[i] = i;
-		}
+		computeIdentity(correspondence);
 		return new Permutation(correspondence, NO_CYCLES);
 	}
 
@@ -434,9 +439,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 					for (int i = 0; i < cycles.length; i++) {
 						if (array == null) {
 							array = new int[correspondence.length];
-							for (int j = 0; j < array.length; j++) {
-								array[j] = j;
-							}
+							computeIdentity(array);
 						}
 						int a = cycles[i];
 						if (a < 0) {
@@ -542,9 +545,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		}
 
 		public Generator identity() {
-			for (int i = 0; i < correspondence.length; i++) {
-				correspondence[i] = i;
-			}
+			computeIdentity(correspondence);
 			desync();
 			return this;
 		}
