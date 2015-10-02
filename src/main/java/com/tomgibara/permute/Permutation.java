@@ -507,18 +507,8 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 	public static class Sorting {
 
-		public static <E> Permutation list(List<E> list, Comparator<? super E> c) {
-			if (list == null) throw new IllegalArgumentException("null list");
-			return c == null ?
-				sort(list.size(), (i,j) -> ((Comparable) list.get(i)).compareTo(list.get(j))) :
-				sort(list.size(), (i,j) -> c.compare(list.get(i), list.get(j)));
-		}
-		
-		public static <E> Permutation objects(E[] elements, Comparator<? super E> c) {
-			if (elements == null) throw new IllegalArgumentException("null elements");
-			return c == null ?
-					sort(elements.length, (i,j) -> ((Comparable) elements[i]).compareTo(elements[j])) :
-					sort(elements.length, (i,j) -> c.compare(elements[i], elements[j]));
+		private static void checkValuesNotNull(Object values) {
+			if (values == null) throw new IllegalArgumentException("null values");
 		}
 		
 		private static Permutation sort(int size, Comparator<Integer> c) {
@@ -527,6 +517,71 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			Store<Integer> store = Store.newStore(correspondence);
 			store.asList().sort(c);
 			return new Permutation(correspondence, null);
+		}
+		
+		public static <E> Permutation list(List<E> values, Comparator<? super E> c) {
+			checkValuesNotNull(values);
+			return c == null ?
+				sort(values.size(), (i,j) -> ((Comparable) values.get(i)).compareTo(values.get(j))) :
+				sort(values.size(), (i,j) -> c.compare(values.get(i), values.get(j)));
+		}
+		
+		public static <E> Permutation objects(E[] values, Comparator<? super E> c) {
+			checkValuesNotNull(values);
+			return c == null ?
+					sort(values.length, (i,j) -> ((Comparable) values[i]).compareTo(values[j])) :
+					sort(values.length, (i,j) -> c.compare(values[i], values[j]));
+		}
+		
+		public static Permutation bytes(byte... values) {
+			checkValuesNotNull(values);
+			return sort(values.length, (i,j) -> Byte.compare(values[i],values[j]));
+		}
+		
+		public static Permutation shorts(short... values) {
+			checkValuesNotNull(values);
+			return sort(values.length, (i,j) -> Short.compare(values[i],values[j]));
+		}
+		
+		public static Permutation ints(int... values) {
+			checkValuesNotNull(values);
+			return sort(values.length, (i,j) -> Integer.compare(values[i],values[j]));
+		}
+		
+		public static Permutation unsignedInts(int... values) {
+			checkValuesNotNull(values);
+			return sort(values.length, (i,j) -> Integer.compareUnsigned(values[i],values[j]));
+		}
+		
+		public static Permutation longs(long... values) {
+			checkValuesNotNull(values);
+			return sort(values.length, (i,j) -> Long.compare(values[i],values[j]));
+		}
+		
+		public static Permutation unsignedLongs(long... values) {
+			checkValuesNotNull(values);
+			return sort(values.length, (i,j) -> Long.compareUnsigned(values[i],values[j]));
+		}
+		
+		public static Permutation booleans(boolean... values) {
+			//TODO could optimize this, but is it worth it?
+			checkValuesNotNull(values);
+			return sort(values.length, (i,j) -> Boolean.compare(values[i],values[j]));
+		}
+		
+		public static Permutation chars(char... values) {
+			checkValuesNotNull(values);
+			return sort(values.length, (i,j) -> Character.compare(values[i],values[j]));
+		}
+		
+		public static Permutation floats(float... values) {
+			checkValuesNotNull(values);
+			return sort(values.length, (i,j) -> Float.compare(values[i],values[j]));
+		}
+		
+		public static Permutation doubles(double... values) {
+			checkValuesNotNull(values);
+			return sort(values.length, (i,j) -> Double.compare(values[i],values[j]));
 		}
 		
 	}

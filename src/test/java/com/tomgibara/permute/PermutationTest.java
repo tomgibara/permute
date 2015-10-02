@@ -169,6 +169,10 @@ public class PermutationTest extends PermutationTestCase {
 
 	private void testSortConstructor(List<Integer> list, Comparator<Integer> c) {
 		Integer[] array = (Integer[]) list.toArray(new Integer[list.size()]);
+		int[] ints = new int[array.length];
+		for (int i = 0; i < ints.length; i++) {
+			ints[i] = array[i];
+		}
 		list = copy(list);
 		List<Integer> copy = copy(list);
 		Permutation p = Permutation.Sorting.list(list, c);
@@ -177,6 +181,10 @@ public class PermutationTest extends PermutationTestCase {
 		assertEquals(copy, permutable(list).apply(p).permuted());
 		Permutation q = Permutation.Sorting.objects(array, c);
 		assertEquals(p, q);
+		if (c == null) {
+			Permutation r = Permutation.Sorting.ints(ints);
+			assertEquals(p, r);
+		}
 	}
 
 	public void testComparable() {
