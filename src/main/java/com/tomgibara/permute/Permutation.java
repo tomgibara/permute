@@ -109,6 +109,14 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		return cycles.length > index ? Arrays.copyOf(cycles, index) : cycles;
 	}
 
+	private static void computeShuffle(int[] array, Random random) {
+		for (int i = array.length - 1; i > 0 ; i--) {
+			int j = random.nextInt(i + 1);
+			int t = array[i];
+			array[i] = array[j];
+			array[j] = t;
+		}
+	}
 	private static void checkSize(int size) {
 		if (size < 0) throw new IllegalArgumentException("negative size");
 	}
@@ -211,6 +219,16 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			cycles[length - 1] = -1 - target;
 			return new Permutation(correspondence, cycles);
 		}
+	}
+
+	public static Permutation shuffle(int size, Random random) {
+		checkSize(size);
+		if (random == null) throw new IllegalArgumentException("null random");
+		int[] correspondence = new int[size];
+		computeIdentity(correspondence);
+		computeShuffle(correspondence, random);
+		Arrays.toString(correspondence);
+		return new Permutation(correspondence, null);
 	}
 
 	public static Permutation correspond(int... correspondence) {
@@ -699,15 +717,6 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			return this;
 		}
 
-		public Generator shuffle(Random random) {
-			if (random == null) throw new IllegalArgumentException("null random");
-			for (int i = correspondence.length - 1; i > 0 ; i--) {
-				swap(i, random.nextInt(i + 1));
-			}
-			desync();
-			return this;
-		}
-
 		public Generator power(int power) {
 			if (power == 0) return setIdentity();
 
@@ -845,6 +854,14 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 				correspondence[target] = t;
 				return this;
 			}
+		}
+
+		@Override
+		public Generator shuffle(Random random) {
+			if (random == null) throw new IllegalArgumentException("null random");
+			computeShuffle(correspondence, random);
+			desync();
+			return this;
 		}
 
 		// object methods

@@ -33,6 +33,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
+import com.tomgibara.bits.BitStore;
+import com.tomgibara.bits.Bits;
+
 public class PermutationTest extends PermutationTestCase {
 
 	public void testSwapGeneration() {
@@ -214,6 +217,26 @@ public class PermutationTest extends PermutationTestCase {
 
 			assertEquals(p, q);
 		}
+	}
+
+	public void testShuffleConstructor() {
+		Random r = new Random(0L);
+		int reps = 10000;
+		int size = 20;
+		int[] counts = new int[size];
+		for (int i = 0; i < reps; i++) {
+			BitStore store = Bits.newBitStore(size);
+			store.rangeTo(size/2).clearWithOnes();
+			Permutation.shuffle(size, r).permute(store.permute());
+			store.ones().asSet().forEach(n -> counts[n]++);
+		}
+		int exp = reps / 2;
+		int err = exp / 40;
+		for (int count : counts) {
+			assertTrue(count + " vs " + exp, count <= exp + err);
+			assertTrue(count + " vs " + exp, count >= exp - err);
+		}
+		System.out.println(Arrays.toString(counts));
 	}
 	
 	public void testComparable() {

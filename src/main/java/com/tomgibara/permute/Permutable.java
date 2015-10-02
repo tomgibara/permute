@@ -16,6 +16,8 @@
  */
 package com.tomgibara.permute;
 
+import java.util.Random;
+
 public interface Permutable<T> {
 
 	Permutable<T> apply(Permutation permutation);
@@ -38,6 +40,10 @@ public interface Permutable<T> {
 	
 	default Permutable<T> cycle(int... cycle) {
 		return apply(Permutation.cycle(size(), cycle));
+	}
+	
+	default Permutable<T> shuffle(Random random) {
+		return apply(Permutation.shuffle(size(), random));
 	}
 	
 	default Permutable<T> correspond(int... correspondence) {
