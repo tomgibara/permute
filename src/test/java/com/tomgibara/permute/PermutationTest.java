@@ -236,7 +236,6 @@ public class PermutationTest extends PermutationTestCase {
 			assertTrue(count + " vs " + exp, count <= exp + err);
 			assertTrue(count + " vs " + exp, count >= exp - err);
 		}
-		System.out.println(Arrays.toString(counts));
 	}
 	
 	public void testComparable() {
