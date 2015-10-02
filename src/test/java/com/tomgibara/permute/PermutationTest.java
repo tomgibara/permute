@@ -16,8 +16,9 @@
  */
 package com.tomgibara.permute;
 
-import static com.tomgibara.permute.Permutation.identity;
 import static com.tomgibara.permute.Permutation.correspond;
+import static com.tomgibara.permute.Permutation.identity;
+import static com.tomgibara.permute.Permutation.reorder;
 import static com.tomgibara.permute.Permutation.reverse;
 import static com.tomgibara.permute.Permutation.rotate;
 import static com.tomgibara.permute.Permute.string;
@@ -94,6 +95,29 @@ public class PermutationTest extends PermutationTestCase {
 		}
 	}
 
+	public void testBadConstructor() {
+		verifyBadConstructor(0,1,2,3,3);
+		verifyBadConstructor(1);
+		verifyBadConstructor(-1, 0, -1);
+		verifyBadConstructor(1, -1, 0);
+		verifyBadConstructor(null);
+	}
+
+	private void verifyBadConstructor(int... array) {
+		try {
+			correspond(array);
+			fail("allowed invalid correspondence array " + Arrays.toString(array));
+		} catch (IllegalArgumentException e) {
+			/* expected */
+		}
+		try {
+			reorder(array);
+			fail("allowed invalid ordering array " + Arrays.toString(array));
+		} catch (IllegalArgumentException e) {
+			/* expected */
+		}
+	}
+	
 	public void testTransposeConstructor() {
 		Random r = new Random(0L);
 		for (int n = 0; n < 10000; n++) {
@@ -109,12 +133,6 @@ public class PermutationTest extends PermutationTestCase {
 	}
 
 	public void testCorrespondConstructor() {
-		verifyBadCorrespond(0,1,2,3,3);
-		verifyBadCorrespond(1);
-		verifyBadCorrespond(-1, 0, -1);
-		verifyBadCorrespond(1, -1, 0);
-		verifyBadCorrespond(null);
-
 		permutable(list()).apply(correspond());
 
 		assertEquals(list(2,3,1), permutable(list(1,2,3)).apply(correspond(1,2,0)).permuted());
@@ -122,12 +140,12 @@ public class PermutationTest extends PermutationTestCase {
 
 	}
 
-	private void verifyBadCorrespond(int... correspondence) {
-		try {
-			correspond(correspondence);
-			fail("allowed invalid construction array " + Arrays.toString(correspondence));
-		} catch (IllegalArgumentException e) {
-			/* expected */
+	public void testReorderConstructor() {
+		assertEquals(list(2,0,1,3), permutable(list(0,1,2,3)).apply(Permutation.reorder(1,2,0,3)).permuted());
+		Random r = new Random(0L);
+		for (int i = 0; i < 1000; i++) {
+			Permutation p = Permutation.identity(r.nextInt(100)).generator().shuffle(r).permutation();
+			assertEquals(p.inverse(), Permutation.reorder(p.getCorrespondence()));
 		}
 	}
 

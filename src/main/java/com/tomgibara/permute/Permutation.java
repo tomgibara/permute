@@ -38,8 +38,15 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	static final long serialVersionUID = -9053863703146584610L;
 
 	private static final int[] NO_CYCLES = {};
-	
-	private static int[] inverted(int[] correspondence) {
+
+	private static void verifyRange(int[] correspondence) {
+		for (int i = 0; i < correspondence.length; i++) {
+			int c = correspondence[i];
+			if (c < 0 || c >= correspondence.length) throw new IllegalArgumentException("invalid correspondence");
+		}
+	}
+
+	private static int[] computeInverse(int[] correspondence) {
 		int[] array = new int[correspondence.length];
 		for (int i = 0; i < array.length; i++) {
 			array[correspondence[i]] = i;
@@ -47,13 +54,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		return array;
 	}
 
-	private static int[] computeCycles(int[] correspondence, boolean verify) {
-		if (verify) {
-			for (int i = 0; i < correspondence.length; i++) {
-				int c = correspondence[i];
-				if (c < 0 || c >= correspondence.length) throw new IllegalArgumentException("invalid correspondence");
-			}
-		}
+	private static int[] computeCycles(int[] correspondence) {
 		int[] array = correspondence.clone();
 		int[] cycles = new int[array.length + 1];
 		int index = 0;
@@ -69,7 +70,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 				}
 				for (int j = i;;) {
 					int b = array[j];
-					if (verify && b == -1) throw new IllegalArgumentException("invalid correspondence");
+					if (b == -1) throw new IllegalArgumentException("invalid correspondence");
 					array[j] = -1;
 					if (b == i) {
 						cycles[index++] = -1 - b;
@@ -147,8 +148,21 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 	public static Permutation correspond(int... correspondence) {
 		if (correspondence == null) throw new IllegalArgumentException("null correspondence");
-		int[] cycles = computeCycles(correspondence, true);
+		verifyRange(correspondence);
+		int[] cycles = computeCycles(correspondence);
 		return new Permutation(correspondence.clone(), cycles);
+	}
+
+	public static Permutation reorder(int... ordering) {
+		if (ordering == null) throw new IllegalArgumentException("null ordering");
+		int[] correspondence;
+		try {
+			correspondence = computeInverse(ordering);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new IllegalArgumentException("invalid ordering");
+		}
+		int[] cycles = computeCycles(correspondence);
+		return new Permutation(correspondence, cycles);
 	}
 
 	// fields
@@ -188,7 +202,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 	public Permutation inverse() {
 		//TODO should derive cycles
-		return new Permutation(inverted(correspondence), null);
+		return new Permutation(computeInverse(correspondence), null);
 	}
 
 	public Generator generator() {
@@ -268,7 +282,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 	private int[] getCycles() {
 		if (cycles == null) {
-			cycles = computeCycles(correspondence, false);
+			cycles = computeCycles(correspondence);
 		}
 		return cycles;
 	}
@@ -578,7 +592,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		}
 
 		public Generator invert() {
-			System.arraycopy(inverted(correspondence), 0, correspondence, 0, correspondence.length);
+			System.arraycopy(computeInverse(correspondence), 0, correspondence, 0, correspondence.length);
 			desync();
 			return this;
 		}
