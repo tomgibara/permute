@@ -147,6 +147,7 @@ public class PermutationTest extends PermutationTestCase {
 
 	public void testReorderConstructor() {
 		assertEquals(list(2,0,1,3), permutable(list(0,1,2,3)).apply(Permutation.reorder(1,2,0,3)).permuted());
+		assertEquals(list(0,1,2,3), permutable(list(1,2,3,0)).apply(Permutation.reorder(1,2,3,0)).permuted());
 		Random r = new Random(0L);
 		for (int i = 0; i < 1000; i++) {
 			Permutation p = Permutation.identity(r.nextInt(100)).generator().shuffle(r).permutation();
