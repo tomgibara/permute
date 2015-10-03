@@ -39,15 +39,15 @@ import com.tomgibara.fundament.Transposable;
  * <p>
  * A permutation rearranges the elements of another object into a predefined
  * order. This is performed using transpositions which swap indexed values.
- * 
+ *
  * <p>
  * All permutations have a fixed size that determines the number of indices over
  * which they operate.
- * 
+ *
  * <p>
  * Permutations are immutable, final, Serializable and validate their input when
  * deserialized. So they can be reliably used in security sensitive contexts.
- * 
+ *
  * @author Tom Gibara
  *
  * @see #info()
@@ -67,7 +67,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			if (c < 0 || c >= correspondence.length) throw new IllegalArgumentException("invalid correspondence");
 		}
 	}
-	
+
 	private static void verifyUnique(int size, int[] indices) {
 		SortedSet<Integer> check = Bits.newBitStore(size).ones().asSet();
 		for (int i : indices) {
@@ -95,7 +95,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		}
 		return array;
 	}
-	
+
 	private static int[] computeCycles(int[] correspondence) {
 		int[] array = correspondence.clone();
 		int[] cycles = new int[array.length + 1];
@@ -143,7 +143,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	/**
 	 * Creates an identity permutation of a given size. The identity permutation
 	 * does perform any reordering of indexed values.
-	 * 
+	 *
 	 * @param size
 	 *            the size of the permutation
 	 * @return an identity permutation
@@ -158,7 +158,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	/**
 	 * Creates a permutation that reverses the order of indexed values. Applying
 	 * the permutation twice will leave all values at their original positions.
-	 * 
+	 *
 	 * @param size
 	 *            the size of the permutation
 	 * @return a reverse permutation
@@ -183,7 +183,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	 * fixed amount (the distance) which is added to the value's original index.
 	 * The specified distance may be negative and may exceed the size, though
 	 * only <i>size</i> distinct rotations are possible.
-	 * 
+	 *
 	 * @param size
 	 *            the size of the permutation
 	 * @param distance
@@ -214,7 +214,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 	/**
 	 * Creates a permutation that swaps two values.
-	 * 
+	 *
 	 * @param size
 	 *            the size of the permutation
 	 * @param i
@@ -243,14 +243,14 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	 * <code>cycle[i]</code> moving to index <code>cycle[i+1]</code> with the
 	 * final value at <code>cycle[length-1]</code> moving to index
 	 * <code>cycle[0]</code>.
-	 * 
+	 *
 	 * <p>
 	 * It is permitted for the supplied cycle array may be empty, or of length
 	 * 1, in which case the generated permutation will be the identity
 	 * permutation of the given size. The indices in the cycle array must be
 	 * valid (ie. lie in the range [0..size) ). The cycle array must form a
 	 * valid cycle and thus may not contain duplicates.
-	 * 
+	 *
 	 * @param size
 	 *            the size of the permutation
 	 * @param cycle
@@ -305,7 +305,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	 * Creates a permutation that randomly shuffles values to new indices. The
 	 * generated permutation is wholly determined by the state of the random
 	 * generator supplied to the method.
-	 * 
+	 *
 	 * @param size
 	 *            the size of the permutation
 	 * @param random
@@ -329,7 +329,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	 * each integer from zero to <code>length-1</code> exactly once. The
 	 * resulting permutation will be such that the value at index <code>i</code>
 	 * will have originated from index <code>correspondence[i]</code>
-	 * 
+	 *
 	 * @param correspondence
 	 *            the correspondence array
 	 * @return a permutation with the specified correspondence.
@@ -351,13 +351,13 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	 * resulting permutation will be such that the value at index
 	 * <code>correspondence[i]</code> will have originated from index
 	 * <code>i</code>.
-	 * 
+	 *
 	 * <p>
 	 * This method of constructing permutations is the inverse of the
 	 * {@link #correspond(int...)} method in the sense that the permutations
 	 * created by <code>Permutation.correspond(array)</code> and
 	 * <code>Permutation.reorder(array)</code> are inverse.
-	 * 
+	 *
 	 * @param ordering
 	 *            a reordering of indices
 	 * @return a permutation that will reorder the supplied array
@@ -399,7 +399,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	/**
 	 * The size of the permutation. This is the number of indices over which the
 	 * permutation can operate.
-	 * 
+	 *
 	 * @return the size of the permutation.
 	 */
 	public int size() {
@@ -412,7 +412,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	 * such that the value at index <code>correspondence[i]</code> will be moved
 	 * to <code>i</code>. The length of the array will always match the size of
 	 * the permutation.
-	 * 
+	 *
 	 * @return the correspondence for the permutation
 	 * @see #correspond(int...)
 	 * @see #size()
@@ -423,7 +423,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 	/**
 	 * Information about the permutation beyond its size and correspondence.
-	 * 
+	 *
 	 * @return information about the permutation
 	 */
 	public Info info() {
@@ -436,11 +436,11 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	 * <p>
 	 * A convenient method for generating a permutation that is the inverse of
 	 * this permutation.
-	 * 
+	 *
 	 * <p>
 	 * This is logically equivalent to calling
 	 * <code>p.generator().invert().permutation()</code>.
-	 * 
+	 *
 	 * @return the inverse permutation.
 	 */
 	public Permutation inverse() {
@@ -450,7 +450,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 	/**
 	 * Creates a new permutation generator initialized with this permutation.
-	 * 
+	 *
 	 * @return a new permutation generator
 	 */
 	public Generator generator() {
@@ -462,7 +462,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	 * to objects by repeatedly swapping elements until the value order has been
 	 * changed to match the permutation. The <code>Transposable</code> interface
 	 * provides the means by which these swaps are executed on the object.
-	 * 
+	 *
 	 * @param transposable
 	 *            an object whose values may be transposed
 	 */
@@ -570,7 +570,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 	/**
 	 * Provides information about a permutation
-	 * 
+	 *
 	 * @author Tom Gibara
 	 */
 	public final class Info {
@@ -579,12 +579,12 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		private final static int BIT_SET_REVERSAL = 1;
 		private final static int BIT_GET_ROTATION = 2;
 		private final static int BIT_SET_ROTATION = 3;
-		
+
 		private final static int MSK_GET_REVERSAL = 1 << BIT_GET_REVERSAL;
 		private final static int MSK_SET_REVERSAL = 1 << BIT_SET_REVERSAL;
 		private final static int MSK_GET_ROTATION = 1 << BIT_GET_ROTATION;
 		private final static int MSK_SET_ROTATION = 1 << BIT_SET_ROTATION;
-		
+
 		// computed eagerly
 		private final int numberOfCycles;
 		private final int numberOfTranspositions;
@@ -609,7 +609,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 		/**
 		 * The permutation about which information is being provided.
-		 * 
+		 *
 		 * @return the permutation
 		 */
 		public Permutation getPermutation() {
@@ -619,7 +619,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		/**
 		 * The number of disjoint cycles. All permutations can be decomposed
 		 * into a set of disjoint cycles.
-		 * 
+		 *
 		 * @return the number of cycles
 		 * @see #getDisjointCycles()
 		 */
@@ -630,7 +630,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		/**
 		 * The number of transpositions made by the permutation. All
 		 * permutations are applied as a sequence of transpositions.
-		 * 
+		 *
 		 * @return the number of transpositions
 		 */
 		public int getNumberOfTranspositions() {
@@ -639,7 +639,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 		/**
 		 * Whether the permutation makes no changes to the indexing of values.
-		 * 
+		 *
 		 * @return whether the permutation is the identity permutation
 		 */
 		public boolean isIdentity() {
@@ -648,7 +648,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 		/**
 		 * Whether the permutation consists of an odd number of transpositions.
-		 * 
+		 *
 		 * @return whether the permutation is odd
 		 */
 		public boolean isOdd() {
@@ -657,7 +657,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 		/**
 		 * Whether the permutation consists of a single transposition.
-		 * 
+		 *
 		 * @return whether the permutation is a transposition
 		 * @see Permutation#transpose(int, int, int)
 		 */
@@ -667,7 +667,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 		/**
 		 * Whether the permutation reverses the indexing of values.
-		 * 
+		 *
 		 * @return whether the permutation is a reversal
 		 * @see Permutation#reverse(int)
 		 */
@@ -679,7 +679,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			flags |= f ? m : MSK_SET_REVERSAL;
 			return f;
 		}
-		
+
 		private boolean isReversalImpl() {
 			int len = correspondence.length - 1;
 			for (int i = 0; i <= len; i++) {
@@ -690,17 +690,17 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 		/**
 		 * Whether the permutation consists of a single cycle.
-		 * 
+		 *
 		 * @return whether the permutation is cyclic.
 		 * @see Permutation#cycle(int, int...)
 		 */
 		public boolean isCyclic() {
 			return numberOfCycles == 1;
 		}
-		
+
 		/**
 		 * Whether the permutation is a rotation.
-		 * 
+		 *
 		 * @return whether the permutation is a rotation
 		 * @see Permutation#rotate(int, int)
 		 */
@@ -729,7 +729,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		/**
 		 * Optionally, the distance through which the permutation rotates
 		 * values. The rotation distance of any identity permutation is zero.
-		 * 
+		 *
 		 * @return the distance of rotation, or empty if the permutation is not
 		 *         a rotation
 		 * @see Permutation#rotate(int, int)
@@ -745,11 +745,11 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		 * An immutable bit store indicating the positions at which values
 		 * remain untouched by the permutation. That is:
 		 * <code>p.info().getFixedPoints().getBit(i)<code> is true iff <code>p.correspondence()[i] == i</code>
-		 * 
+		 *
 		 * <p>
 		 * Note that the supplied bits can be viewed as a set of integer
 		 * positions using: <code>p.info().getFixedPoints().asSet()</code>
-		 * 
+		 *
 		 * @return bits the positions that are fixed by the permutation.
 		 */
 		public BitStore getFixedPoints() {
@@ -768,7 +768,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		 * The disjoint cycles of the permutation. Each permutation in the
 		 * returned set is cyclic and no two permutations will transpose values
 		 * at the same index.
-		 * 
+		 *
 		 * @return the disjoint cycles
 		 */
 		public Set<Permutation> getDisjointCycles() {
@@ -808,7 +808,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		 * The number of times that the permutation would need to be applied
 		 * until it yielded the identity permutation. The orbit of any identity
 		 * permutation is naturally zero.
-		 * 
+		 *
 		 * @return the length of the permutation's orbit
 		 */
 		public BigInteger getLengthOfOrbit() {
@@ -859,7 +859,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	/**
 	 * Provides a set of method for generating permutations that will sort a
 	 * given array or list.
-	 * 
+	 *
 	 * @author Tom Gibara
 	 */
 	public static class Sorting {
@@ -867,19 +867,19 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		private static void checkValuesNotNull(Object values) {
 			if (values == null) throw new IllegalArgumentException("null values");
 		}
-		
+
 		private static Permutation sort(int size, Comparator<Integer> c) {
 			int[] correspondence = new int[size];
 			computeIdentity(correspondence);
 			newStore(correspondence).asList().sort(c);
 			return new Permutation(correspondence, null);
 		}
-		
+
 		/**
 		 * Creates a permutation that will sort the supplied list. The
 		 * comparator is optional; if it is omitted then the elements of the
 		 * list must be mutually comparable.
-		 * 
+		 *
 		 * @param values
 		 *            the elements to be sorted
 		 * @param c
@@ -897,7 +897,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		 * Creates a permutation that will sort the supplied array. The
 		 * comparator is optional; if it is omitted then the elements of the
 		 * array must be mutually comparable.
-		 * 
+		 *
 		 * @param values
 		 *            the elements to be sorted
 		 * @param c
@@ -910,10 +910,10 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 					sort(values.length, (i,j) -> ((Comparable) values[i]).compareTo(values[j])) :
 					sort(values.length, (i,j) -> c.compare(values[i], values[j]));
 		}
-		
+
 		/**
 		 * Creates a permutation that will sort the supplied array.
-		 * 
+		 *
 		 * @param values
 		 *            the elements to be sorted
 		 * @return a permutation which, if applied to the array, would sort it
@@ -922,10 +922,10 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			checkValuesNotNull(values);
 			return sort(values.length, (i,j) -> Byte.compare(values[i],values[j]));
 		}
-		
+
 		/**
 		 * Creates a permutation that will sort the supplied array.
-		 * 
+		 *
 		 * @param values
 		 *            the elements to be sorted
 		 * @return a permutation which, if applied to the array, would sort it
@@ -934,10 +934,10 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			checkValuesNotNull(values);
 			return sort(values.length, (i,j) -> Short.compare(values[i],values[j]));
 		}
-		
+
 		/**
 		 * Creates a permutation that will sort the supplied array.
-		 * 
+		 *
 		 * @param values
 		 *            the elements to be sorted
 		 * @return a permutation which, if applied to the array, would sort it
@@ -946,10 +946,10 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			checkValuesNotNull(values);
 			return sort(values.length, (i,j) -> Integer.compare(values[i],values[j]));
 		}
-		
+
 		/**
 		 * Creates a permutation that will sort the supplied array.
-		 * 
+		 *
 		 * @param values
 		 *            the elements to be sorted
 		 * @return a permutation which, if applied to the array, would sort it
@@ -958,10 +958,10 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			checkValuesNotNull(values);
 			return sort(values.length, (i,j) -> Integer.compareUnsigned(values[i],values[j]));
 		}
-		
+
 		/**
 		 * Creates a permutation that will sort the supplied array.
-		 * 
+		 *
 		 * @param values
 		 *            the elements to be sorted
 		 * @return a permutation which, if applied to the array, would sort it
@@ -970,10 +970,10 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			checkValuesNotNull(values);
 			return sort(values.length, (i,j) -> Long.compare(values[i],values[j]));
 		}
-		
+
 		/**
 		 * Creates a permutation that will sort the supplied array.
-		 * 
+		 *
 		 * @param values
 		 *            the elements to be sorted
 		 * @return a permutation which, if applied to the array, would sort it
@@ -982,10 +982,10 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			checkValuesNotNull(values);
 			return sort(values.length, (i,j) -> Long.compareUnsigned(values[i],values[j]));
 		}
-		
+
 		/**
 		 * Creates a permutation that will sort the supplied array.
-		 * 
+		 *
 		 * @param values
 		 *            the elements to be sorted
 		 * @return a permutation which, if applied to the array, would sort it
@@ -995,10 +995,10 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			checkValuesNotNull(values);
 			return sort(values.length, (i,j) -> Boolean.compare(values[i],values[j]));
 		}
-		
+
 		/**
 		 * Creates a permutation that will sort the supplied array.
-		 * 
+		 *
 		 * @param values
 		 *            the elements to be sorted
 		 * @return a permutation which, if applied to the array, would sort it
@@ -1007,10 +1007,10 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			checkValuesNotNull(values);
 			return sort(values.length, (i,j) -> Character.compare(values[i],values[j]));
 		}
-		
+
 		/**
 		 * Creates a permutation that will sort the supplied array.
-		 * 
+		 *
 		 * @param values
 		 *            the elements to be sorted
 		 * @return a permutation which, if applied to the array, would sort it
@@ -1019,10 +1019,10 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			checkValuesNotNull(values);
 			return sort(values.length, (i,j) -> Float.compare(values[i],values[j]));
 		}
-		
+
 		/**
 		 * Creates a permutation that will sort the supplied array.
-		 * 
+		 *
 		 * @param values
 		 *            the elements to be sorted
 		 * @return a permutation which, if applied to the array, would sort it
@@ -1031,7 +1031,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 			checkValuesNotNull(values);
 			return sort(values.length, (i,j) -> Double.compare(values[i],values[j]));
 		}
-		
+
 	}
 
 	private static abstract class Syncer {
@@ -1049,11 +1049,11 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	 * Generators provide an efficient way to combine permutations and other
 	 * operations to create new permutations. Most methods on this class return
 	 * the generator itself so that multiple calls can be chained.
-	 * 
+	 *
 	 * <p>
 	 * One way to think of a generator is as a mutable permutation. Another way
 	 * is as a permutation which is itself permutable.
-	 * 
+	 *
 	 * @author Tom Gibara
 	 *
 	 */
@@ -1075,12 +1075,12 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		 * ordered consistently with {@link Permutation#compareTo(Permutation)}.
 		 * Thus the first permutation in the sequence is identity and the final
 		 * permutation is reverse.
-		 * 
+		 *
 		 * <p>
 		 * Note that moving through the sequence will change the permutation
 		 * stored by the generator. Correspondingly changing the state of the
 		 * generator will cause the sequence position to alter.
-		 * 
+		 *
 		 * @return an ordered sequence of all permutations.
 		 */
 		public PermutationSequence getOrderedSequence() {
@@ -1096,7 +1096,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		 * Note that moving through the sequence will change the permutation
 		 * stored by the generator. Correspondingly changing the state of the
 		 * generator will cause the sequence position to alter.
-		 * 
+		 *
 		 * @return a sequence over all permutations that are involutions with
 		 * no fixed points.
 		 */
@@ -1110,7 +1110,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 		/**
 		 * Sets the generated permutation to that specified.
-		 * 
+		 *
 		 * @param permutation
 		 *            any permutation
 		 * @return the generator
@@ -1125,7 +1125,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 		/**
 		 * Sets the generated permutation to the identity permutation.
-		 * 
+		 *
 		 * @return the generator
 		 */
 		public Generator setIdentity() {
@@ -1136,7 +1136,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 		/**
 		 * Changes generated permutation to the inverse of its current value.
-		 * 
+		 *
 		 * @return the generator
 		 */
 		public Generator invert() {
@@ -1149,7 +1149,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		 * Raises the generated permutation to the specified power. A zero
 		 * parameter will always yield the identity permutation. Supplying a
 		 * negative power will invert the permutation.
-		 * 
+		 *
 		 * @param power
 		 *            a power to which the generaed permutation should be raised
 		 * @return the generator
@@ -1180,7 +1180,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 
 		/**
 		 * The generated permutation.
-		 * 
+		 *
 		 * @return the generated permutation.
 		 */
 		public Permutation permutation() {

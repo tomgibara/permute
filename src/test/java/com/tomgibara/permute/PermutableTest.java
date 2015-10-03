@@ -31,7 +31,7 @@ public class PermutableTest extends PermutationTestCase {
 	static DumbPermutableBitStore dumb(BitStore store) {
 		return new DumbPermutableBitStore(store);
 	}
-	
+
 	public void testEquivalence() {
 		List<Integer> a = permutable(list(0,1,2,3,4,5)).apply(Permutation.rotate(6, 1)).permuted();
 		List<Integer> b = permutable(list(0,1,2,3,4,5)).rotate(1).permuted();
@@ -43,19 +43,19 @@ public class PermutableTest extends PermutationTestCase {
 		testBitStore(newBitStore("100"), rotate(3, 1));
 		testBitStore(newBitStore("100"), rotate(3, -1));
 	}
-	
+
 	private void testBitStore(BitStore store, Permutation p) {
 		assertEquals(dumb(store.mutableCopy()).apply(p).permuted(), bitStore(store.mutableCopy()).apply(p).permuted());
 	}
-	
+
 	private static class DumbPermutableBitStore implements Permutable<BitStore> {
 
 		private final BitStore store;
-		
+
 		DumbPermutableBitStore(BitStore store) {
 			this.store = store;
 		}
-		
+
 		@Override
 		public Permutable<BitStore> apply(Permutation permutation) {
 			permutation.permute(store.permute());
@@ -66,7 +66,7 @@ public class PermutableTest extends PermutationTestCase {
 		public BitStore permuted() {
 			return store;
 		}
-		
+
 		@Override
 		public int size() {
 			return store.size();

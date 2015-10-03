@@ -52,7 +52,7 @@ public class PermutableLongs implements Permutable<long[]> {
 	}
 
 	// object methods
-	
+
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

@@ -67,12 +67,12 @@ public class PermutationSample {
 		 */
 
 		Permute.ints(0,1,2,3,4).apply(identity).permuted();
-		
+
 		/**
 		 * It's briefer still when the method is statically imported, which is
 		 * how we shall wrap strings for permutation from here on in.
 		 */
-		
+
 		string("smite").apply(identity).toString();
 
 		/**
@@ -109,7 +109,7 @@ public class PermutationSample {
 		 * brief form for most examples and instead explicitly construct
 		 * permutations.
 		 */
-		
+
 		/**
 		 * All Permutations in this library operate by performing a sequence of
 		 * swaps, or "transpositions". So the simplest/fastest type of

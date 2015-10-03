@@ -52,7 +52,7 @@ public class PermutableInts implements Permutable<int[]> {
 	}
 
 	// object methods
-	
+
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

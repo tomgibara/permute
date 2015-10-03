@@ -52,7 +52,7 @@ public class PermutableDoubles implements Permutable<double[]> {
 	}
 
 	// object methods
-	
+
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

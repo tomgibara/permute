@@ -24,20 +24,20 @@ import java.util.Random;
  * created as temporary wrappers around other objects. Some implementations of
  * this interface may be able to provide accelerated implementations of common
  * permutations.
- * 
+ *
  * <p>
  * Permutations are typically applied via the {@link #apply(Permutation)} method
  * though convenience methods with default implementations are provided to
  * enable some common permutations to be applied more succinctly, and possibly
  * with improved performance.
- * 
+ *
  * <p>
  * Many of the interface methods on this object return {@link Permutable}. It is
  * expected that in almost all cases, the object returned will be the object
  * called. However, in the case where the interface is implemented by an
  * immutable class, it is permitted (and may be necessary) to return a new
  * implementation of the interface encapsulating the permuted state.
- * 
+ *
  * @author Tom Gibara
  *
  * @param <T>
@@ -49,10 +49,10 @@ public interface Permutable<T> {
 
 	/**
 	 * Uses a permutation to permute the held object.
-	 * 
+	 *
 	 * @param permutation
 	 *            the permutation to apply
-	 * 
+	 *
 	 * @return a {@link Permutable} through which a new permutation can be
 	 *         applied to the same object.
 	 */
@@ -62,7 +62,7 @@ public interface Permutable<T> {
 	 * The object being permuted. This method is commonly chained after one or
 	 * more calls to the {@link #apply(Permutation)} method, or its convenient
 	 * equivalents.
-	 * 
+	 *
 	 * @return the object being permuted
 	 */
 	T permuted();
@@ -70,7 +70,7 @@ public interface Permutable<T> {
 	/**
 	 * This is the number of indices that can be transposed in the object being
 	 * permuted.
-	 * 
+	 *
 	 * @return the size of the permuted object.
 	 */
 	int size();
@@ -78,7 +78,7 @@ public interface Permutable<T> {
 	/**
 	 * Transposes the values at two indices. Equivalent to
 	 * <code>Permutatable.apply(Permutation.transpose(i,j)</code>
-	 * 
+	 *
 	 * @param i
 	 *            a valid index, not equal to j
 	 * @param j
@@ -94,7 +94,7 @@ public interface Permutable<T> {
 	/**
 	 * Rotates the values of the permuted object. Conceptually, positive
 	 * distances will move values to higher indices.
-	 * 
+	 *
 	 * @param distance
 	 *            the number of indices through which values are shifted, may
 	 *            exceed {@link #size()}; may be negative.
@@ -108,7 +108,7 @@ public interface Permutable<T> {
 
 	/**
 	 * Reverses the values of the permuted object.
-	 * 
+	 *
 	 * @return a {@link Permutable} through which a new permutation can be
 	 *         applied to the same object.
 	 * @see Permutation#reverse(int)
@@ -121,7 +121,7 @@ public interface Permutable<T> {
 	 * Moves values of the permuted object through the specified cycle of
 	 * indices; the value at index <code>cycle[i]</code> will move to index
 	 * <code>cycle[i+1]</code> and so on.
-	 * 
+	 *
 	 * @param cycle
 	 *            an array of valid indices with no duplicates
 	 * @return a {@link Permutable} through which a new permutation can be
@@ -146,7 +146,7 @@ public interface Permutable<T> {
 	/**
 	 * Moves the values of the permuted object according to corresponding
 	 * indices.
-	 * 
+	 *
 	 * @param correspondence
 	 *            an ordering of the {@link #size()} indices.
 	 * @return a {@link Permutable} through which a new permutation can be
@@ -156,11 +156,11 @@ public interface Permutable<T> {
 	default Permutable<T> correspond(int... correspondence) {
 		return apply(Permutation.correspond(correspondence));
 	}
-	
+
 	/**
 	 * Reorders the values of the permuted object according to ordering of the
 	 * indices.
-	 * 
+	 *
 	 * @param ordering
 	 *            an ordering of the {@link #size()} indices.
 	 * @return a {@link Permutable} through which a new permutation can be

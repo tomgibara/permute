@@ -52,7 +52,7 @@ public class PermutableShorts implements Permutable<short[]> {
 	}
 
 	// object methods
-	
+
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

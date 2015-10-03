@@ -122,7 +122,7 @@ public class PermutationTest extends PermutationTestCase {
 			/* expected */
 		}
 	}
-	
+
 	public void testTransposeConstructor() {
 		Random r = new Random(0L);
 		for (int n = 0; n < 10000; n++) {
@@ -154,7 +154,7 @@ public class PermutationTest extends PermutationTestCase {
 			assertEquals(p.inverse(), Permutation.reorder(p.correspondence()));
 		}
 	}
-	
+
 	public void testSortConstructor() {
 		testSortConstructor(list(4,2,0,3,1), null);
 
@@ -238,7 +238,7 @@ public class PermutationTest extends PermutationTestCase {
 			assertTrue(count + " vs " + exp, count >= exp - err);
 		}
 	}
-	
+
 	public void testComparable() {
 
 		assertTrue(Permutation.identity(6).compareTo(Permutation.identity(5)) > 0);

@@ -52,7 +52,7 @@ public class PermutableObjects implements Permutable<Object[]> {
 	}
 
 	// object methods
-	
+
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

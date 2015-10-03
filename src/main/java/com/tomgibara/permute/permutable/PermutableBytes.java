@@ -52,7 +52,7 @@ public class PermutableBytes implements Permutable<byte[]> {
 	}
 
 	// object methods
-	
+
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

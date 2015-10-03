@@ -52,7 +52,7 @@ public class PermutableFloats implements Permutable<float[]> {
 	}
 
 	// object methods
-	
+
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

@@ -32,7 +32,7 @@ public class PermutableString implements Permutable<StringBuilder> {
 		if (sb == null) throw new IllegalArgumentException("null sb");
 		this.sb = sb;
 	}
-	
+
 	@Override
 	public StringBuilder permuted() {
 		return sb;
@@ -63,7 +63,7 @@ public class PermutableString implements Permutable<StringBuilder> {
 		sb.reverse();
 		return this;
 	}
-	
+
 	// object methods
 
 	@Override
@@ -78,7 +78,7 @@ public class PermutableString implements Permutable<StringBuilder> {
 		PermutableString that = (PermutableString) obj;
 		return this.sb.equals(that.sb);
 	}
-	
+
 	@Override
 	public String toString() {
 		return sb.toString();

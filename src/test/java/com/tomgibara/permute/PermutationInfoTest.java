@@ -40,7 +40,7 @@ public class PermutationInfoTest extends PermutationTestCase {
 		permutable(b).apply(p);
 		assertEquals(b, a);
 	}
-	
+
 	public void testTransposition() {
 		assertFalse(Permutation.identity(0).info().isTransposition());
 		assertFalse(Permutation.identity(1).info().isTransposition());
@@ -63,7 +63,7 @@ public class PermutationInfoTest extends PermutationTestCase {
 			assertTrue( p.equals(Permutation.reverse(size)) || !p.info().isReversal() );
 		}
 	}
-	
+
 	public void testRotation() {
 		assertTrue(Permutation.identity(0).info().isRotation());
 		assertEquals(0, Permutation.identity(0).info().rotationDistance().get().intValue());

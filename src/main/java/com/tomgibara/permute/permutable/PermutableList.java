@@ -51,26 +51,26 @@ public class PermutableList<E> implements Permutable<List<E>> {
 		});
 		return this;
 	}
-	
+
 	@Override
 	public PermutableList<E> reverse() {
 		Collections.reverse(list);
 		return this;
 	}
-	
+
 	@Override
 	public PermutableList<E> rotate(int distance) {
 		Collections.rotate(list, distance);
 		return this;
-	}	
+	}
 
 	// object methods
-	
+
 	@Override
 	public int hashCode() {
 		return list.hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) return true;

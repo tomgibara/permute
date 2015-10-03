@@ -29,12 +29,12 @@ public class PermutableBooleans implements Permutable<boolean[]> {
 		if (values == null) throw new IllegalArgumentException("null values");
 		this.values = values;
 	}
-	
+
 	@Override
 	public boolean[] permuted() {
 		return values;
 	}
-	
+
 	@Override
 	public int size() {
 		return values.length;
@@ -52,7 +52,7 @@ public class PermutableBooleans implements Permutable<boolean[]> {
 	}
 
 	// object methods
-	
+
 	@Override
 	public int hashCode() {
 		return Arrays.hashCode(values);

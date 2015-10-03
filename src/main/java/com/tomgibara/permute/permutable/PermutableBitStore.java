@@ -38,12 +38,12 @@ public class PermutableBitStore implements Permutable<BitStore> {
 	public BitStore permuted() {
 		return store;
 	}
-	
+
 	@Override
 	public int size() {
 		return store.size();
 	}
-	
+
 	@Override
 	public PermutableBitStore apply(Permutation permutation) {
 		PermutableUtil.check(permutation, store.size());
@@ -69,26 +69,26 @@ public class PermutableBitStore implements Permutable<BitStore> {
 		permutes.transpose(i, j);
 		return this;
 	}
-	
+
 	@Override
 	public PermutableBitStore reverse() {
 		permutes.reverse();
 		return this;
 	}
-	
+
 	@Override
 	public PermutableBitStore rotate(int distance) {
 		permutes.rotate(distance);
 		return this;
 	}
-	
+
 	// object methods
-	
+
 	@Override
 	public int hashCode() {
 		return store.hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) return true;
