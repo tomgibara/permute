@@ -241,7 +241,7 @@ public class PermutationSample {
 		 * information available:
 		 */
 
-		Permutation.Info info = p9.getInfo(); // let's investigate permutation p9.
+		Permutation.Info info = p9.info(); // let's investigate permutation p9.
 		assertFalse(info.isIdentity()); // no, it's not an identity permutation
 		assertEqual(info.getNumberOfCycles(), 2); // into how many disjoint cycles does the permutation decompose?
 		info.getDisjointCycles(); // ...and what are they as a set of separate permutations?
@@ -258,7 +258,7 @@ public class PermutationSample {
 		// ...or more simply...
 		assertEqual(p10, identity);
 		// ...or simpler still...
-		assertTrue(p10.getInfo().isIdentity());
+		assertTrue(p10.info().isIdentity());
 
 		/**
 		 * Note that permutations are always applied with the minimum number of

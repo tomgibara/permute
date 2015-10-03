@@ -27,31 +27,31 @@ import com.tomgibara.permute.Permutation.Info;
 public class PermutationInfoTest extends PermutationTestCase {
 
 	public void testOdd() {
-		assertFalse( Permutation.identity(5).getInfo().isOdd() );
-		assertTrue( Permutation.identity(5).generator().transpose(0, 1).permutation().getInfo().isOdd() );
-		assertFalse( Permutation.identity(5).generator().transpose(0, 1).transpose(1, 2).permutation().getInfo().isOdd() );
+		assertFalse( Permutation.identity(5).info().isOdd() );
+		assertTrue( Permutation.identity(5).generator().transpose(0, 1).permutation().info().isOdd() );
+		assertFalse( Permutation.identity(5).generator().transpose(0, 1).transpose(1, 2).permutation().info().isOdd() );
 	}
 
 	public void testIdentity() {
 		List<Integer> a = list(1,2,3,4,5);
 		List<Integer> b = copy(a);
 		Permutation p = Permutation.identity(5);
-		assertTrue(p.getInfo().isIdentity());
+		assertTrue(p.info().isIdentity());
 		permutable(b).apply(p);
 		assertEquals(b, a);
 	}
 	
 	public void testTransposition() {
-		assertFalse(Permutation.identity(0).getInfo().isTransposition());
-		assertFalse(Permutation.identity(1).getInfo().isTransposition());
-		assertTrue(Permutation.rotate(2, 1).getInfo().isTransposition());
-		assertTrue(Permutation.transpose(5, 0, 1).getInfo().isTransposition());
-		assertFalse(Permutation.rotate(5, 1).getInfo().isTransposition());
+		assertFalse(Permutation.identity(0).info().isTransposition());
+		assertFalse(Permutation.identity(1).info().isTransposition());
+		assertTrue(Permutation.rotate(2, 1).info().isTransposition());
+		assertTrue(Permutation.transpose(5, 0, 1).info().isTransposition());
+		assertFalse(Permutation.rotate(5, 1).info().isTransposition());
 	}
 
 	public void testReversal() {
 		for (int i = 0; i < 10; i++) {
-			Info info = Permutation.reverse(i).getInfo();
+			Info info = Permutation.reverse(i).info();
 			// test twice to check any cached values are consistent
 			assertTrue(info.isReversal());
 			assertTrue(info.isReversal());
@@ -60,55 +60,55 @@ public class PermutationInfoTest extends PermutationTestCase {
 		for (int i = 0; i < 100; i++) {
 			int size = r.nextInt(30);
 			Permutation p = Permutation.identity(size).generator().shuffle(r).permutation();
-			assertTrue( p.equals(Permutation.reverse(size)) || !p.getInfo().isReversal() );
+			assertTrue( p.equals(Permutation.reverse(size)) || !p.info().isReversal() );
 		}
 	}
 	
 	public void testRotation() {
-		assertTrue(Permutation.identity(0).getInfo().isRotation());
-		assertEquals(0, Permutation.identity(0).getInfo().rotationDistance().get().intValue());
+		assertTrue(Permutation.identity(0).info().isRotation());
+		assertEquals(0, Permutation.identity(0).info().rotationDistance().get().intValue());
 		Random r = new Random(0L);
 		for (int i = 0; i < 1000; i++) {
 			int size = 1 + r.nextInt(50);
 			int distance = r.nextInt(size);
 			Permutation p = Permutation.rotate(size, distance);
-			assertTrue(p.getInfo().isRotation());
-			assertEquals(distance, p.getInfo().rotationDistance().get().intValue());
+			assertTrue(p.info().isRotation());
+			assertEquals(distance, p.info().rotationDistance().get().intValue());
 		}
 	}
 
 	public void testCyclic() {
-		assertEquals(1, correspond(1,2,3,4,0).getInfo().getNumberOfCycles());
-		assertEquals(0, correspond(0,1,2,3,4).getInfo().getNumberOfCycles());
-		assertEquals(1, correspond(1,0,2,3,4).getInfo().getNumberOfCycles());
-		assertEquals(2, correspond(1,0,2,4,3).getInfo().getNumberOfCycles());
-		assertEquals(0, correspond(0).getInfo().getNumberOfCycles());
-		assertEquals(0, correspond().getInfo().getNumberOfCycles());
+		assertEquals(1, correspond(1,2,3,4,0).info().getNumberOfCycles());
+		assertEquals(0, correspond(0,1,2,3,4).info().getNumberOfCycles());
+		assertEquals(1, correspond(1,0,2,3,4).info().getNumberOfCycles());
+		assertEquals(2, correspond(1,0,2,4,3).info().getNumberOfCycles());
+		assertEquals(0, correspond(0).info().getNumberOfCycles());
+		assertEquals(0, correspond().info().getNumberOfCycles());
 	}
 
 	public void testDisjointCycles() {
 		{
 			Permutation p = Permutation.identity(5);
-			assertTrue(p.getInfo().getDisjointCycles().isEmpty());
+			assertTrue(p.info().getDisjointCycles().isEmpty());
 		}
 		{
 			Permutation p = correspond(1,2,3,4,0);
-			assertEquals(set(p), p.getInfo().getDisjointCycles());
+			assertEquals(set(p), p.info().getDisjointCycles());
 		}
 		{
 			Permutation p = correspond(1,0,2,4,3);
-			assertEquals(set(correspond(1,0,2,3,4), correspond(0,1,2,4,3)), p.getInfo().getDisjointCycles());
+			assertEquals(set(correspond(1,0,2,3,4), correspond(0,1,2,4,3)), p.info().getDisjointCycles());
 		}
 		{
 			Permutation p = correspond(1,2,0,4,3);
-			assertEquals(set(correspond(1,2,0,3,4), correspond(0,1,2,4,3)), p.getInfo().getDisjointCycles());
+			assertEquals(set(correspond(1,2,0,3,4), correspond(0,1,2,4,3)), p.info().getDisjointCycles());
 		}
 
 		Random random = new Random(0);
 		for (int i = 0; i < 1000; i++) {
 			int size = 1 + random.nextInt(20);
 			Permutation permutation = Permutation.identity(size).generator().shuffle(random).permutation();
-			Permutation.Info info = permutation.getInfo();
+			Permutation.Info info = permutation.info();
 			Set<Permutation> cycles = info.getDisjointCycles();
 			assertEquals(info.getNumberOfCycles(), cycles.size());
 			Permutation.Generator generator = Permutation.identity(size).generator();
@@ -126,7 +126,7 @@ public class PermutationInfoTest extends PermutationTestCase {
 			Permutation identity = Permutation.identity(size);
 			Permutation permutation = identity.generator().shuffle(random).permutation();
 			Permutation p = permutation;
-			int orbit = permutation.getInfo().getLengthOfOrbit().intValue();
+			int orbit = permutation.info().getLengthOfOrbit().intValue();
 			for(int i = orbit - 1; i > 0; i--) {
 				p = p.generator().apply(permutation).permutation();
 				assertFalse(p.equals(permutation));

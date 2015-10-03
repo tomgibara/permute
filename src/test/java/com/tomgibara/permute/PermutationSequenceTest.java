@@ -33,8 +33,8 @@ public class PermutationSequenceTest extends PermutationTestCase {
 
 	private static boolean isFFI(Permutation p) {
 		// check p is empty, or...
-		if (p.getSize() == 0) return true;
-		Info info = p.getInfo();
+		if (p.size() == 0) return true;
+		Info info = p.info();
 		// ... it is an involution...
 		// ...and has no fixed points
 		return TWO.equals(info.getLengthOfOrbit()) && info.getFixedPoints().zeros().isAll();

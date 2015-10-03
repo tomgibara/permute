@@ -47,7 +47,7 @@ public class PermutableBitStore implements Permutable<BitStore> {
 	@Override
 	public PermutableBitStore apply(Permutation permutation) {
 		PermutableUtil.check(permutation, store.size());
-		Info info = permutation.getInfo();
+		Info info = permutation.info();
 		if (info.isIdentity()) {
 			/* do nothing */
 		} else if (info.isReversal()) {

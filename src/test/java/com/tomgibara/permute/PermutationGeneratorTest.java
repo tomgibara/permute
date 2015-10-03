@@ -32,7 +32,7 @@ public class PermutationGeneratorTest extends PermutationTestCase {
 		{
 			Permutation p = correspond(1,2,3,4,0);
 			Permutation i = p.generator().invert().permutation();
-			assertTrue(p.generator().apply(i).permutation().getInfo().isIdentity());
+			assertTrue(p.generator().apply(i).permutation().info().isIdentity());
 		}
 
 		Random random = new Random(0L);
@@ -40,8 +40,8 @@ public class PermutationGeneratorTest extends PermutationTestCase {
 			int size = random.nextInt(20);
 			Permutation p = Permutation.identity(size).generator().shuffle(random).permutation();
 			Permutation q = p.generator().invert().permutation();
-			assertTrue(p.generator().apply(q).permutation().getInfo().isIdentity());
-			assertTrue(q.generator().apply(p).permutation().getInfo().isIdentity());
+			assertTrue(p.generator().apply(q).permutation().info().isIdentity());
+			assertTrue(q.generator().apply(p).permutation().info().isIdentity());
 		}
 	}
 
@@ -53,11 +53,11 @@ public class PermutationGeneratorTest extends PermutationTestCase {
 	}
 
 	public void testIdentity() {
-		assertTrue(Permutation.reverse(10).generator().setIdentity().permutation().getInfo().isIdentity());
+		assertTrue(Permutation.reverse(10).generator().setIdentity().permutation().info().isIdentity());
 	}
 
 	public void testRotate() {
-		assertTrue(Permutation.rotate(10, 2).generator().rotate(-2).permutation().getInfo().isIdentity());
+		assertTrue(Permutation.rotate(10, 2).generator().rotate(-2).permutation().info().isIdentity());
 	}
 
 	public void testPower() {

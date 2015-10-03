@@ -49,7 +49,7 @@ import com.tomgibara.storage.Store;
  * 
  * @author Tom Gibara
  *
- * @see #getInfo()
+ * @see #info()
  * @see #permute(Transposable)
  */
 public final class Permutation implements Comparable<Permutation>, Serializable {
@@ -401,7 +401,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	 * 
 	 * @return the size of the permutation.
 	 */
-	public int getSize() {
+	public int size() {
 		return correspondence.length;
 	}
 
@@ -414,9 +414,9 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	 * 
 	 * @return the correspondence for the permutation
 	 * @see #correspond(int...)
-	 * @see #getSize()
+	 * @see #size()
 	 */
-	public int[] getCorrespondence() {
+	public int[] correspondence() {
 		return correspondence.clone();
 	}
 
@@ -425,7 +425,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	 * 
 	 * @return information about the permutation
 	 */
-	public Info getInfo() {
+	public Info info() {
 		return info == null ? info = new Info() : info;
 	}
 
@@ -1117,7 +1117,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		 */
 		public Generator set(Permutation permutation) {
 			if (permutation == null) throw new IllegalArgumentException("null permutation");
-			if (permutation.getSize() != correspondence.length) throw new IllegalArgumentException("incorrect size");
+			if (permutation.size() != correspondence.length) throw new IllegalArgumentException("incorrect size");
 			permutation.generator(this);
 			desync();
 			return this;
@@ -1193,7 +1193,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		@Override
 		public Generator apply(Permutation permutation) {
 			if (permutation == null) throw new IllegalArgumentException("null permutation");
-			if (permutation.getSize() != correspondence.length) throw new IllegalArgumentException("size mismatched");
+			if (permutation.size() != correspondence.length) throw new IllegalArgumentException("size mismatched");
 			permutation.permute((i,j) -> swap(i, j));
 			desync();
 			return this;

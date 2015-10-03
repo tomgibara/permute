@@ -73,8 +73,8 @@ public class PermutationTest extends PermutationTestCase {
 			if (size > 1) assertFalse(r.equals(i));
 			assertEquals(i, r.generator().apply(r).permutation());
 			if (size > 0) {
-				assertEquals(0, r.getCorrespondence()[size - 1]);
-				assertEquals(size - 1, r.getCorrespondence()[0]);
+				assertEquals(0, r.correspondence()[size - 1]);
+				assertEquals(size - 1, r.correspondence()[0]);
 			}
 		}
 	}
@@ -87,11 +87,11 @@ public class PermutationTest extends PermutationTestCase {
 				Permutation r = Permutation.rotate(size, dist);
 				if (size > 1) {
 					if ((dist % size) == 0) {
-						assertEquals(0, r.getInfo().getDisjointCycles().size());
-						assertTrue(r.getInfo().getFixedPoints().ones().isAll());
+						assertEquals(0, r.info().getDisjointCycles().size());
+						assertTrue(r.info().getFixedPoints().ones().isAll());
 					} else {
-						assertEquals(1, r.getInfo().getDisjointCycles().size());
-						assertTrue(r.getInfo().getFixedPoints().zeros().isAll());
+						assertEquals(1, r.info().getDisjointCycles().size());
+						assertTrue(r.info().getFixedPoints().zeros().isAll());
 					}
 				} else {
 					assertEquals(Permutation.identity(size), r);
@@ -130,10 +130,10 @@ public class PermutationTest extends PermutationTestCase {
 			int i = r.nextInt(size);
 			int j = r.nextInt(size);
 			Permutation p = Permutation.transpose(size, i, j);
-			assertEquals(i == j, p.getInfo().isIdentity());
+			assertEquals(i == j, p.info().isIdentity());
 			assertEquals(p, p.generator().invert().permutation());
-			assertEquals(i == j ? 0 : 1, p.getInfo().getNumberOfTranspositions());
-			assertEquals(i == j ? 0 : 1, p.getInfo().getNumberOfCycles());
+			assertEquals(i == j ? 0 : 1, p.info().getNumberOfTranspositions());
+			assertEquals(i == j ? 0 : 1, p.info().getNumberOfCycles());
 		}
 	}
 
@@ -151,7 +151,7 @@ public class PermutationTest extends PermutationTestCase {
 		Random r = new Random(0L);
 		for (int i = 0; i < 1000; i++) {
 			Permutation p = Permutation.identity(r.nextInt(100)).generator().shuffle(r).permutation();
-			assertEquals(p.inverse(), Permutation.reorder(p.getCorrespondence()));
+			assertEquals(p.inverse(), Permutation.reorder(p.correspondence()));
 		}
 	}
 	
@@ -263,7 +263,7 @@ public class PermutationTest extends PermutationTestCase {
 		Random random = new Random(0L);
 		for (int i = 0; i < 1000; i++) {
 			Permutation p = Permutation.identity(random.nextInt(100)).generator().shuffle(random).permutation();
-			Permutation.Info pi = p.getInfo();
+			Permutation.Info pi = p.info();
 			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 			ObjectOutputStream out = new ObjectOutputStream(bytes);
 			out.writeObject(p);
@@ -271,7 +271,7 @@ public class PermutationTest extends PermutationTestCase {
 			ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray()));
 			Permutation q = (Permutation) in.readObject();
 			assertEquals(p, q);
-			assertEquals(pi, q.getInfo());
+			assertEquals(pi, q.info());
 		}
 
 	}
