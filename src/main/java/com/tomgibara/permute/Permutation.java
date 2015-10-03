@@ -688,6 +688,16 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		}
 
 		/**
+		 * Whether the permutation consists of a single cycle.
+		 * 
+		 * @return whether the permutation is cyclic.
+		 * @see Permutation#cycle(int, int...)
+		 */
+		public boolean isCyclic() {
+			return numberOfCycles == 1;
+		}
+		
+		/**
 		 * Whether the permutation is a rotation.
 		 * 
 		 * @return whether the permutation is a rotation
