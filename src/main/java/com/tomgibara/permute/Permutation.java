@@ -16,7 +16,7 @@
  */
 package com.tomgibara.permute;
 
-import static com.tomgibara.storage.Stores.newStore;
+import static com.tomgibara.storage.Stores.intsAndNull;
 
 import java.io.ObjectStreamException;
 import java.io.Serializable;
@@ -871,7 +871,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		private static Permutation sort(int size, Comparator<Integer> c) {
 			int[] correspondence = new int[size];
 			computeIdentity(correspondence);
-			newStore(correspondence).asList().sort(c);
+			intsAndNull(correspondence).asList().sort(c);
 			return new Permutation(correspondence, null);
 		}
 
