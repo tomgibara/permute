@@ -227,7 +227,7 @@ public class PermutationTest extends PermutationTestCase {
 		int[] counts = new int[size];
 		for (int i = 0; i < reps; i++) {
 			BitStore store = Bits.newBitStore(size);
-			store.rangeTo(size/2).clearWithOnes();
+			store.rangeTo(size/2).fillWithOnes();
 			Permutation.shuffle(size, r).permute(store.permute());
 			store.ones().asSet().forEach(n -> counts[n]++);
 		}
