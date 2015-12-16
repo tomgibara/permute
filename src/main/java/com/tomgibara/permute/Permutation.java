@@ -69,7 +69,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 	}
 
 	private static void verifyUnique(int size, int[] indices) {
-		SortedSet<Integer> check = Bits.newBitStore(size).ones().asSet();
+		SortedSet<Integer> check = Bits.store(size).ones().asSet();
 		for (int i : indices) {
 			boolean result;
 			try {
@@ -755,7 +755,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		public BitStore getFixedPoints() {
 			if (fixedPoints == null) {
 				int[] array = correspondence;
-				fixedPoints = Bits.newBitStore(array.length);
+				fixedPoints = Bits.store(array.length);
 				for (int i = 0; i < array.length; i++) {
 					if (array[i] == i) fixedPoints.setBit(i, true);
 				}
