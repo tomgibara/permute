@@ -16,7 +16,7 @@
  */
 package com.tomgibara.permute;
 
-import static com.tomgibara.bits.Bits.storeFromChars;
+import static com.tomgibara.bits.Bits.toStore;
 import static com.tomgibara.permute.Permutation.reverse;
 import static com.tomgibara.permute.Permutation.rotate;
 import static com.tomgibara.permute.Permutation.transpose;
@@ -38,10 +38,10 @@ public class PermutableTest extends PermutationTestCase {
 		assertEquals(a, b);
 	}
 	public void testBitStore() {
-		testBitStore(storeFromChars("100"), reverse(3));
-		testBitStore(storeFromChars("100"), transpose(3, 1, 2));
-		testBitStore(storeFromChars("100"), rotate(3, 1));
-		testBitStore(storeFromChars("100"), rotate(3, -1));
+		testBitStore(toStore("100"), reverse(3));
+		testBitStore(toStore("100"), transpose(3, 1, 2));
+		testBitStore(toStore("100"), rotate(3, 1));
+		testBitStore(toStore("100"), rotate(3, -1));
 	}
 
 	private void testBitStore(BitStore store, Permutation p) {
