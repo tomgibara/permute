@@ -127,7 +127,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		}
 		return cycles.length > index ? Arrays.copyOf(cycles, index) : cycles;
 	}
-
+	
 	private static void computeShuffle(int[] array, Random random) {
 		for (int i = array.length - 1; i > 0 ; i--) {
 			int j = random.nextInt(i + 1);
@@ -482,6 +482,34 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 				transposable.transpose(previous, next);
 			}
 			previous = next;
+		}
+	}
+	
+	/**
+	 * Permutes an object using the inverse of this permutation.
+	 * 
+	 * @param transposable
+	 *            an object whose values may be transposed
+	 * 
+	 * @see #inverse()
+	 * @see #permute(Transposable)
+	 */
+	public void unpermute(Transposable transposable) {
+		if (transposable == null) throw new IllegalArgumentException("null transposable");
+
+		int[] cycles = getCycles();
+		int length = cycles.length;
+		if (length == 0) return;
+
+		for (int i = length - 2, previous = -1 - cycles[length - 1], initial = previous; i >= 0; i--) {
+			int next = cycles[i];
+			if (next < 0) {
+				initial = -1 - next;
+				previous = initial;
+			} else {
+				transposable.transpose(previous, next);
+				previous = next;
+			}
 		}
 	}
 

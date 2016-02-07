@@ -35,6 +35,8 @@ import java.util.Random;
 
 import com.tomgibara.bits.BitStore;
 import com.tomgibara.bits.Bits;
+import com.tomgibara.storage.Store;
+import com.tomgibara.storage.Stores;
 
 public class PermutationTest extends PermutationTestCase {
 
@@ -289,6 +291,40 @@ public class PermutationTest extends PermutationTestCase {
 			// ensure inverses are inverses
 			assertEquals(identity, p.generator().apply(inverse1).permutation());
 			assertEquals(identity, p.generator().apply(inverse2).permutation());
+		}
+	}
+	
+	public void testUnpermute() {
+		int[] array = new int[50];
+		for (int i = 0; i < 50; i++) {
+			array[i] = i;
+		}
+		Store<Integer> store = Stores.ints(array);
+		
+		{
+			Permutation p = Permutation.rotate(10, 1);
+			Permutation q = Permutation.rotate(10, -1);
+			Store<Integer> ps = store.resizedCopy(10);
+			Store<Integer> qs = store.resizedCopy(10);
+			p.unpermute(ps);
+			q.permute(qs);
+			assertEquals(qs, ps);
+		}
+		
+		Random r = new Random(0L);
+		for (int i = 0; i < 1000; i++) {
+			int size = r.nextInt(50);
+			Permutation identity = identity(size);
+			Permutation p = identity.generator().shuffle(r).permutation();
+			Permutation inv = p.inverse();
+			
+			Store<Integer> copy1 = store.resizedCopy(size);
+			Store<Integer> copy2 = copy1.mutableCopy();
+			assertEquals(copy1, copy2);
+
+			p.unpermute(copy1);
+			inv.permute(copy2);
+			assertEquals(copy2, copy1);
 		}
 	}
 }
