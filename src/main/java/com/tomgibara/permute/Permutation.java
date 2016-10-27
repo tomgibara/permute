@@ -16,8 +16,6 @@
  */
 package com.tomgibara.permute;
 
-import static com.tomgibara.storage.Stores.intsAndNull;
-
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -34,6 +32,7 @@ import java.util.SortedSet;
 import com.tomgibara.bits.BitStore;
 import com.tomgibara.bits.Bits;
 import com.tomgibara.fundament.Transposable;
+import com.tomgibara.storage.Stores;
 
 /**
  * <p>
@@ -899,7 +898,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		private static Permutation sort(int size, Comparator<Integer> c) {
 			int[] correspondence = new int[size];
 			computeIdentity(correspondence);
-			intsAndNull(correspondence).asList().sort(c);
+			Stores.ints(correspondence).asList().sort(c);
 			return new Permutation(correspondence, null);
 		}
 
@@ -914,6 +913,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		 *            an optional comparator which defines the sort order
 		 * @return a permutation which, if applied to the list, would sort it
 		 */
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public static <E> Permutation list(List<E> values, Comparator<? super E> c) {
 			checkValuesNotNull(values);
 			return c == null ?
@@ -932,6 +932,7 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		 *            an optional comparator which defines the sort order
 		 * @return a permutation which, if applied to the array, would sort it
 		 */
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public static <E> Permutation objects(E[] values, Comparator<? super E> c) {
 			checkValuesNotNull(values);
 			return c == null ?
