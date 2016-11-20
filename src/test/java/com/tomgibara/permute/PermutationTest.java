@@ -293,14 +293,14 @@ public class PermutationTest extends PermutationTestCase {
 			assertEquals(identity, p.generator().apply(inverse2).permutation());
 		}
 	}
-	
+
 	public void testUnpermute() {
 		int[] array = new int[50];
 		for (int i = 0; i < 50; i++) {
 			array[i] = i;
 		}
 		Store<Integer> store = Stores.ints(array);
-		
+
 		{
 			Permutation p = Permutation.rotate(10, 1);
 			Permutation q = Permutation.rotate(10, -1);
@@ -310,14 +310,14 @@ public class PermutationTest extends PermutationTestCase {
 			q.permute(qs);
 			assertEquals(qs, ps);
 		}
-		
+
 		Random r = new Random(0L);
 		for (int i = 0; i < 1000; i++) {
 			int size = r.nextInt(50);
 			Permutation identity = identity(size);
 			Permutation p = identity.generator().shuffle(r).permutation();
 			Permutation inv = p.inverse();
-			
+
 			Store<Integer> copy1 = store.resizedCopy(size);
 			Store<Integer> copy2 = copy1.mutableCopy();
 			assertEquals(copy1, copy2);
