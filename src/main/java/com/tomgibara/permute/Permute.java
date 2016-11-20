@@ -128,6 +128,8 @@ public class Permute {
 	/**
 	 * Creates a permutable wrapper around the supplied list.
 	 *
+	 * @param <E>
+	 *            the list element type
 	 * @param values a list
 	 *
 	 * @return an object through which the list may be permuted
@@ -148,38 +150,38 @@ public class Permute {
 
 	/**
 	 * Creates a permutable wrapper around the supplied
-	 * <code>StringBuilder<code>.
+	 * <code>StringBuilder</code>.
 	 *
 	 * @param value
-	 *            a <code>StringBuilder<code>
+	 *            a <code>StringBuilder</code>
 	 *
-	 * @return an object through which the <code>StringBuilder<code> may be
+	 * @return an object through which the <code>StringBuilder</code> may be
 	 *         permuted
 	 */
 	public static     Permutable <StringBuilder> string(StringBuilder value) { return new PermutableString(value);    }
 
 	/**
-	 * Creates a permutable wrapper around the supplied <code>BitStore<code>.
+	 * Creates a permutable wrapper around the supplied <code>BitStore</code>.
 	 *
 	 * @param value
-	 *            a <code>BitStore<code>
+	 *            a <code>BitStore</code>
 	 *
-	 * @return an object through which the <code>BitStore<code> may be permuted
+	 * @return an object through which the <code>BitStore</code> may be permuted
 	 */
 	public static     Permutable <BitStore>      bitStore(BitStore value)    { return new PermutableBitStore(value);  }
 
 	/**
 	 * Creates a permutable wrapper around the supplied
-	 * <code>Transposable<code>. Since <code>Transposable</code> instances do
+	 * <code>Transposable</code>. Since <code>Transposable</code> instances do
 	 * not declare a size through that interface, it is necessary to explicitly
 	 * supply one to this method.
 	 *
 	 * @param size
 	 *            the putative size
 	 * @param value
-	 *            a <code>Transposable<code>
+	 *            a <code>Transposable</code>
 	 *
-	 * @return an object through which the <code>Transposable<code> may be
+	 * @return an object through which the <code>Transposable</code> may be
 	 *         permuted
 	 */
 	public static Permutable<Transposable> transposable(int size, Transposable value) {

@@ -25,7 +25,7 @@ Permutation identity = Permutation.identity(5);
  * Permutations.
  */
 
-String r0 = identity.permute(new PermutableString("smite")).toString();
+String r0 = new PermutableString("smite").apply(identity).toString();
 assertEqual(r0, "smite"); // the identity permutation changes nothing
 
 /**
@@ -35,12 +35,27 @@ assertEqual(r0, "smite"); // the identity permutation changes nothing
  */
 
 /**
- * We can create Permutations directly with an array that indicates how
- * the sequence [0..N-1] is permuted. 
+ * It's slightly more convenient to use the static methods on the
+ * Permute class to create Permutable wrappers for common types
+ * such as strings, arrays and lists.
  */
 
-Permutation p1 = new Permutation(1,2,3,4,0);
-String r1 = p1.permute(new PermutableString("smite")).toString();
+Permute.ints(0,1,2,3,4).apply(identity).permuted();
+
+/**
+ * It's briefer still when the method is statically imported, which is
+ * how we shall wrap strings for permutation from here on in.
+ */
+
+string("smite").apply(identity).toString();
+
+/**
+ * We can create Permutations directly with an array that indicates how
+ * the sequence [0..N-1] is permuted.
+ */
+
+Permutation p1 = Permutation.correspond(1,2,3,4,0);
+String r1 = string("smite").apply(p1).toString();
 assertEqual(r1, "mites");
 
 /**
@@ -51,9 +66,23 @@ assertEqual(r1, "mites");
  */
 
 Permutation p2 = Permutation.rotate(5, -1);
-String r2 = p1.permute(new PermutableString("smite")).toString();
+String r2 = string("smite").apply(p1).toString();
 assertEqual(r2, "mites"); // rotated every element one place left
 assertTrue(p1.equals(p2)); // this is the same permutation as p1
+
+/**
+ * As a convenience, these common permutation types can be applied
+ * directly to a permutable. This simplifies applying common
+ * permutations. So we could have written the above rotation as just:
+ */
+
+string("smite").rotate(-1).toString();
+
+/**
+ * But to make the operation of the library clear, we will avoid this
+ * brief form for most examples and instead explicitly construct
+ * permutations.
+ */
 
 /**
  * All Permutations in this library operate by performing a sequence of
@@ -63,7 +92,7 @@ assertTrue(p1.equals(p2)); // this is the same permutation as p1
  */
 
 Permutation p3 = Permutation.transpose(5, 0, 4);
-String r3 = p3.permute(new PermutableString("smite")).toString();
+String r3 = string("smite").apply(p3).toString();
 assertEqual(r3, "emits"); // swapped first and last letters
 
 /**
@@ -72,7 +101,7 @@ assertEqual(r3, "emits"); // swapped first and last letters
  */
 
 Permutation p4 = Permutation.reverse(5);
-String r4 = p4.permute(p4.permute(new PermutableString("smite"))).toString();
+String r4 = string("smite").apply(p4).apply(p4).toString();
 assertEqual(r4, "smite"); // reversing twice restores the original string
 
 // PERMUTATION GENERATORS
@@ -96,14 +125,13 @@ assertEqual(identity, p5);
  */
 
 Permutation p6 = p4.generator().apply(Permutation.transpose(5, 0, 2)).permutation();
-String r6 = p6.permute(new PermutableString("smite")).toString();
+String r6 = string("smite").apply(p6).toString();
 assertEqual(r6, "items"); // reverses the string and then swaps the first and third characters
 
 /**
- * Generators expose have many methods that allow Permutations to be
- * constructed in convenient ways. For example, there's a transpose
- * method that provides a faster and simpler way of doing the same
- * thing:
+ * Generators have many methods that allow Permutations to be
+ * constructed in convenient ways. For example, there's a swap method
+ * that provides a faster and simpler way of doing the same thing:
  */
 
 Permutation p7 = p4.generator().transpose(0,2).permutation();
@@ -116,8 +144,15 @@ assertEqual(p7, p6);
  */
 
 Permutation p8 = p7.generator().invert().permutation();
-String r8 = p8.permute(new PermutableString("items")).toString();
-assertEqual(r8, "smite"); // swaps the first and third characters and then reverses the string 
+String r8 = string("items").apply(p8).toString();
+assertEqual(r8, "smite"); // swaps the first and third characters and then reverses the string
+
+/**
+ * Inverting permutations is such a common operation that there is
+ * an inverse() method directly on the Permutation class for doing this.
+ */
+
+p7.inverse(); // equivalent to: p7.generator().invert().permutation()
 
 /**
  * A Permutation can be repeatedly applied to itself a specified number
@@ -126,7 +161,7 @@ assertEqual(r8, "smite"); // swaps the first and third characters and then rever
  * results in the identity permutation.
  */
 
-Permutation p9 = new Permutation(4, 2, 1, 0, 3);
+Permutation p9 = Permutation.correspond(4, 2, 1, 0, 3);
 Permutation p9a = p9.generator().power(-1).permutation();
 Permutation p9b = p9.generator().power(0).permutation();
 Permutation p9c = p9.generator().power(1).permutation();
@@ -135,7 +170,7 @@ assertEqual(p9b, identity); // 0 always gives the identity
 assertEqual(p9c, p9); // 1 always returns the same permutation
 // the calculation remains efficient even for extremely large powers:
 Permutation p9d = p9.generator().power(100001).permutation();
-String r9 = p9d.permute(new PermutableString("smite")).toString();
+String r9 = string("smite").apply(p9d).toString();
 assertEqual(r9, "times");
 
 /**
@@ -200,24 +235,28 @@ assertEqual(set.size(), 120); // there are 120 permutations of order 5
  * information available:
  */
 
-Permutation.Info info = p9.getInfo(); // let's investigate permutation p9.
+Permutation.Info info = p9.info(); // let's investigate permutation p9.
 assertFalse(info.isIdentity()); // no, it's not an identity permutation
 assertEqual(info.getNumberOfCycles(), 2); // into how many disjoint cycles does the permutation decompose?
+assertFalse(info.isCyclic()); // (so the permutation cannot be cyclic)
 info.getDisjointCycles(); // ...and what are they as a set of separate permutations?
-assertTrue(info.getFixedPoints().isAllZeros()); // the permutation leaves no element's position unchanged
-assertEqual(info.getNumberOfTranspositions(), 3); // three transpositions are required to effect this permutation... 
+assertTrue(info.getFixedPoints().zeros().isAll()); // the permutation leaves no element's position unchanged
+assertEqual(info.getNumberOfTranspositions(), 3); // three transpositions are required to effect this permutation...
 assertTrue(info.isOdd()); // ...so the permutation is odd
+assertFalse(info.isTransposition()); // ...but not a solo transposition
+assertFalse(info.isReversal()); // and it's not a reversal...
+assertFalse(info.isRotation()); // ... or a rotation either
 
 // apply the permutation 6 times to leave every element's position unchanged
 assertEqual(info.getLengthOfOrbit().intValue(), 6);
 // to demonstrate this...
 Permutation p10 = p9.generator().power(6).permutation();
-String r10 = p10.permute(new PermutableString("smite")).toString();
+String r10 = string("smite").apply(p10).toString();
 assertEqual(r10, "smite"); // the string we started with
 // ...or more simply...
 assertEqual(p10, identity);
 // ...or simpler still...
-assertTrue(p10.getInfo().isIdentity());
+assertTrue(p10.info().isIdentity());
 
 /**
  * Note that permutations are always applied with the minimum number of
@@ -231,15 +270,22 @@ assertTrue(p10.getInfo().isIdentity());
  * Permutation.
  */
 
-Permutation px1 = new Permutation();
+Permutation px1 = Permutation.correspond();
 assertTrue( Permutation.identity(0).equals(px1) );
 
 /**
- * There are Permutables for lists and all primitive array types.
+ * There are Permutables for lists and all primitive array types...
  */
 
-Permutation.identity(4).permute(new PermutableInts(1,2,3,4));
-Permutation.rotate(4, -1).permute(new PermutableChars('s', 'c', 'a', 't'));
+Permute.ints(new int[] {1,2,3,4}).apply(Permutation.reverse(4));
+Permute.chars(new char[] {'s', 'c', 'a', 't'}).apply(Permutation.rotate(4, -1));
+
+/**
+ * ... which static imports and varargs render very compact:
+ */
+
+ints(1,2,3,4).reverse();
+chars('s', 'c', 'a', 't').rotate(-1);
 
 /**
  * Permutations are immutable, final, Serializable and validate their
@@ -262,18 +308,31 @@ The permute library is available from the Maven central repository:
 
 > Group ID:    `com.tomgibara.permute`
 > Artifact ID: `permute`
-> Version:     `1.0.0`
+> Version:     `2.0.0`
 
 The Maven dependency being:
 
     <dependency>
       <groupId>com.tomgibara.permute</groupId>
       <artifactId>permute</artifactId>
-      <version>1.0.0</version>
+      <version>2.0.0</version>
     </dependency>
 
 Release History
 ---------------
+
+**2016.11.20** Version 2.0.0
+
+ * *Evolution of API*
+ * Creation of permutations by sorting lists and arrays.
+ * The `Permutable` interface as been enriched.
+ * Convenient creation of `Permutable` wrappers via `Permute`.
+ * Permutation of `Transposable` implementations now supported.
+ * New constructors for cycles and shuffles.
+ * Exposes the inverse directly on `Permutation`.
+ * An `unpermute()` method for reversing a permutation without inverting it.
+ * `Permutation.Info` reports the *fixed points* of the permutation and
+   whether the permutation is cyclic.
 
 **2015.08.21** Version 1.0.0
 

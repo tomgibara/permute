@@ -16,8 +16,6 @@
  */
 package com.tomgibara.permute;
 
-import static com.tomgibara.permute.Permutation.identity;
-import static com.tomgibara.permute.Permutation.rotate;
 import static com.tomgibara.permute.Permute.chars;
 import static com.tomgibara.permute.Permute.ints;
 import static com.tomgibara.permute.Permute.string;

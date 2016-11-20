@@ -771,7 +771,8 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		 * <p>
 		 * An immutable bit store indicating the positions at which values
 		 * remain untouched by the permutation. That is:
-		 * <code>p.info().getFixedPoints().getBit(i)<code> is true iff <code>p.correspondence()[i] == i</code>
+		 * <code>p.info().getFixedPoints().getBit(i)</code> is true iff
+		 * <code>p.correspondence()[i] == i</code>
 		 *
 		 * <p>
 		 * Note that the supplied bits can be viewed as a set of integer
@@ -907,6 +908,8 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		 * comparator is optional; if it is omitted then the elements of the
 		 * list must be mutually comparable.
 		 *
+		 * @param <E>
+		 *            the list element type
 		 * @param values
 		 *            the elements to be sorted
 		 * @param c
@@ -926,6 +929,8 @@ public final class Permutation implements Comparable<Permutation>, Serializable 
 		 * comparator is optional; if it is omitted then the elements of the
 		 * array must be mutually comparable.
 		 *
+		 * @param <E>
+		 *            the array element type
 		 * @param values
 		 *            the elements to be sorted
 		 * @param c
