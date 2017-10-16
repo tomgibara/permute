@@ -41,7 +41,7 @@
     <dependency>
       <groupId>com.tomgibara.storage</groupId>
       <artifactId>storage</artifactId>
-      <version>1.0.0</version>
+      <version>1.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
